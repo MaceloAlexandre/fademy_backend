@@ -105,9 +105,9 @@ Deferred to a future milestone.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| PLAT-01 | Phase 1 | Pending |
-| PLAT-02 | Phase 1 | Pending |
-| AUTH-03 | Phase 1 | Pending |
+| PLAT-01 | Phase 1 | Complete |
+| PLAT-02 | Phase 1 | Complete |
+| AUTH-03 | Phase 1 | Complete |
 | INVT-01 | Phase 2 | Pending |
 | INVT-02 | Phase 2 | Pending |
 | INVT-03 | Phase 2 | Pending |
