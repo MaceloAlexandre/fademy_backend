@@ -12,7 +12,7 @@ Fademy is built as a sequence of vertical MVP slices so there is always a deploy
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation & Multi-Tenant Seed** - Backend scaffolding, institution scoping, seed (Católica PB + categories + bootstrap admin), auth middleware skeleton
+- [x] **Phase 1: Foundation & Multi-Tenant Seed** - Backend scaffolding, institution scoping, seed (Católica PB + categories + bootstrap admin), auth middleware skeleton
 - [ ] **Phase 2: Entry Loop — Invite, Register, Login** - End-to-end on mobile: an invited user registers with a mandatory photo and logs in
 - [ ] **Phase 3: Profiles & Social Graph** - View/configure profiles, search, follow public/private, accept/reject, block
 - [ ] **Phase 4: Posts, Comments & Personalized Feed** - Create posts (text/images/links by role), categorize, comment, see a personalized paginated feed (core loop completes)
@@ -121,7 +121,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Multi-Tenant Seed | 1/2 | In progress | - |
+| 1. Foundation & Multi-Tenant Seed | 2/2 | Complete | 2026-05-21 |
 | 2. Entry Loop — Invite, Register, Login | 0/TBD | Not started | - |
 | 3. Profiles & Social Graph | 0/TBD | Not started | - |
 | 4. Posts, Comments & Personalized Feed | 0/TBD | Not started | - |

@@ -16,9 +16,9 @@ Full spec is v1 (competition piece). Each maps to a roadmap phase.
 
 ### Authentication
 
-- [ ] **AUTH-01**: User can log in with email and password and receive a JWT
+- [x] **AUTH-01**: User can log in with email and password and receive a JWT — POST /api/auth/login implemented in Phase 01 Plan 02 (minimal slice; full logout in Phase 2)
 - [ ] **AUTH-02**: User can log out
-- [ ] **AUTH-03**: Role-based authorization is enforced in middleware before controllers
+- [x] **AUTH-03**: Role-based authorization is enforced in middleware before controllers — requireRole factory implemented in Phase 01 Plan 02
 - [ ] **AUTH-04**: Registration requires a mandatory profile photo
 
 ### Invites
