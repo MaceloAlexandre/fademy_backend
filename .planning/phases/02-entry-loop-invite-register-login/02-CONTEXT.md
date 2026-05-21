@@ -85,8 +85,11 @@ Out of scope: profiles/social graph, posts, feed, notifications, chat (later pha
 - **D-18:** Brand palette applied (FRNT-02) — exact hex from root `CONTEXT.md`
   (primárias `#083C5D`, `#8C6E4F`, `#D6CFC1`; secundárias `#333333`, `#FD8080`, `#E6E6FA`).
   Fine-grained UI/interaction design is deferred to `/gsd:ui-phase 2` (UI-SPEC).
-- **D-19:** The owner provides the **Fademy logo asset** inside `MINIREDESOCIAL_FRONT`
-  (frontend folder) — use it in the app (header/auth screens). The frontend folder is its
+- **D-19:** The **Fademy logo** is committed in the frontend repo at
+  `MINIREDESOCIAL_FRONT/logo_fademy.png` (551×452 PNG, RGBA). Use it on the auth screens
+  per the UI-SPEC `<AuthShell>` (centered, max-height 64px). During Vite scaffolding the
+  executor should place/import it where Vite serves it (e.g. move to `src/assets/` and
+  `import`, or `public/`) — keep the filename `logo_fademy.png`. The frontend folder is its
   own git repository (initialized this phase).
 
 ### Claude's Discretion
