@@ -121,7 +121,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Multi-Tenant Seed | 0/TBD | Not started | - |
+| 1. Foundation & Multi-Tenant Seed | 1/2 | In progress | - |
 | 2. Entry Loop — Invite, Register, Login | 0/TBD | Not started | - |
 | 3. Profiles & Social Graph | 0/TBD | Not started | - |
 | 4. Posts, Comments & Personalized Feed | 0/TBD | Not started | - |

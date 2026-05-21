@@ -9,8 +9,8 @@ Full spec is v1 (competition piece). Each maps to a roadmap phase.
 
 ### Platform & Infrastructure
 
-- [ ] **PLAT-01**: All data is scoped by institution (multi-tenant from day one)
-- [ ] **PLAT-02**: Seed creates Faculdade Católica da Paraíba, all fixed categories, and a bootstrap admin
+- [x] **PLAT-01**: All data is scoped by institution (multi-tenant from day one) — institutionId required on User model; pattern established in Phase 01 Plan 01
+- [x] **PLAT-02**: Seed creates Faculdade Católica da Paraíba, all fixed categories, and a bootstrap admin — idempotent runSeed() implemented and tested in Phase 01 Plan 01
 - [ ] **PLAT-03**: Media (avatars, post images, message media) uploads to S3
 - [ ] **PLAT-04**: App is deployable to a VPS (env config, production build)
 
