@@ -19,8 +19,25 @@ Mini rede social voltada para alunos, professores, funcionários e coordenadores
 
 ### Frontend
 - **Framework**: React — **mobile-first** (a interface é desenhada primeiro para celular)
-- **Paleta de marca**: azul escuro, preto, bege, marrom tabaco
 - App nativo é um milestone posterior; o frontend web mobile-first vem primeiro
+
+#### Paleta de marca (exata)
+
+**Cores primárias**
+
+| Hex | Nome |
+|---|---|
+| `#083C5D` | Azul escuro |
+| `#8C6E4F` | Marrom/caramelo |
+| `#D6CFC1` | Bege claro |
+
+**Cores secundárias**
+
+| Hex | Nome |
+|---|---|
+| `#333333` | Carvão/quase preto |
+| `#FD8080` | Coral/salmão |
+| `#E6E6FA` | Lavanda suave |
 
 ---
 
