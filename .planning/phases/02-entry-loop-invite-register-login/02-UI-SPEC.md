@@ -1,10 +1,11 @@
 ---
 phase: 2
 slug: entry-loop-invite-register-login
-status: draft
+status: approved
 shadcn_initialized: false
 preset: none
 created: 2026-05-21
+reviewed_at: 2026-05-21
 ---
 
 # Phase 2 — UI Design Contract
