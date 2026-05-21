@@ -1,0 +1,23 @@
+{
+  "name": "fademy-backend",
+  "version": "1.0.0",
+  "description": "Fademy — invite-only mini social network for educational institutions",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "seed": "node src/seed/seed.js",
+    "test": "node --test src/seed/seed.test.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.4.1"
+  },
+  "devDependencies": {
+    "mongodb-memory-server": "^10.0.0"
+  }
+}
