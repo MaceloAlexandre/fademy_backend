@@ -42,7 +42,7 @@ must_haves:
       via: "role middleware reads req.user.role set by auth middleware"
       pattern: "req\\.user"
     - from: "src/controllers/admin.controller.js"
-      to: "src/models/Category.js"
+      to: "src/models/Institution.js"
       via: "query scoped by req.user.institutionId"
       pattern: "institutionId"
 ---
