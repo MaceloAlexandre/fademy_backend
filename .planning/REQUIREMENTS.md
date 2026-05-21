@@ -103,17 +103,57 @@ Deferred to a future milestone.
 
 ## Traceability
 
-Populated during roadmap creation.
-
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (filled by roadmapper) | | |
+| PLAT-01 | Phase 1 | Pending |
+| PLAT-02 | Phase 1 | Pending |
+| AUTH-03 | Phase 1 | Pending |
+| INVT-01 | Phase 2 | Pending |
+| INVT-02 | Phase 2 | Pending |
+| INVT-03 | Phase 2 | Pending |
+| INVT-04 | Phase 2 | Pending |
+| AUTH-01 | Phase 2 | Pending |
+| AUTH-02 | Phase 2 | Pending |
+| AUTH-04 | Phase 2 | Pending |
+| PLAT-03 | Phase 2 | Pending |
+| FRNT-01 | Phase 2 | Pending |
+| FRNT-02 | Phase 2 | Pending |
+| FRNT-03 | Phase 2 | Pending |
+| PROF-01 | Phase 3 | Pending |
+| PROF-02 | Phase 3 | Pending |
+| PROF-03 | Phase 3 | Pending |
+| SOCL-01 | Phase 3 | Pending |
+| SOCL-02 | Phase 3 | Pending |
+| SOCL-03 | Phase 3 | Pending |
+| SOCL-04 | Phase 3 | Pending |
+| SOCL-05 | Phase 3 | Pending |
+| FRNT-05 | Phase 3 | Pending |
+| CONT-01 | Phase 4 | Pending |
+| CONT-02 | Phase 4 | Pending |
+| CONT-03 | Phase 4 | Pending |
+| CONT-04 | Phase 4 | Pending |
+| CONT-05 | Phase 4 | Pending |
+| FEED-01 | Phase 4 | Pending |
+| FEED-02 | Phase 4 | Pending |
+| FEED-03 | Phase 4 | Pending |
+| FRNT-04 | Phase 4 | Pending |
+| NOTF-01 | Phase 5 | Pending |
+| NOTF-02 | Phase 5 | Pending |
+| NOTF-03 | Phase 5 | Pending |
+| NOTF-04 | Phase 5 | Pending |
+| FRNT-06 | Phase 5 | Pending |
+| CHAT-01 | Phase 6 | Pending |
+| CHAT-02 | Phase 6 | Pending |
+| CHAT-03 | Phase 6 | Pending |
+| CHAT-04 | Phase 6 | Pending |
+| FRNT-07 | Phase 6 | Pending |
+| PLAT-04 | Phase 7 | Pending |
 
 **Coverage:**
-- v1 requirements: 38 total
-- Mapped to phases: TBD (roadmapper)
-- Unmapped: TBD
+- v1 requirements: 43 total (enumerated IDs; supersedes the earlier "38" estimate)
+- Mapped to phases: 43
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-05-21*
-*Last updated: 2026-05-21 after initial definition*
+*Last updated: 2026-05-21 after roadmap creation (traceability populated)*
