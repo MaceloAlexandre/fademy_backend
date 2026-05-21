@@ -44,7 +44,12 @@ Out of scope: profiles/social graph, posts, feed, notifications, chat (later pha
 - **D-06:** **Revoke is in scope:** the inviter can deactivate an active invite before
   expiry (`status: revoked`). Accept is valid only when `status === active` AND not
   expired AND `usesCount < maxUses`. Closed invites (full/expired/revoked) are rejected.
-- **D-07:** `aluno` cannot generate invites → **403** (reuse `requireRole` from Phase 1). INVT-04.
+- **D-07:** Invite-generation permissions:
+  - `aluno` cannot generate any invite → **403** (INVT-04).
+  - **Only `admin` can generate an invite with `roleTarget: admin`** — `professor`,
+    `funcionario`, and `coordenador` attempting to generate an admin invite get **403**.
+  - Other target roles (coordenador/professor/funcionario/aluno) may be invited by any
+    non-aluno role (default — broader matrix to confirm if needed).
 - **D-08:** The invited person types **their own email** at registration (validated unique
   per institution). The invite fixes only **institutionId + role**.
 - **D-09:** **`invites` schema update** (from root CONTEXT.md): make `email` optional (or
@@ -80,6 +85,9 @@ Out of scope: profiles/social graph, posts, feed, notifications, chat (later pha
 - **D-18:** Brand palette applied (FRNT-02) — exact hex from root `CONTEXT.md`
   (primárias `#083C5D`, `#8C6E4F`, `#D6CFC1`; secundárias `#333333`, `#FD8080`, `#E6E6FA`).
   Fine-grained UI/interaction design is deferred to `/gsd:ui-phase 2` (UI-SPEC).
+- **D-19:** The owner provides the **Fademy logo asset** inside `MINIREDESOCIAL_FRONT`
+  (frontend folder) — use it in the app (header/auth screens). The frontend folder is its
+  own git repository (initialized this phase).
 
 ### Claude's Discretion
 - API route shapes/naming, exact S3 key structure, presigned URL TTL, image size/type

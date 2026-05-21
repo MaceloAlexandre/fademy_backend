@@ -150,19 +150,31 @@ Tipos de notificação sugeridos:
 ```
 
 ### `invites`
+Modelo **multi-vaga**: um convite é um link compartilhável que até `maxUses` pessoas
+podem usar (não é amarrado a um email fixo). Cada pessoa se registra com o próprio email.
 ```js
 {
   _id: ObjectId,
-  institutionId: ObjectId,  // ref: institutions
+  institutionId: ObjectId,  // ref: institutions (herdada de quem convidou)
   invitedById: ObjectId,    // ref: users
-  email: String,
+  email: String,            // OPCIONAL — convite não é mais amarrado a um email fixo
   roleTarget: String,       // enum: role que o convidado vai receber
-  token: String,            // uuid único
-  status: String,           // enum: pending | accepted | expired
-  expiresAt: Date,
+  token: String,            // uuid único (vai no link)
+  maxUses: Number,          // nº de vagas; teto por role: professor/funcionario/admin/coordenador=10, aluno=50
+  usesCount: Number,        // default 0; incrementado a cada registro aceito
+  status: String,           // enum: active | revoked | expired
+  expiresAt: Date,          // configurável pelo convidador; default 7 dias
   createdAt: Date
 }
 ```
+Regras:
+- Aceitar é válido só com `status === active` E não expirado E `usesCount < maxUses`.
+  Ao atingir `maxUses`, o convite fecha (status `expired`).
+- O convidador pode **revogar** um convite ativo antes de expirar (`status: revoked`).
+- Quem convida: `admin | coordenador | professor | funcionario` (aluno → 403).
+- **Convite com `roleTarget: admin` só pode ser gerado por um `admin`** — professores,
+  funcionários e coordenadores recebem 403 ao tentar gerar convite de admin.
+- Um usuário pode ter vários convites ativos ao mesmo tempo, cada um com seu role/vagas/validade.
 
 ### `follows`
 ```js
