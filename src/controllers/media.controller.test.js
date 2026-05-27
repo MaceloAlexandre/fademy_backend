@@ -21,7 +21,8 @@ Module._load = function (request, parent, isMain) {
       getPresignedPutUrl: async ({ key, contentType }) => ({
         uploadUrl: MOCK_UPLOAD_URL,
         key,
-        objectUrl: MOCK_OBJECT_URL,
+        // objectUrl uses the server-generated key so the test can verify objectUrl.includes(key)
+        objectUrl: `https://fademy-dev.s3.us-east-1.amazonaws.com/${key}`,
       }),
       objectExists: async (key) => key === MOCK_KEY,
     };
