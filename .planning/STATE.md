@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Completed 02-01-PLAN.md
-last_updated: "2026-05-27T22:28:05.531Z"
+last_updated: "2026-05-27T22:34:08.632Z"
 last_activity: 2026-05-27
 progress:
   total_phases: 7
   completed_phases: 1
   total_plans: 6
-  completed_plans: 3
+  completed_plans: 4
   percent: 14
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-05-21)
 ## Current Position
 
 Phase: 02 (entry-loop-invite-register-login) — EXECUTING
-Plan: 2 of 4
+Plan: 3 of 4
 Status: Ready to execute
 Last activity: 2026-05-27
 
@@ -53,6 +53,7 @@ Progress: [██░░░░░░░░] 14%
 
 *Updated after each plan completion*
 | Phase 02-entry-loop-invite-register-login P01 | 3 min | 3 tasks | 7 files |
+| Phase 02-entry-loop-invite-register-login P02 | 8 min | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -77,6 +78,9 @@ Recent decisions affecting current work:
 - [Phase ?]: crypto.randomUUID() for invite token generation — node core, no extra dependency (T-02-04)
 - [Phase ?]: [02-01]: D-08 compound unique index on {institutionId,email} — same email allowed across institutions but unique within one
 - [Phase ?]: [02-01]: Slot caps enforced in createInvite controller: aluno→50, all others→10 (D-04)
+- [Phase ?]: test decision
+- [Phase ?]: [02-02]: Server generates S3 key for avatars, returned as bare key — no client URL reverse-parsing (T-02-08b)
+- [Phase ?]: [02-02]: S3 env vars use safe defaults, not added to required[] — npm test boots without AWS
 
 ### Pending Todos
 
@@ -96,6 +100,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-05-27T22:28:05.525Z
+Last session: 2026-05-27T22:33:53.597Z
 Stopped at: Completed 02-01-PLAN.md
-Resume file: .planning/phases/02-entry-loop-invite-register-login/02-02-PLAN.md
+Resume file: None

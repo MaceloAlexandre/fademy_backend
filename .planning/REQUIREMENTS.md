@@ -11,7 +11,7 @@ Full spec is v1 (competition piece). Each maps to a roadmap phase.
 
 - [x] **PLAT-01**: All data is scoped by institution (multi-tenant from day one) — institutionId required on User model; pattern established in Phase 01 Plan 01
 - [x] **PLAT-02**: Seed creates Faculdade Católica da Paraíba, all fixed categories, and a bootstrap admin — idempotent runSeed() implemented and tested in Phase 01 Plan 01
-- [ ] **PLAT-03**: Media (avatars, post images, message media) uploads to S3
+- [x] **PLAT-03**: Media (avatars, post images, message media) uploads to S3
 - [ ] **PLAT-04**: App is deployable to a VPS (env config, production build)
 
 ### Authentication
@@ -19,7 +19,7 @@ Full spec is v1 (competition piece). Each maps to a roadmap phase.
 - [x] **AUTH-01**: User can log in with email and password and receive a JWT — POST /api/auth/login implemented in Phase 01 Plan 02 (minimal slice; full logout in Phase 2)
 - [ ] **AUTH-02**: User can log out
 - [x] **AUTH-03**: Role-based authorization is enforced in middleware before controllers — requireRole factory implemented in Phase 01 Plan 02
-- [ ] **AUTH-04**: Registration requires a mandatory profile photo
+- [x] **AUTH-04**: Registration requires a mandatory profile photo
 
 ### Invites
 
@@ -114,8 +114,8 @@ Deferred to a future milestone.
 | INVT-04 | Phase 2 | Complete |
 | AUTH-01 | Phase 2 | Pending |
 | AUTH-02 | Phase 2 | Pending |
-| AUTH-04 | Phase 2 | Pending |
-| PLAT-03 | Phase 2 | Pending |
+| AUTH-04 | Phase 2 | Complete |
+| PLAT-03 | Phase 2 | Complete |
 | FRNT-01 | Phase 2 | Pending |
 | FRNT-02 | Phase 2 | Pending |
 | FRNT-03 | Phase 2 | Pending |
