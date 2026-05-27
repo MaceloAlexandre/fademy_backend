@@ -19,4 +19,13 @@ module.exports = {
   BOOTSTRAP_ADMIN_PASSWORD: process.env.BOOTSTRAP_ADMIN_PASSWORD || 'changeme',
   BOOTSTRAP_ADMIN_NAME: process.env.BOOTSTRAP_ADMIN_NAME || 'Admin',
   BCRYPT_ROUNDS: parseInt(process.env.BCRYPT_ROUNDS, 10) || 10,
+  // S3 presigned upload config (PLAT-03)
+  AWS_REGION: process.env.AWS_REGION || 'us-east-1',
+  S3_BUCKET: process.env.S3_BUCKET || 'fademy-dev',
+  S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID || '',
+  S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY || '',
+  S3_PRESIGN_TTL: parseInt(process.env.S3_PRESIGN_TTL, 10) || 300,
+  MAX_UPLOAD_BYTES: parseInt(process.env.MAX_UPLOAD_BYTES, 10) || 5 * 1024 * 1024,
+  // CORS allowed origin for the React frontend
+  FRONTEND_ORIGIN: process.env.FRONTEND_ORIGIN || 'http://localhost:5173',
 };
