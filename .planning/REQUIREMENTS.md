@@ -24,7 +24,7 @@ Full spec is v1 (competition piece). Each maps to a roadmap phase.
 ### Invites
 
 - [x] **INVT-01**: admin/coordenador/professor/funcionario can generate an invite bound to their institution, carrying the new user's role
-- [ ] **INVT-02**: User can accept an invite via token and is created in that institution with the invited role
+- [x] **INVT-02**: User can accept an invite via token and is created in that institution with the invited role
 - [x] **INVT-03**: Invites expire — `expiresAt` is checked on accept
 - [x] **INVT-04**: aluno cannot generate invites (403)
 
@@ -109,7 +109,7 @@ Deferred to a future milestone.
 | PLAT-02 | Phase 1 | Complete |
 | AUTH-03 | Phase 1 | Complete |
 | INVT-01 | Phase 2 | Complete |
-| INVT-02 | Phase 2 | Pending |
+| INVT-02 | Phase 2 | Complete |
 | INVT-03 | Phase 2 | Complete |
 | INVT-04 | Phase 2 | Complete |
 | AUTH-01 | Phase 2 | Pending |

@@ -56,7 +56,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
   - [x] 02-01-PLAN.md — Invite generation (model, permission matrix, slot caps, revoke)
   - [x] 02-02-PLAN.md — S3 presigned profile-photo upload slice
-  - [ ] 02-03-PLAN.md — Invite-bound registration (consumes invite + S3 photo) + CORS
+  - [x] 02-03-PLAN.md — Invite-bound registration (consumes invite + S3 photo) + CORS
   - [ ] 02-04-PLAN.md — React frontend: accept-invite, register, login/logout
 
 **UI hint**: yes
@@ -150,7 +150,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Multi-Tenant Seed | 2/2 | Complete | 2026-05-21 |
-| 2. Entry Loop — Invite, Register, Login | 2/4 | In Progress|  |
+| 2. Entry Loop — Invite, Register, Login | 3/4 | In Progress|  |
 | 3. Profiles & Social Graph | 0/TBD | Not started | - |
 | 4. Posts, Comments & Personalized Feed | 0/TBD | Not started | - |
 | 5. Notifications (Polling) | 0/TBD | Not started | - |

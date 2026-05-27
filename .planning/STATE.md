@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 02-01-PLAN.md
-last_updated: "2026-05-27T22:34:08.632Z"
+stopped_at: Completed 02-03-PLAN.md
+last_updated: "2026-05-27T22:41:28.270Z"
 last_activity: 2026-05-27
 progress:
   total_phases: 7
   completed_phases: 1
   total_plans: 6
-  completed_plans: 4
+  completed_plans: 5
   percent: 14
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-05-21)
 ## Current Position
 
 Phase: 02 (entry-loop-invite-register-login) — EXECUTING
-Plan: 3 of 4
+Plan: 4 of 4
 Status: Ready to execute
 Last activity: 2026-05-27
 
@@ -54,6 +54,7 @@ Progress: [██░░░░░░░░] 14%
 *Updated after each plan completion*
 | Phase 02-entry-loop-invite-register-login P01 | 3 min | 3 tasks | 7 files |
 | Phase 02-entry-loop-invite-register-login P02 | 8 min | 2 tasks | 8 files |
+| Phase 02-entry-loop-invite-register-login P03 | 7 min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -81,6 +82,9 @@ Recent decisions affecting current work:
 - [Phase ?]: test decision
 - [Phase ?]: [02-02]: Server generates S3 key for avatars, returned as bare key — no client URL reverse-parsing (T-02-08b)
 - [Phase ?]: [02-02]: S3 env vars use safe defaults, not added to required[] — npm test boots without AWS
+- [Phase ?]: avatarKey (server-issued bare key) used directly for objectExists — never reverse-parsed from client-supplied avatarUrl (T-02-08b)
+- [Phase ?]: register returns 201 with user object, no JWT token — UI-SPEC redirects to /login?registered=1 (no auto-login)
+- [Phase ?]: cors middleware uses env.FRONTEND_ORIGIN (default http://localhost:5173), placed before all routers
 
 ### Pending Todos
 
@@ -100,6 +104,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-05-27T22:33:53.597Z
-Stopped at: Completed 02-01-PLAN.md
+Last session: 2026-05-27T22:41:28.264Z
+Stopped at: Completed 02-03-PLAN.md
 Resume file: None
