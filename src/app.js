@@ -13,5 +13,6 @@ app.use(healthRouter);
 // Auth + protected routers (Plan 02)
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/admin', require('./routes/admin.routes'));
+app.use('/api/invites', require('./routes/invite.routes'));
 
 module.exports = app;
