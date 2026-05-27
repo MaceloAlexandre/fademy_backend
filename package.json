@@ -8,7 +8,7 @@
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
     "seed": "node src/seed/seed.js",
-    "test": "node --test src/seed/seed.test.js src/middlewares/auth.middleware.test.js src/middlewares/role.middleware.test.js"
+    "test": "node --test src/seed/seed.test.js src/middlewares/auth.middleware.test.js src/middlewares/role.middleware.test.js src/controllers/invite.controller.test.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
