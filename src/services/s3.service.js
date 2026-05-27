@@ -2,7 +2,7 @@
 
 const { S3Client, PutObjectCommand, HeadObjectCommand } = require('@aws-sdk/client-s3');
 const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
-const { AWS_REGION, S3_BUCKET, S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY, S3_PRESIGN_TTL } = require('../config/env');
+const { AWS_REGION, S3_BUCKET, S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY, S3_PRESIGN_TTL, S3_ENDPOINT } = require('../config/env');
 
 const s3 = new S3Client({
   region: AWS_REGION,
@@ -10,6 +10,8 @@ const s3 = new S3Client({
     accessKeyId: S3_ACCESS_KEY_ID,
     secretAccessKey: S3_SECRET_ACCESS_KEY,
   },
+  // S3-compatible providers (e.g. Contabo) need a custom endpoint + path-style addressing
+  ...(S3_ENDPOINT ? { endpoint: S3_ENDPOINT, forcePathStyle: true } : {}),
 });
 
 /**
@@ -26,7 +28,9 @@ async function getPresignedPutUrl({ key, contentType }) {
   });
 
   const uploadUrl = await getSignedUrl(s3, command, { expiresIn: S3_PRESIGN_TTL });
-  const objectUrl = `https://${S3_BUCKET}.s3.${AWS_REGION}.amazonaws.com/${key}`;
+  const objectUrl = S3_ENDPOINT
+    ? `${S3_ENDPOINT}/${S3_BUCKET}/${key}` // path-style for S3-compatible providers (Contabo)
+    : `https://${S3_BUCKET}.s3.${AWS_REGION}.amazonaws.com/${key}`;
 
   return { uploadUrl, key, objectUrl };
 }

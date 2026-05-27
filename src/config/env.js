@@ -24,6 +24,8 @@ module.exports = {
   S3_BUCKET: process.env.S3_BUCKET || 'fademy-dev',
   S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID || '',
   S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY || '',
+  // Custom endpoint for S3-compatible providers (e.g. Contabo). Empty = real AWS S3.
+  S3_ENDPOINT: process.env.S3_ENDPOINT || '',
   S3_PRESIGN_TTL: parseInt(process.env.S3_PRESIGN_TTL, 10) || 300,
   MAX_UPLOAD_BYTES: parseInt(process.env.MAX_UPLOAD_BYTES, 10) || 5 * 1024 * 1024,
   // CORS allowed origin for the React frontend
