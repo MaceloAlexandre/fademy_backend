@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-stopped_at: Phase 2 UI-SPEC approved
-last_updated: "2026-05-21T19:11:50.932Z"
-last_activity: 2026-05-21 -- Phase 01 Plan 02 executed (JWT + auth/role middleware + admin route)
+status: executing
+stopped_at: Completed 02-01-PLAN.md
+last_updated: "2026-05-27T22:28:05.531Z"
+last_activity: 2026-05-27
 progress:
   total_phases: 7
   completed_phases: 1
-  total_plans: 2
-  completed_plans: 2
+  total_plans: 6
+  completed_plans: 3
   percent: 14
 ---
 
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-21)
 
 **Core value:** A student gets in via invite and immediately sees a personalized mobile feed of posts from people they follow — and can post their own.
-**Current focus:** Phase 01 COMPLETE — ready for Phase 02 (invites + registration)
+**Current focus:** Phase 02 — entry-loop-invite-register-login
 
 ## Current Position
 
-Phase: 01 (foundation-multi-tenant-seed) — COMPLETE
-Plan: 2 of 2 — DONE
-Status: Phase 01 fully complete; Phase 02 (auth-invite) is next
-Last activity: 2026-05-21 -- Phase 01 Plan 02 executed (JWT + auth/role middleware + admin route)
+Phase: 02 (entry-loop-invite-register-login) — EXECUTING
+Plan: 2 of 4
+Status: Ready to execute
+Last activity: 2026-05-27
 
 Progress: [██░░░░░░░░] 14%
 
@@ -52,6 +52,7 @@ Progress: [██░░░░░░░░] 14%
 - Trend: +5 min (larger plan)
 
 *Updated after each plan completion*
+| Phase 02-entry-loop-invite-register-login P01 | 3 min | 3 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -73,6 +74,9 @@ Recent decisions affecting current work:
 - [01-02]: Dummy-hash bcrypt.compare for unknown emails — timing-safe login, no user enumeration (T-02-04)
 - [01-02]: requireRole inline in route definition — keeps auth→role→controller chain explicit per AUTH-03
 - [01-02]: institutionId sourced only from verified JWT, never from request body — prevents cross-tenant IDOR (T-02-03)
+- [Phase ?]: crypto.randomUUID() for invite token generation — node core, no extra dependency (T-02-04)
+- [Phase ?]: [02-01]: D-08 compound unique index on {institutionId,email} — same email allowed across institutions but unique within one
+- [Phase ?]: [02-01]: Slot caps enforced in createInvite controller: aluno→50, all others→10 (D-04)
 
 ### Pending Todos
 
@@ -92,6 +96,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-05-21T19:11:50.928Z
-Stopped at: Phase 2 UI-SPEC approved
-Resume file: .planning/phases/02-entry-loop-invite-register-login/02-UI-SPEC.md
+Last session: 2026-05-27T22:28:05.525Z
+Stopped at: Completed 02-01-PLAN.md
+Resume file: .planning/phases/02-entry-loop-invite-register-login/02-02-PLAN.md

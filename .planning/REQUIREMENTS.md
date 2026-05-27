@@ -23,10 +23,10 @@ Full spec is v1 (competition piece). Each maps to a roadmap phase.
 
 ### Invites
 
-- [ ] **INVT-01**: admin/coordenador/professor/funcionario can generate an invite bound to their institution, carrying the new user's role
+- [x] **INVT-01**: admin/coordenador/professor/funcionario can generate an invite bound to their institution, carrying the new user's role
 - [ ] **INVT-02**: User can accept an invite via token and is created in that institution with the invited role
-- [ ] **INVT-03**: Invites expire — `expiresAt` is checked on accept
-- [ ] **INVT-04**: aluno cannot generate invites (403)
+- [x] **INVT-03**: Invites expire — `expiresAt` is checked on accept
+- [x] **INVT-04**: aluno cannot generate invites (403)
 
 ### Profiles
 
@@ -108,10 +108,10 @@ Deferred to a future milestone.
 | PLAT-01 | Phase 1 | Complete |
 | PLAT-02 | Phase 1 | Complete |
 | AUTH-03 | Phase 1 | Complete |
-| INVT-01 | Phase 2 | Pending |
+| INVT-01 | Phase 2 | Complete |
 | INVT-02 | Phase 2 | Pending |
-| INVT-03 | Phase 2 | Pending |
-| INVT-04 | Phase 2 | Pending |
+| INVT-03 | Phase 2 | Complete |
+| INVT-04 | Phase 2 | Complete |
 | AUTH-01 | Phase 2 | Pending |
 | AUTH-02 | Phase 2 | Pending |
 | AUTH-04 | Phase 2 | Pending |
@@ -150,6 +150,7 @@ Deferred to a future milestone.
 | PLAT-04 | Phase 7 | Pending |
 
 **Coverage:**
+
 - v1 requirements: 43 total (enumerated IDs; supersedes the earlier "38" estimate)
 - Mapped to phases: 43
 - Unmapped: 0
