@@ -5,17 +5,11 @@ process.env.MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/
 process.env.JWT_SECRET = process.env.JWT_SECRET || 'test-secret';
 process.env.BCRYPT_ROUNDS = '4'; // fast for tests
 
-// Require the controller at the top so MODULE_NOT_FOUND is an unambiguous RED signal
-// before the controller exists.
-const { register } = require('./registration.controller');
-
-const { describe, it, before, after, beforeEach } = require('node:test');
-const assert = require('node:assert/strict');
-const mongoose = require('mongoose');
+// Mock s3.service BEFORE any module (including the controller) loads it.
+// Module._load intercepts all require() calls. Setting this up first means
+// that when registration.controller.js does require('../services/s3.service'),
+// it receives our mock instead of the real AWS SDK-backed implementation.
 const Module = require('module');
-
-// --- S3 service mock (avoids live AWS) ---
-// We intercept require('...s3.service') before any module loads it
 let s3ObjectExistsReturnValue = true;
 const originalLoad = Module._load.bind(Module);
 Module._load = function (request, parent, isMain) {
@@ -27,6 +21,15 @@ Module._load = function (request, parent, isMain) {
   }
   return originalLoad(request, parent, isMain);
 };
+
+// NOW require the controller — it will pick up the s3.service mock above.
+// Before the controller file exists this line throws MODULE_NOT_FOUND, which is
+// the unambiguous RED signal.
+const { register } = require('./registration.controller');
+
+const { describe, it, before, after } = require('node:test');
+const assert = require('node:assert/strict');
+const mongoose = require('mongoose');
 
 // --- DB setup ---
 
@@ -230,11 +233,8 @@ describe('registration.controller', () => {
 
       assert.equal(res.statusCode, 201);
       const body = res.body;
-      assert.ok(body.id || body._id || (body.user && (body.user.id || body.user._id)), 'response should have user id');
+      assert.ok(body.id, 'response should have user id');
       assert.ok(!body.passwordHash, 'response must NOT expose passwordHash');
-      if (body.user) {
-        assert.ok(!body.user.passwordHash, 'response user must NOT expose passwordHash');
-      }
     });
   });
 
@@ -390,7 +390,7 @@ describe('registration.controller', () => {
       await register(req1, res1);
       assert.equal(res1.statusCode, 201, 'first registration should succeed');
 
-      // Second registration with same email — should fail
+      // Second registration with same email — should fail 409
       const req2 = {
         body: {
           token: activeInvite.token,
