@@ -26,7 +26,8 @@ module.exports = {
   S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY || '',
   // Custom endpoint for S3-compatible providers (e.g. Contabo). Empty = real AWS S3.
   S3_ENDPOINT: process.env.S3_ENDPOINT || '',
-  S3_PRESIGN_TTL: parseInt(process.env.S3_PRESIGN_TTL, 10) || 300,
+  // Public read URL base. For Contabo this carries the tenant prefix (<tenant>:<bucket>). Empty = derive from bucket.
+  S3_PUBLIC_URL: process.env.S3_PUBLIC_URL || '',
   MAX_UPLOAD_BYTES: parseInt(process.env.MAX_UPLOAD_BYTES, 10) || 5 * 1024 * 1024,
   // CORS allowed origin for the React frontend
   FRONTEND_ORIGIN: process.env.FRONTEND_ORIGIN || 'http://localhost:5173',
