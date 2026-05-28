@@ -17,7 +17,7 @@ Full spec is v1 (competition piece). Each maps to a roadmap phase.
 ### Authentication
 
 - [x] **AUTH-01**: User can log in with email and password and receive a JWT — POST /api/auth/login implemented in Phase 01 Plan 02 (minimal slice; full logout in Phase 2)
-- [ ] **AUTH-02**: User can log out
+- [x] **AUTH-02**: User can log out
 - [x] **AUTH-03**: Role-based authorization is enforced in middleware before controllers — requireRole factory implemented in Phase 01 Plan 02
 - [x] **AUTH-04**: Registration requires a mandatory profile photo
 
@@ -72,9 +72,9 @@ Full spec is v1 (competition piece). Each maps to a roadmap phase.
 
 ### Frontend (React, mobile-first)
 
-- [ ] **FRNT-01**: React mobile-first app in sibling folder `MINIREDESOCIAL_FRONT`, talking to the API
-- [ ] **FRNT-02**: Brand applied — palette dark blue, black, beige, tobacco brown
-- [ ] **FRNT-03**: Invite-acceptance + registration flow with mandatory photo upload
+- [x] **FRNT-01**: React mobile-first app in sibling folder `MINIREDESOCIAL_FRONT`, talking to the API
+- [x] **FRNT-02**: Brand applied — palette dark blue, black, beige, tobacco brown
+- [x] **FRNT-03**: Invite-acceptance + registration flow with mandatory photo upload
 - [ ] **FRNT-04**: Feed view and post composer
 - [ ] **FRNT-05**: Profile view with follow / request / block controls
 - [ ] **FRNT-06**: Notifications view
@@ -112,13 +112,13 @@ Deferred to a future milestone.
 | INVT-02 | Phase 2 | Complete |
 | INVT-03 | Phase 2 | Complete |
 | INVT-04 | Phase 2 | Complete |
-| AUTH-01 | Phase 2 | Pending |
-| AUTH-02 | Phase 2 | Pending |
+| AUTH-01 | Phase 2 | Complete |
+| AUTH-02 | Phase 2 | Complete |
 | AUTH-04 | Phase 2 | Complete |
 | PLAT-03 | Phase 2 | Complete |
-| FRNT-01 | Phase 2 | Pending |
-| FRNT-02 | Phase 2 | Pending |
-| FRNT-03 | Phase 2 | Pending |
+| FRNT-01 | Phase 2 | Complete |
+| FRNT-02 | Phase 2 | Complete |
+| FRNT-03 | Phase 2 | Complete |
 | PROF-01 | Phase 3 | Pending |
 | PROF-02 | Phase 3 | Pending |
 | PROF-03 | Phase 3 | Pending |
