@@ -2,10 +2,24 @@
 
 const { Router } = require('express');
 const authenticate = require('../middlewares/auth.middleware');
+const { getProfile, getMe, updateMe, searchUsers } = require('../controllers/user.controller');
 const { follow, unfollow } = require('../controllers/follow.controller');
 const { block } = require('../controllers/block.controller');
 
 const router = Router();
+
+// Profile and search routes — MUST be registered before /:id (Pitfall 1: route ordering)
+// GET /api/users/search?q=  — institution-scoped user search (PROF-03)
+router.get('/search', authenticate, searchUsers);
+
+// GET /api/users/me  — caller's own profile (PROF-02 isOwner path)
+router.get('/me', authenticate, getMe);
+
+// GET /api/users/:id  — view another user's profile (PROF-02)
+router.get('/:id', authenticate, getProfile);
+
+// PATCH /api/users/me  — toggle isPrivate (PROF-01)
+router.patch('/me', authenticate, updateMe);
 
 // Social graph routes (Plan 03-01)
 // POST   /api/users/:id/follow  — authenticated user follows another
@@ -16,7 +30,5 @@ router.delete('/:id/follow', authenticate, unfollow);
 
 // POST   /api/users/:id/block   — authenticated user blocks another
 router.post('/:id/block', authenticate, block);
-
-// Profile and search routes will be added here by Plan 03-02
 
 module.exports = router;
