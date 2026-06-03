@@ -75,7 +75,13 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. The owner of a private profile can accept or reject follow requests
   5. Blocking a user removes follows on both sides and prevents the blocked user from messaging, seeing posts, or appearing in search — all reachable from the mobile profile view with follow/request/block controls
 
-**Plans**: TBD
+**Plans**: 4 plans
+
+  - [ ] 03-01-PLAN.md — Follow & Block backend (models, controllers, routes, tests)
+  - [ ] 03-02-PLAN.md — User profile & search backend (getProfile, updateMe, searchUsers, tests)
+  - [ ] 03-03-PLAN.md — AppShell navigation shell (bottom nav + scroll-aware header, replaces PostLoginShell)
+  - [ ] 03-04-PLAN.md — ProfilePage + FollowButton + BlockButton + SearchPage + UserResultCard
+
 **UI hint**: yes
 
 ### Phase 4: Posts, Comments & Personalized Feed
@@ -151,7 +157,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 |-------|----------------|--------|-----------|
 | 1. Foundation & Multi-Tenant Seed | 2/2 | Complete | 2026-05-21 |
 | 2. Entry Loop — Invite, Register, Login | 4/4 | Complete   | 2026-05-28 |
-| 3. Profiles & Social Graph | 0/TBD | Not started | - |
+| 3. Profiles & Social Graph | 0/4 | Not started | - |
 | 4. Posts, Comments & Personalized Feed | 0/TBD | Not started | - |
 | 5. Notifications (Polling) | 0/TBD | Not started | - |
 | 6. Chat & Groups (Real-Time) | 0/TBD | Not started | - |
