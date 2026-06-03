@@ -761,7 +761,7 @@ Each plan is independently deployable and testable. Plans 03-01 and 03-02 can be
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Should GET /api/users/:id include follower/following counts for private profiles viewed by accepted followers?**
    - What we know: Accepted followers can see full profile (bio, posts placeholder).
