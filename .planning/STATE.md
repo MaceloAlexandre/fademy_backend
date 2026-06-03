@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: Completed 02-03-PLAN.md
-last_updated: "2026-05-28T00:33:53.560Z"
+stopped_at: Phase 3 context gathered
+last_updated: "2026-06-03T22:42:32.700Z"
 last_activity: 2026-05-28 -- Phase 02 marked complete
 progress:
   total_phases: 7
@@ -21,7 +21,7 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-21)
 
 **Core value:** A student gets in via invite and immediately sees a personalized mobile feed of posts from people they follow — and can post their own.
-**Current focus:** Phase 02 — entry-loop-invite-register-login
+**Current focus:** Phase 03 — profiles-social-graph (next)
 
 ## Current Position
 
@@ -30,31 +30,31 @@ Plan: 4 of 4
 Status: Phase 02 complete
 Last activity: 2026-05-28 -- Phase 02 marked complete
 
-Progress: [██░░░░░░░░] 14%
+Progress: [███░░░░░░░] 29%
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 2
-- Average duration: 5.5 min
-- Total execution time: 0.18 hours
+- Total plans completed: 6
+- Average duration: ~6 min
+- Total execution time: ~0.60 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-foundation-multi-tenant-seed | 2/2 | 11 min | 5.5 min |
+| 02-entry-loop-invite-register-login | 4/4 | ~25 min | ~6 min |
 
-**Recent Trend:**
+**Recent Trend (Phase 02 plans):**
 
-- Last 5 plans: 3 min, 8 min
-- Trend: +5 min (larger plan)
-
-*Updated after each plan completion*
-| Phase 02-entry-loop-invite-register-login P01 | 3 min | 3 tasks | 7 files |
-| Phase 02-entry-loop-invite-register-login P02 | 8 min | 2 tasks | 8 files |
-| Phase 02-entry-loop-invite-register-login P03 | 7 min | 2 tasks | 5 files |
+| Plan | Duration | Tasks | Files |
+|------|----------|-------|-------|
+| 02-01 (invite generation) | 3 min | 3 tasks | 7 files |
+| 02-02 (S3 avatar upload) | 8 min | 2 tasks | 8 files |
+| 02-03 (registration + CORS) | 7 min | 2 tasks | 5 files |
+| 02-04 (React frontend) | — | — | — |
 
 ## Accumulated Context
 
@@ -76,15 +76,14 @@ Recent decisions affecting current work:
 - [01-02]: Dummy-hash bcrypt.compare for unknown emails — timing-safe login, no user enumeration (T-02-04)
 - [01-02]: requireRole inline in route definition — keeps auth→role→controller chain explicit per AUTH-03
 - [01-02]: institutionId sourced only from verified JWT, never from request body — prevents cross-tenant IDOR (T-02-03)
-- [Phase ?]: crypto.randomUUID() for invite token generation — node core, no extra dependency (T-02-04)
-- [Phase ?]: [02-01]: D-08 compound unique index on {institutionId,email} — same email allowed across institutions but unique within one
-- [Phase ?]: [02-01]: Slot caps enforced in createInvite controller: aluno→50, all others→10 (D-04)
-- [Phase ?]: test decision
-- [Phase ?]: [02-02]: Server generates S3 key for avatars, returned as bare key — no client URL reverse-parsing (T-02-08b)
-- [Phase ?]: [02-02]: S3 env vars use safe defaults, not added to required[] — npm test boots without AWS
-- [Phase ?]: avatarKey (server-issued bare key) used directly for objectExists — never reverse-parsed from client-supplied avatarUrl (T-02-08b)
-- [Phase ?]: register returns 201 with user object, no JWT token — UI-SPEC redirects to /login?registered=1 (no auto-login)
-- [Phase ?]: cors middleware uses env.FRONTEND_ORIGIN (default http://localhost:5173), placed before all routers
+- [02-01]: crypto.randomUUID() for invite token generation — node core, no extra dependency (T-02-04)
+- [02-01]: D-08 compound unique index on {institutionId,email} — same email allowed across institutions but unique within one
+- [02-01]: Slot caps enforced in createInvite controller: aluno→50, all others→10 (D-04)
+- [02-02]: Server generates S3 key for avatars, returned as bare key — no client URL reverse-parsing (T-02-08b)
+- [02-02]: S3 env vars use safe defaults, not added to required[] — npm test boots without AWS
+- [02-02]: avatarKey (server-issued bare key) used directly for objectExists — never reverse-parsed from client-supplied avatarUrl (T-02-08b)
+- [02-03]: register returns 201 with user object, no JWT token — UI-SPEC redirects to /login?registered=1 (no auto-login)
+- [02-03]: cors middleware uses env.FRONTEND_ORIGIN (default http://localhost:5173), placed before all routers
 
 ### Pending Todos
 
@@ -104,6 +103,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-05-27T22:41:28.264Z
-Stopped at: Completed 02-03-PLAN.md
-Resume file: None
+Last session: 2026-06-03T22:42:32.697Z
+Stopped at: Phase 3 context gathered
+Resume file: .planning/phases/03-profiles-social-graph/03-CONTEXT.md
