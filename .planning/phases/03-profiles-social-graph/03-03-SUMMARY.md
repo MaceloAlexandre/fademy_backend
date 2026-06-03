@@ -110,6 +110,18 @@ None - no external service configuration required. Vite dev server (`npm run dev
 - AppShell is live as the authenticated layout shell — Plans 03-04 and 03-05 replace placeholder `<div>` route elements with real `SearchPage` and `ProfilePage` components by importing them into `App.jsx`
 - All 5 routes (`/`, `/search`, `/notifications`, `/profile/me`, `/profile/:userId`) are registered and render placeholder text — no route wiring needed in 03-04/05, only import replacement
 
+## Self-Check: PASSED
+
+| Check | Result |
+|-------|--------|
+| AppShell.jsx exists | FOUND |
+| AppShell.module.css exists | FOUND |
+| App.jsx modified | FOUND |
+| SUMMARY.md in worktree | FOUND |
+| PostLoginShell removed from App.jsx | PASS |
+| AppShell imported in App.jsx | PASS |
+| Vite build exits without errors | PASS (1.54s) |
+
 ---
 *Phase: 03-profiles-social-graph*
 *Completed: 2026-06-03*
