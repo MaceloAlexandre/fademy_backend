@@ -21,4 +21,8 @@ app.use('/api/admin', require('./routes/admin.routes'));
 app.use('/api/invites', require('./routes/invite.routes'));
 app.use('/api/media', require('./routes/media.routes'));
 
+// Social graph routers (Plan 03)
+app.use('/api/users', require('./routes/user.routes'));
+app.use('/api/follows', require('./routes/follow.routes'));
+
 module.exports = app;
