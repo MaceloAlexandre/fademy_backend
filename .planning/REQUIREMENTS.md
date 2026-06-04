@@ -30,17 +30,17 @@ Full spec is v1 (competition piece). Each maps to a roadmap phase.
 
 ### Profiles
 
-- [ ] **PROF-01**: User can set their profile public or private (`isPrivate`)
-- [ ] **PROF-02**: User can view another user's profile
-- [ ] **PROF-03**: User can search for users (excluding blocked relationships)
+- [x] **PROF-01**: User can set their profile public or private (`isPrivate`)
+- [x] **PROF-02**: User can view another user's profile
+- [x] **PROF-03**: User can search for users (excluding blocked relationships)
 
 ### Social Graph
 
-- [ ] **SOCL-01**: User can follow a public profile directly (status `accepted`)
-- [ ] **SOCL-02**: User can request to follow a private profile (status `pending`)
-- [ ] **SOCL-03**: Owner of a private profile can accept or reject follow requests
-- [ ] **SOCL-04**: User can block another user, which removes follows on both sides
-- [ ] **SOCL-05**: Blocked users cannot message, see posts, or appear in search
+- [x] **SOCL-01**: User can follow a public profile directly (status `accepted`)
+- [x] **SOCL-02**: User can request to follow a private profile (status `pending`)
+- [x] **SOCL-03**: Owner of a private profile can accept or reject follow requests
+- [x] **SOCL-04**: User can block another user, which removes follows on both sides
+- [x] **SOCL-05**: Blocked users cannot message, see posts, or appear in search
 
 ### Content
 
@@ -76,7 +76,7 @@ Full spec is v1 (competition piece). Each maps to a roadmap phase.
 - [x] **FRNT-02**: Brand applied — palette dark blue, black, beige, tobacco brown
 - [x] **FRNT-03**: Invite-acceptance + registration flow with mandatory photo upload
 - [ ] **FRNT-04**: Feed view and post composer
-- [ ] **FRNT-05**: Profile view with follow / request / block controls
+- [x] **FRNT-05**: Profile view with follow / request / block controls
 - [ ] **FRNT-06**: Notifications view
 - [ ] **FRNT-07**: Chat / conversations view
 
@@ -119,15 +119,15 @@ Deferred to a future milestone.
 | FRNT-01 | Phase 2 | Complete |
 | FRNT-02 | Phase 2 | Complete |
 | FRNT-03 | Phase 2 | Complete |
-| PROF-01 | Phase 3 | Pending |
-| PROF-02 | Phase 3 | Pending |
-| PROF-03 | Phase 3 | Pending |
-| SOCL-01 | Phase 3 | Pending |
-| SOCL-02 | Phase 3 | Pending |
-| SOCL-03 | Phase 3 | Pending |
-| SOCL-04 | Phase 3 | Pending |
-| SOCL-05 | Phase 3 | Pending |
-| FRNT-05 | Phase 3 | Pending |
+| PROF-01 | Phase 3 | Complete |
+| PROF-02 | Phase 3 | Complete |
+| PROF-03 | Phase 3 | Complete |
+| SOCL-01 | Phase 3 | Complete |
+| SOCL-02 | Phase 3 | Complete |
+| SOCL-03 | Phase 3 | Complete |
+| SOCL-04 | Phase 3 | Complete |
+| SOCL-05 | Phase 3 | Complete |
+| FRNT-05 | Phase 3 | Complete |
 | CONT-01 | Phase 4 | Pending |
 | CONT-02 | Phase 4 | Pending |
 | CONT-03 | Phase 4 | Pending |
