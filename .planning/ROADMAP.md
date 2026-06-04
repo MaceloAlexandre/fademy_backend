@@ -88,7 +88,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-  - [ ] 03-04-PLAN.md — ProfilePage + FollowButton + BlockButton + UserResultCard components
+  - [x] 03-04-PLAN.md — ProfilePage + FollowButton + BlockButton + UserResultCard components
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
@@ -175,7 +175,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 |-------|----------------|--------|-----------|
 | 1. Foundation & Multi-Tenant Seed | 2/2 | Complete | 2026-05-21 |
 | 2. Entry Loop — Invite, Register, Login | 4/4 | Complete   | 2026-05-28 |
-| 3. Profiles & Social Graph | 3/5 | In Progress|  |
+| 3. Profiles & Social Graph | 4/5 | In Progress|  |
 | 4. Posts, Comments & Personalized Feed | 0/TBD | Not started | - |
 | 5. Notifications (Polling) | 0/TBD | Not started | - |
 | 6. Chat & Groups (Real-Time) | 0/TBD | Not started | - |
