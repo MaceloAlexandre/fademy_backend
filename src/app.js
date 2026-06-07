@@ -25,4 +25,8 @@ app.use('/api/media', require('./routes/media.routes'));
 app.use('/api/users', require('./routes/user.routes'));
 app.use('/api/follows', require('./routes/follow.routes'));
 
+// Posts, Comments & Feed (Plan 04)
+app.use('/api/posts', require('./routes/post.routes'));
+app.use('/api/categories', require('./routes/category.routes'));
+
 module.exports = app;
