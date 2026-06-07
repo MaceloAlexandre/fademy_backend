@@ -119,7 +119,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 4 plans
 
 **Wave 1**
-  - [ ] 04-01-PLAN.md — Posts + personalized feed backend (Post model, S3 image upload, role-gated links, cursor feed, categories endpoint)
+  - [x] 04-01-PLAN.md — Posts + personalized feed backend (Post model, S3 image upload, role-gated links, cursor feed, categories endpoint)
 
 **Wave 2** *(blocked on Wave 1)*
   - [ ] 04-02-PLAN.md — Comments backend (Comment model, create/list, commentCount, post_comment notification)
@@ -189,7 +189,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 1. Foundation & Multi-Tenant Seed | 2/2 | Complete | 2026-05-21 |
 | 2. Entry Loop — Invite, Register, Login | 4/4 | Complete   | 2026-05-28 |
 | 3. Profiles & Social Graph | 5/5 | Complete    | 2026-06-04 |
-| 4. Posts, Comments & Personalized Feed | 0/4 | Planned | - |
+| 4. Posts, Comments & Personalized Feed | 1/4 | In Progress | - |
 | 5. Notifications (Polling) | 0/TBD | Not started | - |
 | 6. Chat & Groups (Real-Time) | 0/TBD | Not started | - |
 | 7. Production Deployment | 0/TBD | Not started | - |

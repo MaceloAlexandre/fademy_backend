@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 04 UI-SPEC approved
-last_updated: "2026-06-07T23:40:45.725Z"
-last_activity: 2026-06-07 -- Phase 04 planning complete
+stopped_at: Phase 04 Plan 01 complete
+last_updated: "2026-06-07T23:53:00Z"
+last_activity: 2026-06-07 -- Phase 04 Plan 01 executed (posts backend)
 progress:
   total_phases: 7
   completed_phases: 3
   total_plans: 15
-  completed_plans: 11
-  percent: 43
+  completed_plans: 12
+  percent: 47
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-05-21)
 ## Current Position
 
 Phase: 4
-Plan: Not started
-Status: Ready to execute
-Last activity: 2026-06-07 -- Phase 04 planning complete
+Plan: 01 complete — ready for Plan 02
+Status: Executing
+Last activity: 2026-06-07 -- Phase 04 Plan 01 executed (posts backend)
 
-Progress: [███░░░░░░░] 29%
+Progress: [████░░░░░░] 47%
 
 ## Performance Metrics
 
@@ -47,6 +47,7 @@ Progress: [███░░░░░░░] 29%
 | 01-foundation-multi-tenant-seed | 2/2 | 11 min | 5.5 min |
 | 02-entry-loop-invite-register-login | 4/4 | ~25 min | ~6 min |
 | 03 | 5 | - | - |
+| 04-posts-comments-personalized-feed | 1/? | ~12 min | ~12 min |
 
 **Recent Trend (Phase 02 plans):**
 
@@ -85,6 +86,9 @@ Recent decisions affecting current work:
 - [02-02]: avatarKey (server-issued bare key) used directly for objectExists — never reverse-parsed from client-supplied avatarUrl (T-02-08b)
 - [02-03]: register returns 201 with user object, no JWT token — UI-SPEC redirects to /login?registered=1 (no auto-login)
 - [02-03]: cors middleware uses env.FRONTEND_ORIGIN (default http://localhost:5173), placed before all routers
+- [04-01]: Category model required at controller module level to register mongoose model before populate calls
+- [04-01]: Feed limit capped at 50 via Math.min to prevent DoS (T-04-06)
+- [04-01]: /feed route declared before /:id in post.routes.js to prevent 'feed' captured as ObjectId param
 
 ### Pending Todos
 
@@ -104,6 +108,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-06-07T23:10:42.972Z
-Stopped at: Phase 04 UI-SPEC approved
-Resume file: .planning/phases/04-posts-comments-personalized-feed/04-UI-SPEC.md
+Last session: 2026-06-07T23:53:00Z
+Stopped at: Phase 04 Plan 01 complete
+Resume file: .planning/phases/04-posts-comments-personalized-feed/04-02-PLAN.md
