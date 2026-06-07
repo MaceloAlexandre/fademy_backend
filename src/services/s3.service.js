@@ -48,6 +48,26 @@ async function uploadAvatar({ buffer, contentType }) {
 }
 
 /**
+ * Uploads a post image buffer to object storage with a `posts/` key prefix.
+ * The server owns the key — the client never controls it.
+ * @param {{ buffer: Buffer, contentType: string }} options
+ * @returns {Promise<{ key: string, objectUrl: string }>}
+ */
+async function uploadPostImage({ buffer, contentType }) {
+  const ext = EXTENSION_MAP[contentType] || '';
+  const key = `posts/${crypto.randomUUID()}${ext ? '.' + ext : ''}`;
+
+  await s3.send(new PutObjectCommand({
+    Bucket: S3_BUCKET,
+    Key: key,
+    Body: buffer,
+    ContentType: contentType,
+  }));
+
+  return { key, objectUrl: buildObjectUrl(key) };
+}
+
+/**
  * Checks whether an object exists by issuing a HeadObject request.
  * @param {string} key
  * @returns {Promise<boolean>}
@@ -62,4 +82,4 @@ async function objectExists(key) {
   }
 }
 
-module.exports = { uploadAvatar, objectExists };
+module.exports = { uploadAvatar, uploadPostImage, objectExists };
