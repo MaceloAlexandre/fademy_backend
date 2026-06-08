@@ -8,7 +8,7 @@
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
     "seed": "node src/seed/seed.js",
-    "test": "node --test src/seed/seed.test.js src/middlewares/auth.middleware.test.js src/middlewares/role.middleware.test.js src/controllers/invite.controller.test.js src/controllers/media.controller.test.js src/controllers/registration.controller.test.js src/controllers/user.controller.test.js src/controllers/follow.controller.test.js src/controllers/block.controller.test.js src/controllers/post.controller.test.js src/controllers/comment.controller.test.js src/controllers/notification.controller.test.js"
+    "test": "node --test src/seed/seed.test.js src/middlewares/auth.middleware.test.js src/middlewares/role.middleware.test.js src/controllers/invite.controller.test.js src/controllers/media.controller.test.js src/controllers/registration.controller.test.js src/controllers/user.controller.test.js src/controllers/follow.controller.test.js src/controllers/block.controller.test.js src/controllers/post.controller.test.js src/controllers/comment.controller.test.js src/controllers/notification.controller.test.js src/controllers/conversation.controller.test.js src/services/socket.service.test.js"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1055.0",
@@ -22,7 +22,8 @@
     "mongoose": "^8.24.0",
     "multer": "^2.1.1",
     "react": "^19.2.7",
-    "react-router-dom": "^7.16.0"
+    "react-router-dom": "^7.16.0",
+    "socket.io": "^4.8.3"
   },
   "devDependencies": {
     "mongodb-memory-server": "^10.0.0"
