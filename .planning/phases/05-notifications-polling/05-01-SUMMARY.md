@@ -111,3 +111,17 @@ None - no external service configuration required.
 ---
 *Phase: 05-notifications-polling*
 *Completed: 2026-06-08*
+
+## Self-Check: PASSED
+
+All created files found on disk:
+- FOUND: src/controllers/notification.controller.js
+- FOUND: src/routes/notification.routes.js
+- FOUND: src/controllers/notification.controller.test.js
+- FOUND: .planning/phases/05-notifications-polling/05-01-SUMMARY.md
+
+All commit hashes verified in git log:
+- FOUND: 255a120 (Task 1)
+- FOUND: bcff3f2 (Task 2)
+- FOUND: 46f5b86 (Task 3)
+- FOUND: 755d7f8 (SUMMARY)
