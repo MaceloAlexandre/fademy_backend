@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Entry Loop — Invite, Register, Login** - End-to-end on mobile: an invited user registers with a mandatory photo and logs in (completed 2026-05-28)
 - [x] **Phase 3: Profiles & Social Graph** - View/configure profiles, search, follow public/private, accept/reject, block (completed 2026-06-04)
 - [x] **Phase 4: Posts, Comments & Personalized Feed** - Create posts (text/images/links by role), categorize, comment, see a personalized paginated feed (core loop completes) (completed 2026-06-08)
-- [ ] **Phase 5: Notifications (Polling)** - In-app notifications dispatched by a service; users fetch and mark read
+- [x] **Phase 5: Notifications (Polling)** - In-app notifications dispatched by a service; users fetch and mark read (completed 2026-06-08)
 - [ ] **Phase 6: Chat & Groups (Real-Time)** - 1:1 chat between mutual followers via Socket.io, media messages, group conversations
 - [ ] **Phase 7: Production Deployment** - Env config, production build, deploy to VPS
 
@@ -153,7 +153,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] 05-01-PLAN.md — Backend: notification list/mark-read API + invite_received trigger + tests
 - [x] 05-02-PLAN.md — Frontend: polling hook, bell badge, /notifications route, list + cards (tap-to-navigate + mark-read)
-- [ ] 05-03-PLAN.md — Frontend: inline Aceitar/Rejeitar on follow_request cards (resolve in-place)
+- [x] 05-03-PLAN.md — Frontend: inline Aceitar/Rejeitar on follow_request cards (resolve in-place)
 
 **UI hint**: yes
 
@@ -199,6 +199,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 2. Entry Loop — Invite, Register, Login | 4/4 | Complete   | 2026-05-28 |
 | 3. Profiles & Social Graph | 5/5 | Complete    | 2026-06-04 |
 | 4. Posts, Comments & Personalized Feed | 4/4 | Complete   | 2026-06-08 |
-| 5. Notifications (Polling) | 2/3 | In Progress|  |
+| 5. Notifications (Polling) | 3/3 | Complete   | 2026-06-08 |
 | 6. Chat & Groups (Real-Time) | 0/TBD | Not started | - |
 | 7. Production Deployment | 0/TBD | Not started | - |
