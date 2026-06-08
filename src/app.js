@@ -35,5 +35,6 @@ app.use('/api/notifications', require('./routes/notification.routes'));
 
 // Chat (Plan 06)
 app.use('/api/conversations', require('./routes/conversation.routes'));
+app.use('/api/conversations', require('./routes/message.routes'));
 
 module.exports = app;
