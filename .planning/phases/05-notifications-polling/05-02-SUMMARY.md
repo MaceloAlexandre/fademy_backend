@@ -134,3 +134,14 @@ None — no stub patterns (`=[]`, `={}`, placeholder text, unwired mock data) fo
 ## Threat Flags
 
 None — both bug fixes operate entirely within the trust boundaries and mitigations already documented in the plan's `<threat_model>` (T-05F-01 server-side userId scoping, T-05F-02 IDOR mark-read guard). No new endpoints, auth paths, or schema changes were introduced; `refModel` value change (`'Comment'` -> `'Post'`) is an internal bookkeeping field with no client-facing trust implications — the client never queries by `refModel`, only renders/navigates using server-populated/scoped data.
+
+## Self-Check: PASSED
+
+- FOUND: `.planning/phases/05-notifications-polling/05-02-SUMMARY.md`
+- FOUND: `src/controllers/comment.controller.js`
+- FOUND: `MINIREDESOCIAL_FRONT/src/components/NotificationCard/NotificationCard.jsx`
+- FOUND commit `c6063bd` (backend fix) — confirmed `post._id, 'Post'` present in diff
+- FOUND commit `15e7c2b` (SUMMARY doc commit)
+- FOUND commit `3d668f1` (Task 1, prior executor, frontend main)
+- FOUND commit `f709521` (Task 2, prior executor, frontend main)
+- FOUND commit `5121ef0` (frontend fix) — confirmed `actorId._id` present in diff
