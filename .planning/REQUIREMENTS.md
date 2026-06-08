@@ -48,7 +48,7 @@ Full spec is v1 (competition piece). Each maps to a roadmap phase.
 - [x] **CONT-02**: User can attach images to a post (stored in S3) — uploadPostImage with multer.array(4) in Phase 04 Plan 01
 - [x] **CONT-03**: Permitted roles can post links; `aluno` gets 403 (`hasLink` validated by role) — enforced in createPost controller in Phase 04 Plan 01
 - [x] **CONT-04**: User tags a post with one or more categories (`content` and `area` types) — categoryIds stored on Post, GET /api/categories endpoint in Phase 04 Plan 01
-- [ ] **CONT-05**: User can comment on a post
+- [x] **CONT-05**: User can comment on a post
 
 ### Feed
 
@@ -132,7 +132,7 @@ Deferred to a future milestone.
 | CONT-02 | Phase 4 | Complete |
 | CONT-03 | Phase 4 | Complete |
 | CONT-04 | Phase 4 | Complete |
-| CONT-05 | Phase 4 | Pending |
+| CONT-05 | Phase 4 | Complete |
 | FEED-01 | Phase 4 | Complete |
 | FEED-02 | Phase 4 | Complete |
 | FEED-03 | Phase 4 | Complete |

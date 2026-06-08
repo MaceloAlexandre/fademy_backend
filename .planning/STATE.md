@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 04 Plan 01 complete
-last_updated: "2026-06-07T23:53:00Z"
-last_activity: 2026-06-07 -- Phase 04 Plan 01 executed (posts backend)
+stopped_at: Phase 04 Plan 02 complete
+last_updated: "2026-06-08T00:10:00Z"
+last_activity: 2026-06-08 -- Phase 04 Plan 02 executed (comments backend)
 progress:
   total_phases: 7
   completed_phases: 3
   total_plans: 15
-  completed_plans: 12
-  percent: 47
+  completed_plans: 13
+  percent: 87
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-05-21)
 ## Current Position
 
 Phase: 4
-Plan: 01 complete — ready for Plan 02
+Plan: 02 complete — ready for Plan 03
 Status: Executing
-Last activity: 2026-06-07 -- Phase 04 Plan 01 executed (posts backend)
+Last activity: 2026-06-08 -- Phase 04 Plan 02 executed (comments backend)
 
-Progress: [████░░░░░░] 47%
+Progress: [█████████░] 87%
 
 ## Performance Metrics
 
@@ -47,7 +47,7 @@ Progress: [████░░░░░░] 47%
 | 01-foundation-multi-tenant-seed | 2/2 | 11 min | 5.5 min |
 | 02-entry-loop-invite-register-login | 4/4 | ~25 min | ~6 min |
 | 03 | 5 | - | - |
-| 04-posts-comments-personalized-feed | 1/? | ~12 min | ~12 min |
+| 04-posts-comments-personalized-feed | 2/? | ~20 min | ~10 min |
 
 **Recent Trend (Phase 02 plans):**
 
@@ -89,6 +89,9 @@ Recent decisions affecting current work:
 - [04-01]: Category model required at controller module level to register mongoose model before populate calls
 - [04-01]: Feed limit capped at 50 via Math.min to prevent DoS (T-04-06)
 - [04-01]: /feed route declared before /:id in post.routes.js to prevent 'feed' captured as ObjectId param
+- [04-02]: Comment institutionId taken from req.user.institutionId (JWT), never from request body (T-04C-02 spoofing prevention)
+- [04-02]: Self-comment guard uses String() comparison on post.authorId vs req.user.id to handle ObjectId/string mixed types
+- [04-02]: Module._load interception used to create a call-counting spy on notification.service before controller loads
 
 ### Pending Todos
 
@@ -108,6 +111,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-06-07T23:53:00Z
-Stopped at: Phase 04 Plan 01 complete
-Resume file: .planning/phases/04-posts-comments-personalized-feed/04-02-PLAN.md
+Last session: 2026-06-08T00:00:01.392Z
+Stopped at: Phase 04 Plan 02 complete
+Resume file: .planning/phases/04-posts-comments-personalized-feed/04-03-PLAN.md
