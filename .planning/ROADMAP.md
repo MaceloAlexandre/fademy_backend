@@ -169,7 +169,24 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Messages support text and media (images/files) stored in S3
   3. The mobile chat/conversations view works end-to-end against the real-time backend
 
-**Plans**: TBD
+**Plans**: 4 plans
+
+**Wave 1**
+
+  - [ ] 06-01-PLAN.md — Backend foundation: install Socket.io, Conversation/Message models, gated conversation controller (mutual-follow + block, find-or-create, list), socket.service handshake auth + per-user rooms, server.js wiring
+
+**Wave 2** *(blocked on Wave 1)*
+
+  - [ ] 06-02-PLAN.md — Message slice: uploadMessageImage (S3), member-gated createMessage (text/image, message_received notification, message:new emit), listMessages, nested routes
+
+**Wave 3** *(blocked on Wave 2)*
+
+  - [ ] 06-03-PLAN.md — Frontend entry: socket.io-client + useChatSocket, AppShell chat icon, ConversationListItem, ConversationsListPage (/chat), NewConversationPage (/chat/new), App.jsx routes
+
+**Wave 4** *(blocked on Wave 3)*
+
+  - [ ] 06-04-PLAN.md — Frontend thread: MessageBubble, ChatComposer, ConversationThreadPage (/chat/:id history + live + send), NotificationCard message_received branch
+
 **UI hint**: yes
 **Note**: CHAT-03 (group formation) and CHAT-04 (public/private groups) deferred to v2 — see REQUIREMENTS.md. Decided 2026-06-08 due to compressed timeline (presentation in 2 days).
 
@@ -199,5 +216,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 3. Profiles & Social Graph | 5/5 | Complete    | 2026-06-04 |
 | 4. Posts, Comments & Personalized Feed | 4/4 | Complete   | 2026-06-08 |
 | 5. Notifications (Polling) | 3/3 | Complete    | 2026-06-08 |
-| 6. Chat (Real-Time, 1:1) | 0/TBD | Not started | - |
+| 6. Chat (Real-Time, 1:1) | 0/4 | Not started | - |
 | 7. Production Deployment | 0/TBD | Not started | - |
