@@ -18,7 +18,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: Profiles & Social Graph** - View/configure profiles, search, follow public/private, accept/reject, block (completed 2026-06-04)
 - [x] **Phase 4: Posts, Comments & Personalized Feed** - Create posts (text/images/links by role), categorize, comment, see a personalized paginated feed (core loop completes) (completed 2026-06-08)
 - [x] **Phase 5: Notifications (Polling)** - In-app notifications dispatched by a service; users fetch and mark read (completed 2026-06-08)
-- [ ] **Phase 6: Chat & Groups (Real-Time)** - 1:1 chat between mutual followers via Socket.io, media messages, group conversations
+- [ ] **Phase 6: Chat (Real-Time, 1:1)** - 1:1 chat between mutual followers via Socket.io, media messages (groups deferred — 2-day timeline)
 - [ ] **Phase 7: Production Deployment** - Env config, production build, deploy to VPS
 
 ## Phase Details
@@ -157,22 +157,21 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 **UI hint**: yes
 
-### Phase 6: Chat & Groups (Real-Time)
+### Phase 6: Chat (Real-Time, 1:1)
 
-**Goal**: Mutually-following users can chat 1:1 in real time, send media, and grow conversations into public or private groups — the highest-risk feature, landed last so it can be cut without breaking the product
+**Goal**: Mutually-following users can chat 1:1 in real time and send media — the highest-risk feature, landed last so it can be cut without breaking the product. Scope reduced to 1:1 only (groups deferred to v2) after the presentation date moved up to 2 days away.
 **Mode:** mvp
 **Depends on**: Phase 5
-**Requirements**: CHAT-01, CHAT-02, CHAT-03, CHAT-04, FRNT-07
+**Requirements**: CHAT-01, CHAT-02, FRNT-07
 **Success Criteria** (what must be TRUE):
 
   1. Two users who follow each other mutually can exchange messages in real time via Socket.io; non-mutual or blocked users cannot start a chat
   2. Messages support text and media (images/files) stored in S3
-  3. Adding a third person to a conversation turns it into a group
-  4. Groups can be marked public (searchable) or private
-  5. The mobile chat/conversations view works end-to-end against the real-time backend
+  3. The mobile chat/conversations view works end-to-end against the real-time backend
 
 **Plans**: TBD
 **UI hint**: yes
+**Note**: CHAT-03 (group formation) and CHAT-04 (public/private groups) deferred to v2 — see REQUIREMENTS.md. Decided 2026-06-08 due to compressed timeline (presentation in 2 days).
 
 ### Phase 7: Production Deployment
 
@@ -200,5 +199,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 3. Profiles & Social Graph | 5/5 | Complete    | 2026-06-04 |
 | 4. Posts, Comments & Personalized Feed | 4/4 | Complete   | 2026-06-08 |
 | 5. Notifications (Polling) | 3/3 | Complete    | 2026-06-08 |
-| 6. Chat & Groups (Real-Time) | 0/TBD | Not started | - |
+| 6. Chat (Real-Time, 1:1) | 0/TBD | Not started | - |
 | 7. Production Deployment | 0/TBD | Not started | - |

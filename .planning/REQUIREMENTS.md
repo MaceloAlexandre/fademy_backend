@@ -63,12 +63,10 @@ Full spec is v1 (competition piece). Each maps to a roadmap phase.
 - [x] **NOTF-03**: Supported types: follow_request, follow_accepted, new_follower, post_comment, invite_received, message_received
 - [x] **NOTF-04**: User can fetch notifications and mark them read (polling)
 
-### Chat & Groups
+### Chat
 
 - [ ] **CHAT-01**: Mutually-following users can chat 1:1 in real time (Socket.io)
 - [ ] **CHAT-02**: Messages support text and media (images/files)
-- [ ] **CHAT-03**: Adding a third person to a conversation turns it into a group
-- [ ] **CHAT-04**: Groups can be public (searchable) or private
 
 ### Frontend (React, mobile-first)
 
@@ -91,6 +89,11 @@ Deferred to a future milestone.
 ### Engagement
 
 - **ENGM-01**: Post likes (and `post_like` notification)
+
+### Chat & Groups
+
+- **CHAT-03**: Adding a third person to a conversation turns it into a group — deferred from Phase 6; presentation moved up to 2 days away, 1:1 chat alone is the achievable scope
+- **CHAT-04**: Groups can be public (searchable) or private — deferred alongside CHAT-03
 
 ## Out of Scope
 
@@ -144,17 +147,17 @@ Deferred to a future milestone.
 | FRNT-06 | Phase 5 | Pending |
 | CHAT-01 | Phase 6 | Pending |
 | CHAT-02 | Phase 6 | Pending |
-| CHAT-03 | Phase 6 | Pending |
-| CHAT-04 | Phase 6 | Pending |
+| CHAT-03 | v2 (deferred) | Deferred — 2-day timeline |
+| CHAT-04 | v2 (deferred) | Deferred — 2-day timeline |
 | FRNT-07 | Phase 6 | Pending |
 | PLAT-04 | Phase 7 | Pending |
 
 **Coverage:**
 
-- v1 requirements: 43 total (enumerated IDs; supersedes the earlier "38" estimate)
-- Mapped to phases: 43
+- v1 requirements: 41 total (CHAT-03, CHAT-04 moved to v2 on 2026-06-08 — 2-day timeline compression)
+- Mapped to phases: 41
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-05-21*
-*Last updated: 2026-05-21 after roadmap creation (traceability populated)*
+*Last updated: 2026-06-08 — CHAT-03/CHAT-04 deferred to v2 (Phase 6 discussion, timeline compressed to 2 days)*
