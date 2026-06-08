@@ -199,6 +199,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 2. Entry Loop — Invite, Register, Login | 4/4 | Complete   | 2026-05-28 |
 | 3. Profiles & Social Graph | 5/5 | Complete    | 2026-06-04 |
 | 4. Posts, Comments & Personalized Feed | 4/4 | Complete   | 2026-06-08 |
-| 5. Notifications (Polling) | 3/3 | Complete   | 2026-06-08 |
+| 5. Notifications (Polling) | 3/3 | Complete    | 2026-06-08 |
 | 6. Chat & Groups (Real-Time) | 0/TBD | Not started | - |
 | 7. Production Deployment | 0/TBD | Not started | - |

@@ -58,10 +58,10 @@ Full spec is v1 (competition piece). Each maps to a roadmap phase.
 
 ### Notifications
 
-- [ ] **NOTF-01**: In-app notifications are stored with a `read` flag and polymorphic `refId`/`refModel`
-- [ ] **NOTF-02**: Notifications are dispatched via a notification service (never inline in controllers)
-- [ ] **NOTF-03**: Supported types: follow_request, follow_accepted, new_follower, post_comment, invite_received, message_received
-- [ ] **NOTF-04**: User can fetch notifications and mark them read (polling)
+- [x] **NOTF-01**: In-app notifications are stored with a `read` flag and polymorphic `refId`/`refModel`
+- [x] **NOTF-02**: Notifications are dispatched via a notification service (never inline in controllers)
+- [x] **NOTF-03**: Supported types: follow_request, follow_accepted, new_follower, post_comment, invite_received, message_received
+- [x] **NOTF-04**: User can fetch notifications and mark them read (polling)
 
 ### Chat & Groups
 
@@ -137,10 +137,10 @@ Deferred to a future milestone.
 | FEED-02 | Phase 4 | Complete |
 | FEED-03 | Phase 4 | Complete |
 | FRNT-04 | Phase 4 | Complete |
-| NOTF-01 | Phase 5 | Pending |
-| NOTF-02 | Phase 5 | Pending |
-| NOTF-03 | Phase 5 | Pending |
-| NOTF-04 | Phase 5 | Pending |
+| NOTF-01 | Phase 5 | Complete |
+| NOTF-02 | Phase 5 | Complete |
+| NOTF-03 | Phase 5 | Complete |
+| NOTF-04 | Phase 5 | Complete |
 | FRNT-06 | Phase 5 | Pending |
 | CHAT-01 | Phase 6 | Pending |
 | CHAT-02 | Phase 6 | Pending |
