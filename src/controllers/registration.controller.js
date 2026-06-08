@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const Invite = require('../models/Invite');
 const User = require('../models/User');
 const s3Service = require('../services/s3.service');
+const notificationService = require('../services/notification.service');
 const env = require('../config/env');
 
 /**
@@ -84,6 +85,9 @@ async function register(req, res) {
       invite.status = 'expired';
     }
     await invite.save();
+
+    // Notify the invite creator that their invite was used (NOTF-03 — fire-and-forget, swallows its own errors)
+    await notificationService.create('invite_received', user._id, invite.invitedById, user._id, 'User');
 
     // Return 201 with the created user — NO token (UI-SPEC redirects to /login?registered=1)
     return res.status(201).json({
