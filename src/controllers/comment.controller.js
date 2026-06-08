@@ -35,7 +35,7 @@ async function createComment(req, res) {
     await Post.findByIdAndUpdate(postId, { $inc: { commentCount: 1 } });
 
     if (String(post.authorId) !== String(commenterId)) {
-      await notificationService.create('post_comment', commenterId, post.authorId, comment._id, 'Comment');
+      await notificationService.create('post_comment', commenterId, post.authorId, post._id, 'Post');
     }
 
     return res.status(201).json({ comment });
