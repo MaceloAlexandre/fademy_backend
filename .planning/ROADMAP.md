@@ -152,7 +152,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans
 
 - [x] 05-01-PLAN.md — Backend: notification list/mark-read API + invite_received trigger + tests
-- [ ] 05-02-PLAN.md — Frontend: polling hook, bell badge, /notifications route, list + cards (tap-to-navigate + mark-read)
+- [x] 05-02-PLAN.md — Frontend: polling hook, bell badge, /notifications route, list + cards (tap-to-navigate + mark-read)
 - [ ] 05-03-PLAN.md — Frontend: inline Aceitar/Rejeitar on follow_request cards (resolve in-place)
 
 **UI hint**: yes
@@ -199,6 +199,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 2. Entry Loop — Invite, Register, Login | 4/4 | Complete   | 2026-05-28 |
 | 3. Profiles & Social Graph | 5/5 | Complete    | 2026-06-04 |
 | 4. Posts, Comments & Personalized Feed | 4/4 | Complete   | 2026-06-08 |
-| 5. Notifications (Polling) | 1/3 | In Progress|  |
+| 5. Notifications (Polling) | 2/3 | In Progress|  |
 | 6. Chat & Groups (Real-Time) | 0/TBD | Not started | - |
 | 7. Production Deployment | 0/TBD | Not started | - |
