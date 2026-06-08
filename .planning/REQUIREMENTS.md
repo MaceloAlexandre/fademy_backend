@@ -65,7 +65,7 @@ Full spec is v1 (competition piece). Each maps to a roadmap phase.
 
 ### Chat
 
-- [ ] **CHAT-01**: Mutually-following users can chat 1:1 in real time (Socket.io)
+- [x] **CHAT-01**: Mutually-following users can chat 1:1 in real time (Socket.io)
 - [ ] **CHAT-02**: Messages support text and media (images/files)
 
 ### Frontend (React, mobile-first)
@@ -145,7 +145,7 @@ Deferred to a future milestone.
 | NOTF-03 | Phase 5 | Complete |
 | NOTF-04 | Phase 5 | Complete |
 | FRNT-06 | Phase 5 | Pending |
-| CHAT-01 | Phase 6 | Pending |
+| CHAT-01 | Phase 6 | Complete |
 | CHAT-02 | Phase 6 | Pending |
 | CHAT-03 | v2 (deferred) | Deferred — 2-day timeline |
 | CHAT-04 | v2 (deferred) | Deferred — 2-day timeline |

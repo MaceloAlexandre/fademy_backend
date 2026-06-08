@@ -173,7 +173,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 **Wave 1**
 
-  - [ ] 06-01-PLAN.md — Backend foundation: install Socket.io, Conversation/Message models, gated conversation controller (mutual-follow + block, find-or-create, list), socket.service handshake auth + per-user rooms, server.js wiring
+  - [x] 06-01-PLAN.md — Backend foundation: install Socket.io, Conversation/Message models, gated conversation controller (mutual-follow + block, find-or-create, list), socket.service handshake auth + per-user rooms, server.js wiring
 
 **Wave 2** *(blocked on Wave 1)*
 
@@ -216,5 +216,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 3. Profiles & Social Graph | 5/5 | Complete    | 2026-06-04 |
 | 4. Posts, Comments & Personalized Feed | 4/4 | Complete   | 2026-06-08 |
 | 5. Notifications (Polling) | 3/3 | Complete    | 2026-06-08 |
-| 6. Chat (Real-Time, 1:1) | 0/4 | Not started | - |
+| 6. Chat (Real-Time, 1:1) | 1/4 | In Progress|  |
 | 7. Production Deployment | 0/TBD | Not started | - |
