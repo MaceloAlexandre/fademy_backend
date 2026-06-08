@@ -45,7 +45,7 @@ Exceptions:
 - Touch target minimum: 44px (`--touch-min`) — Aceitar/Rejeitar buttons, bell icon button, notification card tap area (whole card is tappable, naturally exceeds 44px height)
 - Avatar in NotificationCard: 40px diameter (matches `PostCard`/`UserResultCard` pattern — D-01 explicitly requires visual consistency with these)
 - Unread indicator dot: 8px diameter (fixed, not a spacing token)
-- Badge on bell icon: 16px height pill, min-width 16px (fixed, not a spacing token)
+- Badge on bell icon: 20px height pill, min-width 20px (fixed, not a spacing token; sized to fit `--text-label` at 14px without overriding the type scale)
 - Bell icon button: 44px × 44px (unchanged from Phase 4 — already in `AppShell.module.css` `.bellBtn`)
 
 ---
@@ -141,8 +141,8 @@ New components for this phase. All use CSS Modules co-located with the component
 2. Bell icon color becomes conditional: `--color-accent` when `unreadCount > 0`, otherwise the existing muted `rgba(214, 207, 193, 0.5)`
 3. A badge pill is rendered absolutely positioned at the top-right corner of the bell button when `unreadCount > 0`:
    - Background: `--color-accent`
-   - Text: `--color-surface`, `--text-label` (14px) at `--weight-semibold`, but visually scaled down via `font-size: 11px` override with `line-height: 1` (small pill — exception noted, not a new typography token, just a compact numeric label)
-   - Shape: pill, `border-radius: 8px`, `min-width: 16px`, `height: 16px`, `padding: 0 4px`
+   - Text: `--color-surface`, `--text-label` (14px) at `--weight-semibold`, `line-height: 1` (no font-size override — the pill is sized to the existing 14px label token, not the other way around)
+   - Shape: pill, `border-radius: 10px`, `min-width: 20px`, `height: 20px`, `padding: 0 4px` (20px sized to comfortably contain 14px text at line-height 1 plus padding, while staying visually compact against the 44px bell button)
    - Position: `position: absolute; top: 4px; right: 4px`
    - Display value: the raw count for 1–9, `"9+"` for any value ≥ 10 (cap threshold — Claude's discretion per 05-CONTEXT, chosen because it's the single-digit-to-pill-width breakpoint and matches the suggested example in CONTEXT specifics)
 4. Polling hook (`useNotificationPolling` or equivalent) is mounted at the `AppShell` level (per D-09) — it owns `unreadCount` state and passes it down to the bell badge. Implementation detail (custom hook with `setInterval`, 5000ms per D-08, cleared on unmount) is **Claude's discretion** at planning/build time; the contract only fixes: (a) interval = 5000ms, (b) mount point = `AppShell`, (c) it must not block initial page render (fire-and-forget background fetch), (d) it must pause/resume correctly on tab visibility changes is NOT required for MVP (no visibility API integration needed — keep it simple per CLAUDE.md "Simplicity First").
@@ -289,7 +289,7 @@ No third-party component registries used. All components are custom CSS Modules.
 | Notification model has no `institutionId` — multi-tenant scope inherited via `userId`/`actorId` | 05-CONTEXT established patterns (PLAT-01 unaffected) |
 | No confirmation dialog for Rejeitar (diverges from FollowButton/BlockButton confirm pattern) | Claude's discretion — justified: reversible, low-stakes action; confirmation would contradict D-06 "in-place, no friction" intent |
 | Unread card tint: accent at 8% opacity overlay (not a new flat color) | Claude's discretion — keeps within 60/30/10 budget, no new surface color introduced |
-| Badge pill size/position/typography | Claude's discretion — compact 16px pill, 11px numeral |
+| Badge pill size/position/typography | Claude's discretion — compact 20px pill sized to fit existing `--text-label` (14px) numeral; no new font-size token introduced |
 | No pull-to-refresh on NotificationsPage (polling already covers freshness) | Claude's discretion — avoids redundant complexity (CLAUDE.md "Simplicity First") |
 | Pagination strategy left open (cursor or simple offset) | 05-CONTEXT explicit "Claude's Discretion" — pick simplest given likely-short lists |
 | Notification card keyboard accessibility via `<button>`/`<Link>` wrapper preferred over manual `role="button"` | Claude's discretion — simplicity + correctness; explicitly notes `UserResultCard` precedent gap without proposing to fix it (CLAUDE.md "Surgical Changes") |
