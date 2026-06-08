@@ -15,18 +15,22 @@ let httpServer;
 let io;
 let serverPort;
 
-before((done) => {
-  httpServer = createServer();
-  io = initSocket(httpServer);
-  httpServer.listen(0, () => {
-    serverPort = httpServer.address().port;
-    done();
+before(async () => {
+  await new Promise((resolve) => {
+    httpServer = createServer();
+    io = initSocket(httpServer);
+    httpServer.listen(0, () => {
+      serverPort = httpServer.address().port;
+      resolve();
+    });
   });
 });
 
-after((done) => {
-  io.close(() => {
-    httpServer.close(done);
+after(async () => {
+  await new Promise((resolve) => {
+    io.close(() => {
+      httpServer.close(resolve);
+    });
   });
 });
 
