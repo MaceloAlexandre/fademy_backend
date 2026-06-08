@@ -75,7 +75,7 @@ Full spec is v1 (competition piece). Each maps to a roadmap phase.
 - [x] **FRNT-01**: React mobile-first app in sibling folder `MINIREDESOCIAL_FRONT`, talking to the API
 - [x] **FRNT-02**: Brand applied — palette dark blue, black, beige, tobacco brown
 - [x] **FRNT-03**: Invite-acceptance + registration flow with mandatory photo upload
-- [ ] **FRNT-04**: Feed view and post composer
+- [x] **FRNT-04**: Feed view and post composer
 - [x] **FRNT-05**: Profile view with follow / request / block controls
 - [ ] **FRNT-06**: Notifications view
 - [ ] **FRNT-07**: Chat / conversations view
@@ -136,7 +136,7 @@ Deferred to a future milestone.
 | FEED-01 | Phase 4 | Complete |
 | FEED-02 | Phase 4 | Complete |
 | FEED-03 | Phase 4 | Complete |
-| FRNT-04 | Phase 4 | Pending |
+| FRNT-04 | Phase 4 | Complete |
 | NOTF-01 | Phase 5 | Pending |
 | NOTF-02 | Phase 5 | Pending |
 | NOTF-03 | Phase 5 | Pending |

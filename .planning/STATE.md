@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 04 Plan 02 complete
-last_updated: "2026-06-08T00:10:00Z"
-last_activity: 2026-06-08 -- Phase 04 Plan 02 executed (comments backend)
+stopped_at: Phase 04 Plan 03 tasks 1-3 complete; Task 4 human-verify checkpoint pending
+last_updated: "2026-06-08T00:20:00Z"
+last_activity: 2026-06-08 -- Phase 04 Plan 03 executed (feed frontend slice); paused at human-verify checkpoint
 progress:
   total_phases: 7
   completed_phases: 3
   total_plans: 15
-  completed_plans: 13
-  percent: 87
+  completed_plans: 14
+  percent: 43
 ---
 
 # Project State
@@ -26,9 +26,9 @@ See: .planning/PROJECT.md (updated 2026-05-21)
 ## Current Position
 
 Phase: 4
-Plan: 02 complete — ready for Plan 03
-Status: Executing
-Last activity: 2026-06-08 -- Phase 04 Plan 02 executed (comments backend)
+Plan: 03 tasks 1-3 complete — paused at Task 4 human-verify checkpoint
+Status: Executing (checkpoint pending)
+Last activity: 2026-06-08 -- Phase 04 Plan 03 executed (feed frontend: AppShell, PostCard, FeedPage)
 
 Progress: [█████████░] 87%
 
@@ -47,7 +47,7 @@ Progress: [█████████░] 87%
 | 01-foundation-multi-tenant-seed | 2/2 | 11 min | 5.5 min |
 | 02-entry-loop-invite-register-login | 4/4 | ~25 min | ~6 min |
 | 03 | 5 | - | - |
-| 04-posts-comments-personalized-feed | 2/? | ~20 min | ~10 min |
+| 04-posts-comments-personalized-feed | 3/4 | ~35 min | ~12 min |
 
 **Recent Trend (Phase 02 plans):**
 
@@ -92,6 +92,9 @@ Recent decisions affecting current work:
 - [04-02]: Comment institutionId taken from req.user.institutionId (JWT), never from request body (T-04C-02 spoofing prevention)
 - [04-02]: Self-comment guard uses String() comparison on post.authorId vs req.user.id to handle ObjectId/string mixed types
 - [04-02]: Module._load interception used to create a call-counting spy on notification.service before controller loads
+- [04-03]: cursor ref pattern: useRef mirrors cursor state so async fetchPage reads current cursor without stale closure
+- [04-03]: TABS label null for + tab, aria-label="Nova publicação" via nullish coalescing in NavLink render
+- [04-03]: stub FeedPage null export in Task 1 commit replaced atomically by real implementation in Task 3
 
 ### Pending Todos
 
@@ -111,6 +114,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-06-08T00:00:01.392Z
-Stopped at: Phase 04 Plan 02 complete
-Resume file: .planning/phases/04-posts-comments-personalized-feed/04-03-PLAN.md
+Last session: 2026-06-08T00:20:00Z
+Stopped at: Phase 04 Plan 03 Task 4 checkpoint (human-verify)
+Resume file: .planning/phases/04-posts-comments-personalized-feed/04-03-PLAN.md (Task 4)
