@@ -149,7 +149,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. The supported event types (follow_request, follow_accepted, new_follower, post_comment, invite_received, message_received) generate notifications when those events occur
   4. A user can fetch their notifications and mark them read from the mobile notifications view (polling)
 
-**Plans**: TBD
+**Plans**: 3 plans
+- [ ] 05-01-PLAN.md — Backend: notification list/mark-read API + invite_received trigger + tests
+- [ ] 05-02-PLAN.md — Frontend: polling hook, bell badge, /notifications route, list + cards (tap-to-navigate + mark-read)
+- [ ] 05-03-PLAN.md — Frontend: inline Aceitar/Rejeitar on follow_request cards (resolve in-place)
 **UI hint**: yes
 
 ### Phase 6: Chat & Groups (Real-Time)
