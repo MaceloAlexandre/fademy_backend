@@ -30,4 +30,7 @@ app.use('/api/posts', require('./routes/post.routes'));
 app.use('/api/posts', require('./routes/comment.routes'));
 app.use('/api/categories', require('./routes/category.routes'));
 
+// Notifications (Plan 05)
+app.use('/api/notifications', require('./routes/notification.routes'));
+
 module.exports = app;
