@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Session resumed, proceeding to execute Phase 05 Wave 3 (plan 05-03)
-last_updated: "2026-06-08T13:45:35.458Z"
+stopped_at: "Phase 6 context gathered — scope cut to 1:1 chat only (groups deferred to v2, 2-day timeline)"
+last_updated: "2026-06-08T16:33:03.169Z"
 last_activity: 2026-06-08
 progress:
   total_phases: 7
@@ -115,6 +115,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-06-08T13:14:10.471Z
-Stopped at: Session resumed, proceeding to execute Phase 05 Wave 3 (plan 05-03)
-Resume file: .planning/phases/05-notifications-polling/.continue-here.md
+Last session: 2026-06-08T16:33:03.166Z
+Stopped at: Phase 6 context gathered — scope cut to 1:1 chat only (groups deferred to v2, 2-day timeline)
+Resume file: .planning/phases/06-chat-groups-real-time/06-CONTEXT.md
