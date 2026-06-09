@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Completed 06-02-PLAN.md
-last_updated: "2026-06-09T00:01:43.839Z"
+last_updated: "2026-06-09T00:10:43.766Z"
 last_activity: 2026-06-09
 progress:
   total_phases: 7
   completed_phases: 5
   total_plans: 22
-  completed_plans: 20
+  completed_plans: 21
   percent: 71
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-05-21)
 ## Current Position
 
 Phase: 6
-Plan: 3 of 4 (executing)
+Plan: 4 of 4 (executing)
 Status: Ready to execute
 Last activity: 2026-06-09
 
@@ -60,6 +60,7 @@ Progress: [█████████░] 87%
 | 02-04 (React frontend) | — | — | — |
 | Phase 06-chat-groups-real-time P01 | 4 | 3 tasks | 11 files |
 | Phase 06-chat-groups-real-time P02 | 8 min | 2 tasks | 6 files |
+| Phase 06-chat-groups-real-time P03 | 15 min | 3 tasks | 16 files |
 
 ## Accumulated Context
 
@@ -101,6 +102,9 @@ Recent decisions affecting current work:
 - [Phase ?]: notification refId = conversationId (NOT message._id) so Plan 04 can deep-link straight to the thread from notification.refId
 - [Phase ?]: message_received refModel='Conversation' enables direct conversationId lookup in Plan 04 notification handler
 - [Phase ?]: senderId from req.user.id only in createMessage, never from body (T-06-07 anti-spoofing)
+- [Phase ?]: socket singleton uses auth:{token} object form — re-sent on reconnect
+- [Phase ?]: NotificationCard message_received branch: navigate to /chat/:refId (conversationId) not actor profile
+- [Phase ?]: listEligibleContacts endpoint in conversation controller — mutual-follower picker data source (Rule 2)
 
 ### Pending Todos
 
@@ -120,6 +124,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-06-09T00:01:43.835Z
+Last session: 2026-06-09T00:10:43.763Z
 Stopped at: Completed 06-02-PLAN.md
 Resume file: None

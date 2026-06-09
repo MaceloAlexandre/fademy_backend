@@ -181,7 +181,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 **Wave 3** *(blocked on Wave 2)*
 
-  - [ ] 06-03-PLAN.md — Frontend entry: socket.io-client + useChatSocket, AppShell chat icon, ConversationListItem, ConversationsListPage (/chat), NewConversationPage (/chat/new), App.jsx routes
+  - [x] 06-03-PLAN.md — Frontend entry: socket.io-client + useChatSocket, AppShell chat icon, ConversationListItem, ConversationsListPage (/chat), NewConversationPage (/chat/new), App.jsx routes
 
 **Wave 4** *(blocked on Wave 3)*
 
@@ -216,5 +216,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 3. Profiles & Social Graph | 5/5 | Complete    | 2026-06-04 |
 | 4. Posts, Comments & Personalized Feed | 4/4 | Complete   | 2026-06-08 |
 | 5. Notifications (Polling) | 3/3 | Complete    | 2026-06-08 |
-| 6. Chat (Real-Time, 1:1) | 2/4 | In Progress|  |
+| 6. Chat (Real-Time, 1:1) | 3/4 | In Progress|  |
 | 7. Production Deployment | 0/TBD | Not started | - |

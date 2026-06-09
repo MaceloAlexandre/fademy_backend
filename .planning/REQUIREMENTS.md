@@ -76,7 +76,7 @@ Full spec is v1 (competition piece). Each maps to a roadmap phase.
 - [x] **FRNT-04**: Feed view and post composer
 - [x] **FRNT-05**: Profile view with follow / request / block controls
 - [ ] **FRNT-06**: Notifications view
-- [ ] **FRNT-07**: Chat / conversations view
+- [x] **FRNT-07**: Chat / conversations view
 
 ## v2 Requirements
 
@@ -149,7 +149,7 @@ Deferred to a future milestone.
 | CHAT-02 | Phase 6 | Complete |
 | CHAT-03 | v2 (deferred) | Deferred — 2-day timeline |
 | CHAT-04 | v2 (deferred) | Deferred — 2-day timeline |
-| FRNT-07 | Phase 6 | Pending |
+| FRNT-07 | Phase 6 | Complete |
 | PLAT-04 | Phase 7 | Pending |
 
 **Coverage:**
