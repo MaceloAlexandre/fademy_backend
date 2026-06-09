@@ -159,15 +159,10 @@ async function getUserPosts(req, res) {
   }
 
   try {
-    // Block check — don't show posts if blocked in either direction (unless own profile)
+    // Block check — only block if THEY blocked ME (I blocked them → I can still view their profile/posts to unblock)
     if (targetId !== callerId) {
-      const blocked = await Block.findOne({
-        $or: [
-          { blockerId: callerId, blockedId: targetId },
-          { blockerId: targetId, blockedId: callerId },
-        ],
-      });
-      if (blocked) return res.status(403).json({ error: 'Forbidden' });
+      const theyBlockedMe = await Block.findOne({ blockerId: targetId, blockedId: callerId });
+      if (theyBlockedMe) return res.status(403).json({ error: 'Forbidden' });
     }
 
     const query = { authorId: targetId, institutionId };

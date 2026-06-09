@@ -3,6 +3,7 @@
 const Follow = require('../models/Follow');
 const User = require('../models/User');
 const Block = require('../models/Block');
+const Notification = require('../models/Notification');
 const notificationService = require('../services/notification.service');
 
 /**
@@ -35,6 +36,11 @@ async function follow(req, res) {
 
     const status = target.isPrivate ? 'pending' : 'accepted';
     const followDoc = await Follow.create({ followerId, followingId, status });
+
+    // Remove any previous follow_request notification from this actor before creating new one
+    if (status === 'pending') {
+      await Notification.deleteOne({ type: 'follow_request', actorId: followerId, userId: followingId });
+    }
 
     await notificationService.create(
       status === 'accepted' ? 'new_follower' : 'follow_request',

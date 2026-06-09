@@ -9,17 +9,14 @@ async function getProfile(req, res) {
   const { id: viewerId } = req.user;
 
   try {
-    // Block check in both directions — blocked users see 404
-    const blockExists = await Block.findOne({
-      $or: [
-        { blockerId: targetId, blockedId: viewerId },
-        { blockerId: viewerId, blockedId: targetId },
-      ],
-    }).lean();
-
-    if (blockExists) {
+    // If they blocked me → I cannot see their profile (404)
+    const theyBlockedMe = await Block.findOne({ blockerId: targetId, blockedId: viewerId }).lean();
+    if (theyBlockedMe) {
       return res.status(404).json({ error: 'User not found' });
     }
+
+    // If I blocked them → I can still see their profile (to unblock), but flag it
+    const iBlockedThem = await Block.findOne({ blockerId: viewerId, blockedId: targetId }).lean();
 
     const user = await User.findById(targetId).select('-passwordHash').lean();
     if (!user) {
@@ -40,6 +37,7 @@ async function getProfile(req, res) {
         role: user.role,
         isPrivate: true,
         followStatus,
+        isBlockedByMe: !!iBlockedThem,
       });
     }
 
@@ -57,6 +55,7 @@ async function getProfile(req, res) {
       followStatus,
       followersCount,
       followingCount,
+      isBlockedByMe: !!iBlockedThem,
     });
   } catch (err) {
     return res.status(500).json({ error: 'Internal server error' });
