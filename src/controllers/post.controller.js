@@ -144,4 +144,57 @@ async function getPost(req, res) {
   }
 }
 
-module.exports = { createPost, getFeed, getPost };
+/**
+ * GET /api/users/:id/posts
+ * Authenticated. Returns posts by a specific user, scoped to caller's institution.
+ * Supports cursor pagination. Respects blocks in either direction.
+ */
+async function getUserPosts(req, res) {
+  const { id: callerId, institutionId } = req.user;
+  const { Types } = require('mongoose');
+  const targetId = req.params.id === 'me' ? callerId : req.params.id;
+
+  if (!Types.ObjectId.isValid(targetId) && targetId !== callerId) {
+    return res.status(400).json({ error: 'Invalid user id' });
+  }
+
+  try {
+    // Block check — don't show posts if blocked in either direction (unless own profile)
+    if (targetId !== callerId) {
+      const blocked = await Block.findOne({
+        $or: [
+          { blockerId: callerId, blockedId: targetId },
+          { blockerId: targetId, blockedId: callerId },
+        ],
+      });
+      if (blocked) return res.status(403).json({ error: 'Forbidden' });
+    }
+
+    const query = { authorId: targetId, institutionId };
+    if (req.query.cursor) {
+      if (!Types.ObjectId.isValid(req.query.cursor)) {
+        return res.status(400).json({ error: 'Invalid cursor' });
+      }
+      query._id = { $lt: req.query.cursor };
+    }
+
+    const rawLimit = parseInt(req.query.limit, 10);
+    const limit = Math.min(rawLimit >= 1 ? rawLimit : 20, 50);
+
+    const docs = await Post.find(query)
+      .sort({ _id: -1 })
+      .limit(limit + 1)
+      .populate('authorId', 'name avatarUrl')
+      .populate('categoryIds', 'name slug type');
+
+    const hasMore = docs.length > limit;
+    const posts = docs.slice(0, limit);
+    const nextCursor = hasMore ? posts[posts.length - 1]._id : null;
+
+    return res.status(200).json({ posts, hasMore, nextCursor });
+  } catch (err) {
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+module.exports = { createPost, getFeed, getPost, getUserPosts };

@@ -3,6 +3,7 @@
 const { Router } = require('express');
 const authenticate = require('../middlewares/auth.middleware');
 const { getProfile, getMe, updateMe, searchUsers } = require('../controllers/user.controller');
+const { getUserPosts } = require('../controllers/post.controller');
 const { follow, unfollow } = require('../controllers/follow.controller');
 const { block } = require('../controllers/block.controller');
 
@@ -30,5 +31,8 @@ router.delete('/:id/follow', authenticate, unfollow);
 
 // POST   /api/users/:id/block   — authenticated user blocks another
 router.post('/:id/block', authenticate, block);
+
+// GET    /api/users/:id/posts   — posts by a user, institution-scoped (PROF-02)
+router.get('/:id/posts', authenticate, getUserPosts);
 
 module.exports = router;
