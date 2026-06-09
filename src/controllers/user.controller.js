@@ -67,18 +67,31 @@ async function getMe(req, res) {
 }
 
 async function updateMe(req, res) {
-  const { isPrivate } = req.body;
+  const { isPrivate, avatarUrl, avatarKey } = req.body;
+  const update = {};
 
-  if (typeof isPrivate !== 'boolean') {
-    return res.status(400).json({ error: 'isPrivate must be a boolean' });
+  if (isPrivate !== undefined) {
+    if (typeof isPrivate !== 'boolean') {
+      return res.status(400).json({ error: 'isPrivate must be a boolean' });
+    }
+    update.isPrivate = isPrivate;
+  }
+
+  if (avatarUrl !== undefined || avatarKey !== undefined) {
+    if (typeof avatarUrl !== 'string' || typeof avatarKey !== 'string') {
+      return res.status(400).json({ error: 'avatarUrl and avatarKey must be strings' });
+    }
+    update.avatarUrl = avatarUrl;
+    update.avatarKey = avatarKey;
+  }
+
+  if (Object.keys(update).length === 0) {
+    return res.status(400).json({ error: 'No valid fields to update' });
   }
 
   try {
-    const user = await User.findByIdAndUpdate(
-      req.user.id,
-      { isPrivate },
-      { new: true }
-    ).select('-passwordHash').lean();
+    const user = await User.findByIdAndUpdate(req.user.id, update, { new: true })
+      .select('-passwordHash').lean();
 
     return res.status(200).json({
       id: user._id,
