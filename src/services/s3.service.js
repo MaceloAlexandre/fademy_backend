@@ -97,8 +97,11 @@ async function objectExists(key) {
     await s3.send(new HeadObjectCommand({ Bucket: S3_BUCKET, Key: key }));
     return true;
   } catch (err) {
-    // NotFound or NoSuchKey → object does not exist
-    return false;
+    // Only swallow actual not-found errors; re-throw infrastructure faults (CR-03)
+    if (err.name === 'NotFound' || err.name === 'NoSuchKey' || err.$metadata?.httpStatusCode === 404) {
+      return false;
+    }
+    throw err;
   }
 }
 

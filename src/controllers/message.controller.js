@@ -1,5 +1,6 @@
 'use strict';
 
+const { Types } = require('mongoose');
 const Conversation = require('../models/Conversation');
 const Message = require('../models/Message');
 const notificationService = require('../services/notification.service');
@@ -36,12 +37,15 @@ async function createMessage(req, res) {
       return res.status(400).json({ error: 'text or media is required' });
     }
 
-    // Upload images to S3 — server owns the key (T-06-08)
-    const mediaUrls = [];
+    // Validate all mimetypes before uploading — avoids orphaned S3 objects on mid-loop rejection (WR-05)
     for (const file of files) {
       if (!ALLOWED_CONTENT_TYPES.has(file.mimetype)) {
         return res.status(400).json({ error: 'Invalid file type' });
       }
+    }
+    // Upload images to S3 — server owns the key (T-06-08)
+    const mediaUrls = [];
+    for (const file of files) {
       const { objectUrl } = await uploadMessageImage({ buffer: file.buffer, contentType: file.mimetype });
       mediaUrls.push(objectUrl);
     }
@@ -54,9 +58,8 @@ async function createMessage(req, res) {
       mediaUrls,
     });
 
-    // Bump conversation activity
-    conversation.updatedAt = new Date();
-    await conversation.save();
+    // Bump conversation activity — targeted atomic update avoids full-document re-write race (CR-04)
+    await Conversation.updateOne({ _id: conversation._id }, { $set: { updatedAt: new Date() } });
 
     // Dispatch notification to the OTHER member
     // refId = conversationId (NOT message._id) so Plan 04 can deep-link straight to the thread
@@ -108,10 +111,14 @@ async function listMessages(req, res) {
 
     const query = { conversationId };
     if (req.query.cursor) {
+      if (!Types.ObjectId.isValid(req.query.cursor)) {
+        return res.status(400).json({ error: 'Invalid cursor' });
+      }
       query._id = { $lt: req.query.cursor };
     }
 
-    const limit = Math.min(parseInt(req.query.limit, 10) || 20, 50);
+    const rawLimit = parseInt(req.query.limit, 10);
+    const limit = Math.min(rawLimit >= 1 ? rawLimit : 20, 50);
     const docs = await Message.find(query).sort({ _id: -1 }).limit(limit + 1);
 
     const hasMore = docs.length > limit;

@@ -26,11 +26,7 @@ const conversationSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+}, { timestamps: true });
 
 conversationSchema.index({ memberIds: 1, isGroup: 1 });
 
