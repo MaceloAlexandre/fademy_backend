@@ -103,4 +103,40 @@ async function listConversations(req, res) {
   }
 }
 
-module.exports = { createConversation, listConversations };
+/**
+ * GET /api/conversations/eligible-contacts
+ * Authenticated. Returns users who mutually follow the caller (both directions accepted),
+ * for use as the new-conversation picker data source.
+ */
+async function listEligibleContacts(req, res) {
+  const userId = req.user.id;
+
+  try {
+    // Users the caller follows (accepted)
+    const callerFollowing = await Follow.find({ followerId: userId, status: 'accepted' })
+      .select('followingId')
+      .lean();
+    const followingIds = callerFollowing.map((f) => f.followingId.toString());
+
+    // Among those, users who also follow the caller back (accepted)
+    const mutualFollows = await Follow.find({
+      followerId: { $in: followingIds },
+      followingId: userId,
+      status: 'accepted',
+    })
+      .select('followerId')
+      .lean();
+
+    const mutualIds = mutualFollows.map((f) => f.followerId);
+
+    const users = await User.find({ _id: { $in: mutualIds } })
+      .select('name avatarUrl role')
+      .lean();
+
+    return res.status(200).json({ users });
+  } catch (err) {
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+module.exports = { createConversation, listConversations, listEligibleContacts };
