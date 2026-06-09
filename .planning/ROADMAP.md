@@ -18,7 +18,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: Profiles & Social Graph** - View/configure profiles, search, follow public/private, accept/reject, block (completed 2026-06-04)
 - [x] **Phase 4: Posts, Comments & Personalized Feed** - Create posts (text/images/links by role), categorize, comment, see a personalized paginated feed (core loop completes) (completed 2026-06-08)
 - [x] **Phase 5: Notifications (Polling)** - In-app notifications dispatched by a service; users fetch and mark read (completed 2026-06-08)
-- [ ] **Phase 6: Chat (Real-Time, 1:1)** - 1:1 chat between mutual followers via Socket.io, media messages (groups deferred — 2-day timeline)
+- [x] **Phase 6: Chat (Real-Time, 1:1)** - 1:1 chat between mutual followers via Socket.io, media messages (groups deferred — 2-day timeline) (completed 2026-06-09)
 - [ ] **Phase 7: Production Deployment** - Env config, production build, deploy to VPS
 
 ## Phase Details
@@ -185,7 +185,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 **Wave 4** *(blocked on Wave 3)*
 
-  - [ ] 06-04-PLAN.md — Frontend thread: MessageBubble, ChatComposer, ConversationThreadPage (/chat/:id history + live + send), NotificationCard message_received branch
+  - [x] 06-04-PLAN.md — Frontend thread: MessageBubble, ChatComposer, ConversationThreadPage (/chat/:id history + live + send), NotificationCard message_received branch
 
 **UI hint**: yes
 **Note**: CHAT-03 (group formation) and CHAT-04 (public/private groups) deferred to v2 — see REQUIREMENTS.md. Decided 2026-06-08 due to compressed timeline (presentation in 2 days).
@@ -216,5 +216,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 3. Profiles & Social Graph | 5/5 | Complete    | 2026-06-04 |
 | 4. Posts, Comments & Personalized Feed | 4/4 | Complete   | 2026-06-08 |
 | 5. Notifications (Polling) | 3/3 | Complete    | 2026-06-08 |
-| 6. Chat (Real-Time, 1:1) | 3/4 | In Progress|  |
+| 6. Chat (Real-Time, 1:1) | 4/4 | Complete   | 2026-06-09 |
 | 7. Production Deployment | 0/TBD | Not started | - |
