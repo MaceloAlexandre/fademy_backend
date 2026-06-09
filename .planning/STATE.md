@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 06 UI-SPEC approved
-last_updated: "2026-06-08T23:56:51.838Z"
-last_activity: 2026-06-08
+stopped_at: Completed 06-02-PLAN.md
+last_updated: "2026-06-09T00:01:43.839Z"
+last_activity: 2026-06-09
 progress:
   total_phases: 7
   completed_phases: 5
   total_plans: 22
-  completed_plans: 19
+  completed_plans: 20
   percent: 71
 ---
 
@@ -26,9 +26,9 @@ See: .planning/PROJECT.md (updated 2026-05-21)
 ## Current Position
 
 Phase: 6
-Plan: 2 of 4 (executing)
+Plan: 3 of 4 (executing)
 Status: Ready to execute
-Last activity: 2026-06-08
+Last activity: 2026-06-09
 
 Progress: [█████████░] 87%
 
@@ -59,6 +59,7 @@ Progress: [█████████░] 87%
 | 02-03 (registration + CORS) | 7 min | 2 tasks | 5 files |
 | 02-04 (React frontend) | — | — | — |
 | Phase 06-chat-groups-real-time P01 | 4 | 3 tasks | 11 files |
+| Phase 06-chat-groups-real-time P02 | 8 min | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -97,6 +98,9 @@ Recent decisions affecting current work:
 - [04-03]: cursor ref pattern: useRef mirrors cursor state so async fetchPage reads current cursor without stale closure
 - [04-03]: TABS label null for + tab, aria-label="Nova publicação" via nullish coalescing in NavLink render
 - [04-03]: stub FeedPage null export in Task 1 commit replaced atomically by real implementation in Task 3
+- [Phase ?]: notification refId = conversationId (NOT message._id) so Plan 04 can deep-link straight to the thread from notification.refId
+- [Phase ?]: message_received refModel='Conversation' enables direct conversationId lookup in Plan 04 notification handler
+- [Phase ?]: senderId from req.user.id only in createMessage, never from body (T-06-07 anti-spoofing)
 
 ### Pending Todos
 
@@ -116,6 +120,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-06-08T23:56:51.835Z
-Stopped at: Phase 06 UI-SPEC approved
+Last session: 2026-06-09T00:01:43.835Z
+Stopped at: Completed 06-02-PLAN.md
 Resume file: None

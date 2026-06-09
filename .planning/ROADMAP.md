@@ -177,7 +177,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 **Wave 2** *(blocked on Wave 1)*
 
-  - [ ] 06-02-PLAN.md — Message slice: uploadMessageImage (S3), member-gated createMessage (text/image, message_received notification, message:new emit), listMessages, nested routes
+  - [x] 06-02-PLAN.md — Message slice: uploadMessageImage (S3), member-gated createMessage (text/image, message_received notification, message:new emit), listMessages, nested routes
 
 **Wave 3** *(blocked on Wave 2)*
 
@@ -216,5 +216,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 3. Profiles & Social Graph | 5/5 | Complete    | 2026-06-04 |
 | 4. Posts, Comments & Personalized Feed | 4/4 | Complete   | 2026-06-08 |
 | 5. Notifications (Polling) | 3/3 | Complete    | 2026-06-08 |
-| 6. Chat (Real-Time, 1:1) | 1/4 | In Progress|  |
+| 6. Chat (Real-Time, 1:1) | 2/4 | In Progress|  |
 | 7. Production Deployment | 0/TBD | Not started | - |
