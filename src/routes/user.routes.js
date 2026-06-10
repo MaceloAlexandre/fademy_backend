@@ -2,7 +2,7 @@
 
 const { Router } = require('express');
 const authenticate = require('../middlewares/auth.middleware');
-const { getProfile, getMe, updateMe, searchUsers } = require('../controllers/user.controller');
+const { getProfile, getMe, updateMe, searchUsers, suggestUsers } = require('../controllers/user.controller');
 const { getUserPosts } = require('../controllers/post.controller');
 const { follow, unfollow } = require('../controllers/follow.controller');
 const { block, unblock } = require('../controllers/block.controller');
@@ -12,6 +12,9 @@ const router = Router();
 // Profile and search routes — MUST be registered before /:id (Pitfall 1: route ordering)
 // GET /api/users/search?q=  — institution-scoped user search (PROF-03)
 router.get('/search', authenticate, searchUsers);
+
+// GET /api/users/suggestions  — institution-scoped "people you might want to follow" (FJC-04)
+router.get('/suggestions', authenticate, suggestUsers);
 
 // GET /api/users/me  — caller's own profile (PROF-02 isOwner path)
 router.get('/me', authenticate, getMe);
