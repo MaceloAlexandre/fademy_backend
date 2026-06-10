@@ -4,8 +4,8 @@ milestone: v1.0
 milestone_name: milestone
 status: verifying
 stopped_at: ready for next task (2026-06-10)
-last_updated: "2026-06-10T15:10:00.000Z"
-last_activity: "2026-06-10 - Completed quick task 260610-fjc: user suggestions (search + feed carousel)"
+last_updated: "2026-06-10T21:55:00.000Z"
+last_activity: "2026-06-10 - Completed quick task 260610-q4j: QR code on InvitePage"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-05-21)
 Phase: 6
 Plan: 4 of 4 (executing)
 Status: Phase complete — ready for verification
-Last activity: 2026-06-10 - Completed quick task 260610-fjc: user suggestions (search + feed carousel)
+Last activity: 2026-06-10 - Completed quick task 260610-q4j: QR code on InvitePage
 
 Progress: [█████████░] 87%
 
@@ -122,6 +122,7 @@ None.
 | 260610-efc | Profile photo viewer modal (X close, click-outside) + click-to-profile on avatars/names across feed, comments, notifications, conversations, chat | 2026-06-10 | 66864bb..0353fc7 (MINIREDESOCIAL_FRONT, 4 commits) | [260610-efc-add-profile-photo-modal-click-avatar-to-](./quick/260610-efc-add-profile-photo-modal-click-avatar-to-/) |
 | 260610-ezy | Swap Send → SendHorizontal icon for comment and chat send buttons (was diagonal/upward, now points right) | 2026-06-10 | 6a5f1df (MINIREDESOCIAL_FRONT) | [260610-ezy-rotate-the-send-icon-comment-composer-on](./quick/260610-ezy-rotate-the-send-icon-comment-composer-on/) |
 | 260610-fjc | User suggestions: GET /api/users/suggestions (institution-scoped, staff-before-aluno, follow/block exclusions); SuggestionCard + SearchPage suggestions list; FeedPage horizontal suggestions carousel (top of feed or after 3rd post, once) | 2026-06-10 | fdc6a69..34bf723 (backend, 3 commits, merged); 527fa3b..4783b7e (MINIREDESOCIAL_FRONT, 4 commits) | [260610-fjc-adicionar-sugestoes-de-usuarios-descober](./quick/260610-fjc-adicionar-sugestoes-de-usuarios-descober/) |
+| 260610-q4j | QR code on InvitePage success state (qrcode.react QRCodeSVG encoding the same invite link, for scanning during the in-person presentation) | 2026-06-10 | 5bf6fc7..a687a09 (MINIREDESOCIAL_FRONT, 2 commits) | [260610-q4j-adicionar-qr-code-na-invitepage-minirede](./quick/260610-q4j-adicionar-qr-code-na-invitepage-minirede/) |
 
 ## Deferred Items
 
