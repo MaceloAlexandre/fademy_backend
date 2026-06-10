@@ -145,4 +145,39 @@ async function searchUsers(req, res) {
   }
 }
 
-module.exports = { getProfile, getMe, updateMe, searchUsers };
+async function suggestUsers(req, res) {
+  const { id: viewerId, institutionId } = req.user;
+  const limit = Math.min(Number(req.query.limit) || 15, 20);
+
+  try {
+    // Build excluded IDs: block relationships in either direction (same pattern as searchUsers)
+    const blocks = await Block.find({
+      $or: [{ blockerId: viewerId }, { blockedId: viewerId }],
+    }).lean();
+
+    const excludedIds = blocks.map((b) =>
+      b.blockerId.toString() === viewerId ? b.blockedId : b.blockerId
+    );
+
+    // Exclude every user already followed (pending or accepted)
+    const follows = await Follow.find({ followerId: viewerId }).lean();
+    excludedIds.push(...follows.map((f) => f.followingId));
+
+    excludedIds.push(viewerId);
+
+    const candidates = await User.find({ institutionId, _id: { $nin: excludedIds } })
+      .select('name avatarUrl role isPrivate')
+      .limit(limit * 2)
+      .lean();
+
+    const staff = candidates.filter((u) => u.role !== 'aluno');
+    const alunos = candidates.filter((u) => u.role === 'aluno');
+    const users = staff.concat(alunos).slice(0, limit);
+
+    return res.status(200).json({ users });
+  } catch (err) {
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+module.exports = { getProfile, getMe, updateMe, searchUsers, suggestUsers };
