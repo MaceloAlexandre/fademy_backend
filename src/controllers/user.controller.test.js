@@ -16,7 +16,7 @@ Module._load = function (request, parent, isMain) {
 };
 
 // Require controller after mock is in place
-const { getProfile, getMe, updateMe, searchUsers } = require('./user.controller');
+const { getProfile, getMe, updateMe, searchUsers, suggestUsers } = require('./user.controller');
 
 const { describe, it, before, after } = require('node:test');
 const assert = require('node:assert/strict');
@@ -271,6 +271,187 @@ describe('user.controller', () => {
       assert.equal(res.statusCode, 200, 'should return 200');
       const ids = res.body.users.map((u) => u._id.toString());
       assert.ok(!ids.includes(userB._id.toString()), 'blocker should be excluded from search results');
+    });
+  });
+
+  describe('suggestUsers (FJC-04)', () => {
+    async function seedSuggestData() {
+      const Institution = require('../models/Institution');
+      const User = require('../models/User');
+      const Block = require('../models/Block');
+      const bcrypt = require('bcrypt');
+
+      const inst = await Institution.create({
+        name: 'Suggest Institution ' + Date.now(),
+        slug: 'suggest-inst-' + Date.now(),
+      });
+
+      const otherInst = await Institution.create({
+        name: 'Other Institution ' + Date.now(),
+        slug: 'other-inst-' + Date.now(),
+      });
+
+      const passwordHash = await bcrypt.hash('password123', 4);
+
+      const viewer = await User.create({
+        institutionId: inst._id,
+        name: 'Viewer User',
+        email: 'viewer-' + Date.now() + '@test.com',
+        passwordHash,
+        role: 'aluno',
+        isPrivate: false,
+      });
+
+      const professor = await User.create({
+        institutionId: inst._id,
+        name: 'Professor User',
+        email: 'professor-' + Date.now() + '@test.com',
+        passwordHash,
+        role: 'professor',
+        isPrivate: false,
+      });
+
+      const coordenador = await User.create({
+        institutionId: inst._id,
+        name: 'Coordenador User',
+        email: 'coordenador-' + Date.now() + '@test.com',
+        passwordHash,
+        role: 'coordenador',
+        isPrivate: false,
+      });
+
+      const aluno1 = await User.create({
+        institutionId: inst._id,
+        name: 'Aluno One',
+        email: 'aluno1-' + Date.now() + '@test.com',
+        passwordHash,
+        role: 'aluno',
+        isPrivate: false,
+      });
+
+      const aluno2 = await User.create({
+        institutionId: inst._id,
+        name: 'Aluno Two',
+        email: 'aluno2-' + Date.now() + '@test.com',
+        passwordHash,
+        role: 'aluno',
+        isPrivate: false,
+      });
+
+      const accepted = await User.create({
+        institutionId: inst._id,
+        name: 'Accepted Followed',
+        email: 'accepted-' + Date.now() + '@test.com',
+        passwordHash,
+        role: 'aluno',
+        isPrivate: false,
+      });
+
+      const pending = await User.create({
+        institutionId: inst._id,
+        name: 'Pending Followed',
+        email: 'pending-' + Date.now() + '@test.com',
+        passwordHash,
+        role: 'aluno',
+        isPrivate: false,
+      });
+
+      const blocker = await User.create({
+        institutionId: inst._id,
+        name: 'Blocker User',
+        email: 'blocker-' + Date.now() + '@test.com',
+        passwordHash,
+        role: 'aluno',
+        isPrivate: false,
+      });
+
+      const otherInstUser = await User.create({
+        institutionId: otherInst._id,
+        name: 'Other Institution User',
+        email: 'otherinst-' + Date.now() + '@test.com',
+        passwordHash,
+        role: 'aluno',
+        isPrivate: false,
+      });
+
+      const Follow = require('../models/Follow');
+      await Follow.create({ followerId: viewer._id, followingId: accepted._id, status: 'accepted' });
+      await Follow.create({ followerId: viewer._id, followingId: pending._id, status: 'pending' });
+      await Block.create({ blockerId: blocker._id, blockedId: viewer._id });
+
+      return {
+        inst, otherInst, viewer, professor, coordenador, aluno1, aluno2,
+        accepted, pending, blocker, otherInstUser,
+      };
+    }
+
+    it('returns 200 with users array', async () => {
+      const { inst, viewer } = await seedSuggestData();
+
+      const req = {
+        user: { id: viewer._id.toString(), institutionId: inst._id.toString() },
+        query: {},
+      };
+      const res = makeRes();
+
+      await suggestUsers(req, res);
+
+      assert.equal(res.statusCode, 200, 'should return 200');
+      assert.ok(Array.isArray(res.body.users), 'users should be an array');
+    });
+
+    it('excludes self, accepted-follow, pending-follow, blocker, and cross-institution user', async () => {
+      const data = await seedSuggestData();
+      const { inst, viewer, accepted, pending, blocker, otherInstUser } = data;
+
+      const req = {
+        user: { id: viewer._id.toString(), institutionId: inst._id.toString() },
+        query: {},
+      };
+      const res = makeRes();
+
+      await suggestUsers(req, res);
+
+      const ids = res.body.users.map((u) => u._id.toString());
+      assert.ok(!ids.includes(viewer._id.toString()), 'should exclude self');
+      assert.ok(!ids.includes(accepted._id.toString()), 'should exclude accepted-follow target');
+      assert.ok(!ids.includes(pending._id.toString()), 'should exclude pending-follow target');
+      assert.ok(!ids.includes(blocker._id.toString()), 'should exclude blocker');
+      assert.ok(!ids.includes(otherInstUser._id.toString()), 'should exclude cross-institution user');
+    });
+
+    it('staff roles appear before alunos in the result', async () => {
+      const { inst, viewer } = await seedSuggestData();
+
+      const req = {
+        user: { id: viewer._id.toString(), institutionId: inst._id.toString() },
+        query: {},
+      };
+      const res = makeRes();
+
+      await suggestUsers(req, res);
+
+      const roles = res.body.users.map((u) => u.role);
+      const firstAlunoIdx = roles.indexOf('aluno');
+      if (firstAlunoIdx !== -1) {
+        const staffAfterAluno = roles.slice(firstAlunoIdx).some((r) => r !== 'aluno');
+        assert.ok(!staffAfterAluno, 'no staff role should appear after the first aluno');
+      }
+    });
+
+    it('respects the limit cap (limit=100 → length <= 20)', async () => {
+      const { inst, viewer } = await seedSuggestData();
+
+      const req = {
+        user: { id: viewer._id.toString(), institutionId: inst._id.toString() },
+        query: { limit: '100' },
+      };
+      const res = makeRes();
+
+      await suggestUsers(req, res);
+
+      assert.equal(res.statusCode, 200, 'should return 200');
+      assert.ok(res.body.users.length <= 20, 'should cap results at 20');
     });
   });
 
