@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-05-21)
 Phase: 6
 Plan: 4 of 4 (executing)
 Status: Phase complete — ready for verification
-Last activity: 2026-06-09
+Last activity: 2026-06-10 - Completed quick task 260610-efc: profile photo modal + click-to-profile links
 
 Progress: [█████████░] 87%
 
@@ -119,6 +119,7 @@ None.
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 260610-dv1 | Fix desktop full-width fixed-position bars (PostDetailPage, ChatComposer, ConversationThreadPage) to 480px mobile column | 2026-06-10 | ca643e6 (MINIREDESOCIAL_FRONT) | [260610-dv1-fix-desktop-layout-bug-4-fixed-position-](./quick/260610-dv1-fix-desktop-layout-bug-4-fixed-position-/) |
+| 260610-efc | Profile photo viewer modal (X close, click-outside) + click-to-profile on avatars/names across feed, comments, notifications, conversations, chat | 2026-06-10 | 66864bb..0353fc7 (MINIREDESOCIAL_FRONT, 4 commits) | [260610-efc-add-profile-photo-modal-click-avatar-to-](./quick/260610-efc-add-profile-photo-modal-click-avatar-to-/) |
 
 ## Deferred Items
 
@@ -130,6 +131,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-06-10T13:03:07.538Z
-Stopped at: Completed quick task 260610-dv1 (desktop fixed-bar layout fix); context exhaustion at 75% (2026-06-10)
+Last session: 2026-06-10T13:05:22.897Z
+Stopped at: Session resumed; checking redeploy status (avatar fix + desktop CSS fix) before Phase 6 Human UAT
 Resume file: None
