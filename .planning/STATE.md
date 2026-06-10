@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: verifying
-stopped_at: context exhaustion at 75% (2026-06-10)
-last_updated: "2026-06-10T13:03:07.541Z"
-last_activity: 2026-06-09
+stopped_at: ready for next task (2026-06-10)
+last_updated: "2026-06-10T15:10:00.000Z"
+last_activity: "2026-06-10 - Completed quick task 260610-fjc: user suggestions (search + feed carousel)"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-05-21)
 Phase: 6
 Plan: 4 of 4 (executing)
 Status: Phase complete — ready for verification
-Last activity: 2026-06-10 - Completed quick task 260610-ezy: send icon swapped to SendHorizontal
+Last activity: 2026-06-10 - Completed quick task 260610-fjc: user suggestions (search + feed carousel)
 
 Progress: [█████████░] 87%
 
@@ -121,6 +121,7 @@ None.
 | 260610-dv1 | Fix desktop full-width fixed-position bars (PostDetailPage, ChatComposer, ConversationThreadPage) to 480px mobile column | 2026-06-10 | ca643e6 (MINIREDESOCIAL_FRONT) | [260610-dv1-fix-desktop-layout-bug-4-fixed-position-](./quick/260610-dv1-fix-desktop-layout-bug-4-fixed-position-/) |
 | 260610-efc | Profile photo viewer modal (X close, click-outside) + click-to-profile on avatars/names across feed, comments, notifications, conversations, chat | 2026-06-10 | 66864bb..0353fc7 (MINIREDESOCIAL_FRONT, 4 commits) | [260610-efc-add-profile-photo-modal-click-avatar-to-](./quick/260610-efc-add-profile-photo-modal-click-avatar-to-/) |
 | 260610-ezy | Swap Send → SendHorizontal icon for comment and chat send buttons (was diagonal/upward, now points right) | 2026-06-10 | 6a5f1df (MINIREDESOCIAL_FRONT) | [260610-ezy-rotate-the-send-icon-comment-composer-on](./quick/260610-ezy-rotate-the-send-icon-comment-composer-on/) |
+| 260610-fjc | User suggestions: GET /api/users/suggestions (institution-scoped, staff-before-aluno, follow/block exclusions); SuggestionCard + SearchPage suggestions list; FeedPage horizontal suggestions carousel (top of feed or after 3rd post, once) | 2026-06-10 | fdc6a69..34bf723 (backend, 3 commits, merged); 527fa3b..4783b7e (MINIREDESOCIAL_FRONT, 4 commits) | [260610-fjc-adicionar-sugestoes-de-usuarios-descober](./quick/260610-fjc-adicionar-sugestoes-de-usuarios-descober/) |
 
 ## Deferred Items
 
@@ -132,6 +133,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-06-10T13:05:22.897Z
-Stopped at: Session resumed; checking redeploy status (avatar fix + desktop CSS fix) before Phase 6 Human UAT
+Last session: 2026-06-10T14:36:09.322Z
+Stopped at: context exhaustion at 75% (2026-06-10)
 Resume file: None
