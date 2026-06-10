@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-05-21)
 Phase: 6
 Plan: 4 of 4 (executing)
 Status: Phase complete — ready for verification
-Last activity: 2026-06-10 - Completed quick task 260610-efc: profile photo modal + click-to-profile links
+Last activity: 2026-06-10 - Completed quick task 260610-ezy: send icon swapped to SendHorizontal
 
 Progress: [█████████░] 87%
 
@@ -120,6 +120,7 @@ None.
 |---|-------------|------|--------|-----------|
 | 260610-dv1 | Fix desktop full-width fixed-position bars (PostDetailPage, ChatComposer, ConversationThreadPage) to 480px mobile column | 2026-06-10 | ca643e6 (MINIREDESOCIAL_FRONT) | [260610-dv1-fix-desktop-layout-bug-4-fixed-position-](./quick/260610-dv1-fix-desktop-layout-bug-4-fixed-position-/) |
 | 260610-efc | Profile photo viewer modal (X close, click-outside) + click-to-profile on avatars/names across feed, comments, notifications, conversations, chat | 2026-06-10 | 66864bb..0353fc7 (MINIREDESOCIAL_FRONT, 4 commits) | [260610-efc-add-profile-photo-modal-click-avatar-to-](./quick/260610-efc-add-profile-photo-modal-click-avatar-to-/) |
+| 260610-ezy | Swap Send → SendHorizontal icon for comment and chat send buttons (was diagonal/upward, now points right) | 2026-06-10 | 6a5f1df (MINIREDESOCIAL_FRONT) | [260610-ezy-rotate-the-send-icon-comment-composer-on](./quick/260610-ezy-rotate-the-send-icon-comment-composer-on/) |
 
 ## Deferred Items
 
