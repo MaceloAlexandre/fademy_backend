@@ -6,6 +6,7 @@ import br.com.fademy.application.gateway.CategoriaGateway;
 import br.com.fademy.application.gateway.ConviteGateway;
 import br.com.fademy.application.gateway.InstituicaoGateway;
 import br.com.fademy.application.gateway.NotificacaoGateway;
+import br.com.fademy.application.gateway.PostGateway;
 import br.com.fademy.application.gateway.SeguirGateway;
 import br.com.fademy.application.gateway.SenhaGateway;
 import br.com.fademy.application.gateway.TokenGateway;
@@ -25,6 +26,7 @@ import br.com.fademy.application.service.GerarConviteService;
 import br.com.fademy.application.service.LerNotificacaoService;
 import br.com.fademy.application.service.ListarCategoriasService;
 import br.com.fademy.application.service.ListarNotificacoesService;
+import br.com.fademy.application.service.PublicarPostService;
 import br.com.fademy.application.service.RegistrarViaConviteService;
 import br.com.fademy.application.service.RejeitarPedidoService;
 import br.com.fademy.application.service.RevogarConviteService;
@@ -46,6 +48,7 @@ import br.com.fademy.application.usecase.GerarConviteUseCase;
 import br.com.fademy.application.usecase.LerNotificacaoUseCase;
 import br.com.fademy.application.usecase.ListarCategoriasUseCase;
 import br.com.fademy.application.usecase.ListarNotificacoesUseCase;
+import br.com.fademy.application.usecase.PublicarPostUseCase;
 import br.com.fademy.application.usecase.RegistrarViaConviteUseCase;
 import br.com.fademy.application.usecase.RejeitarPedidoUseCase;
 import br.com.fademy.application.usecase.RevogarConviteUseCase;
@@ -180,5 +183,12 @@ public class UseCaseConfig {
     @Bean
     public LerNotificacaoUseCase lerNotificacao(NotificacaoGateway notificacoes) {
         return new LerNotificacaoService(notificacoes);
+    }
+
+    @Bean
+    public PublicarPostUseCase publicarPost(UsuarioGateway usuarios, CategoriaGateway categorias,
+                                            ArmazenamentoGateway armazenamento, PostGateway posts,
+                                            TransacaoGateway transacao) {
+        return new PublicarPostService(usuarios, categorias, armazenamento, posts, transacao);
     }
 }
