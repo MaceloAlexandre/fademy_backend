@@ -266,6 +266,7 @@ que bloqueou o visualizador → 404 `Post not found`. 200 `{ post }`.
 **RN31 — Posts de um usuário.** `GET /api/users/:id/posts?cursor=&limit=20` (`:id` pode ser `me`).
 - O alvo bloqueou o visualizador → 403 `Forbidden`.
 - Perfil privado, visualizador não é o dono e não segue com `accepted` → 403 `Forbidden` (ver D6).
+- Autor inexistente ou de outra instituição não tem posts para mostrar: 200 com lista vazia, como no Node (#35).
 - Paginação pela seção 5.4. 200 `{ posts, hasMore, nextCursor }`.
 
 ### 4.12 Comentários
@@ -493,4 +494,5 @@ Cada issue, ao ser entregue, registra aqui as regras que cobre.
 | RN35, RN36, RN48; seção 5.4 (paginação por cursor) | #26 | entregue |
 | RN28, RN15 (imagens de post), D9 | #33 | entregue |
 | RN29; RN27 no feed | #34 | entregue |
+| RN30, RN31 (D5, D6); RN27 em posts | #35 | entregue |
 | demais | — | a implementar |

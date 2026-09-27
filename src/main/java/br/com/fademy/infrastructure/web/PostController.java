@@ -1,10 +1,12 @@
 package br.com.fademy.infrastructure.web;
 
 import br.com.fademy.application.usecase.ArquivoEnviado;
+import br.com.fademy.application.usecase.ListarPostsDoUsuarioUseCase;
 import br.com.fademy.application.usecase.Pagina;
 import br.com.fademy.application.usecase.PostDetalhado;
 import br.com.fademy.application.usecase.PublicarPostUseCase;
 import br.com.fademy.application.usecase.VerFeedUseCase;
+import br.com.fademy.application.usecase.VerPostUseCase;
 import br.com.fademy.infrastructure.web.PostResponse.PaginaDePosts;
 import br.com.fademy.domain.conteudo.Post;
 import br.com.fademy.domain.usuario.Visualizador;
@@ -12,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -28,10 +31,30 @@ public class PostController {
 
     private final PublicarPostUseCase publicarPost;
     private final VerFeedUseCase verFeed;
+    private final VerPostUseCase verPost;
+    private final ListarPostsDoUsuarioUseCase listarPostsDoUsuario;
 
-    public PostController(PublicarPostUseCase publicarPost, VerFeedUseCase verFeed) {
+    public PostController(PublicarPostUseCase publicarPost, VerFeedUseCase verFeed, VerPostUseCase verPost,
+                          ListarPostsDoUsuarioUseCase listarPostsDoUsuario) {
         this.publicarPost = publicarPost;
         this.verFeed = verFeed;
+        this.verPost = verPost;
+        this.listarPostsDoUsuario = listarPostsDoUsuario;
+    }
+
+    /** SPEC RN30. */
+    @GetMapping("/api/posts/{id}")
+    public PostUnicoResponse ver(Visualizador visualizador, @PathVariable String id) {
+        return new PostUnicoResponse(PostResponse.de(verPost.executar(visualizador, id)));
+    }
+
+    /** SPEC RN31. {@code me} é o próprio visualizador. */
+    @GetMapping("/api/users/{id}/posts")
+    public PaginaDePosts doUsuario(Visualizador visualizador, @PathVariable String id,
+                                   @RequestParam(required = false) String cursor,
+                                   @RequestParam(required = false) String limit) {
+        String autorId = "me".equals(id) ? visualizador.id() : id;
+        return pagina(listarPostsDoUsuario.executar(visualizador, autorId, cursor, limit));
     }
 
     /** SPEC RN29. */
@@ -69,6 +92,9 @@ public class PostController {
     }
 
     public record PostCriadoResponse(PostCriado post) {
+    }
+
+    public record PostUnicoResponse(PostResponse post) {
     }
 
     /** Post recém-criado: autor e categorias como ids (SPEC 5.3). */
