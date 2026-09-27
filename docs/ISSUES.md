@@ -16,7 +16,7 @@ a etapa anterior termina.
 | E4 — Social | #21–#26 | Notificações no Mongo, perfil, busca, seguir, bloquear |
 | E5 — Conteúdo | #33–#36 | Posts, feed, comentários |
 | E6 — Chat | #41–#43 | Conversas e mensagens no Mongo, tempo real |
-| E7 — Fechamento | a publicar | Painel admin, diagramas UML novos, roteiro da apresentação |
+| E7 — Fechamento | #47–#49 | Painel admin, diagramas UML novos, roteiro da apresentação |
 
 ---
 
@@ -272,9 +272,9 @@ Ordem: conversas → servidor de tempo real → mensagens (que já emitem o even
 
 | # | Título | Regras | Destaque |
 |---|---|---|---|
-| — | Painel administrativo | RN44 | `usuario.podeAcessarPainelAdmin()` |
-| — | Diagramas UML do novo projeto | — | Diagrama de classes de verdade (métodos, herança, interfaces de use case e gateway), sequência do cadastro atualizada, pacotes |
-| — | Roteiro de apresentação na rede local | — | Subir tudo num notebook, frontend acessível pelo celular na rede da faculdade, dados de demonstração |
+| 47 | Painel administrativo | RN44 | `usuario.podeAcessarPainelAdmin()`; fecha as 48 regras do SPEC |
+| 48 | Diagramas UML do novo projeto | — | `docs/DIAGRAMAS.md`: classes com métodos e herança, use case/service/gateway, Singleton/Adapter, sequência |
+| 49 | Roteiro de apresentação e dados de demonstração | — | `docs/APRESENTACAO.md`; perfil `demo` criado pelos próprios casos de uso |
 
 ---
 
