@@ -1,5 +1,6 @@
 package br.com.fademy.infrastructure.web;
 
+import br.com.fademy.application.gateway.TokenGateway;
 import br.com.fademy.application.usecase.VerificarSaudeUseCase;
 import br.com.fademy.application.usecase.VerificarSaudeUseCase.Saude;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,9 @@ class SaudeControllerTest {
 
     @MockitoBean
     VerificarSaudeUseCase verificarSaude;
+
+    @MockitoBean
+    TokenGateway tokens;
 
     @Test
     void bancosNoArRespondem200() throws Exception {

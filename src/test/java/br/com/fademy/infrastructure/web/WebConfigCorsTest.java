@@ -1,5 +1,6 @@
 package br.com.fademy.infrastructure.web;
 
+import br.com.fademy.application.gateway.TokenGateway;
 import br.com.fademy.application.usecase.VerificarSaudeUseCase;
 import br.com.fademy.application.usecase.VerificarSaudeUseCase.Saude;
 import org.junit.jupiter.api.Test;
@@ -15,13 +16,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 
 @WebMvcTest(SaudeController.class)
-class CorsConfigTest {
+class WebConfigCorsTest {
 
     @Autowired
     MockMvc mvc;
 
     @MockitoBean
     VerificarSaudeUseCase verificarSaude;
+
+    @MockitoBean
+    TokenGateway tokens;
 
     @Test
     void origemDoFrontendEhLiberada() throws Exception {

@@ -8,4 +8,6 @@ public interface CategoriaGateway {
 
     /** Cria cada categoria ou, se o slug já existe, atualiza nome e tipo. */
     void garantir(List<Categoria> categorias);
+
+    List<Categoria> listar();
 }
