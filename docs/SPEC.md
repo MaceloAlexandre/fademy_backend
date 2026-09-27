@@ -490,4 +490,5 @@ Cada issue, ao ser entregue, registra aqui as regras que cobre.
 | RN25, RN26; RN27 para seguir | #23 | entregue |
 | RN17, RN18 (D2, D3); RN27 para perfil | #24 | entregue |
 | RN19, RN20; RN27 para busca e sugestões | #25 | entregue |
+| RN35, RN36, RN48; seção 5.4 (paginação por cursor) | #26 | entregue |
 | demais | — | a implementar |

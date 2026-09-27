@@ -2,6 +2,8 @@ package br.com.fademy.application.gateway;
 
 import br.com.fademy.domain.social.Seguir;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public interface SeguirGateway {
@@ -9,6 +11,8 @@ public interface SeguirGateway {
     Optional<Seguir> buscar(String seguidorId, String seguidoId);
 
     Optional<Seguir> buscarPorId(String id);
+
+    List<Seguir> buscarPorIds(Collection<String> ids);
 
     void atualizarStatus(Seguir seguir);
 

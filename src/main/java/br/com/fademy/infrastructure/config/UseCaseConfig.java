@@ -22,7 +22,9 @@ import br.com.fademy.application.service.DesbloquearUsuarioService;
 import br.com.fademy.application.service.EditarPerfilService;
 import br.com.fademy.application.service.EnviarAvatarService;
 import br.com.fademy.application.service.GerarConviteService;
+import br.com.fademy.application.service.LerNotificacaoService;
 import br.com.fademy.application.service.ListarCategoriasService;
+import br.com.fademy.application.service.ListarNotificacoesService;
 import br.com.fademy.application.service.RegistrarViaConviteService;
 import br.com.fademy.application.service.RejeitarPedidoService;
 import br.com.fademy.application.service.RevogarConviteService;
@@ -41,7 +43,9 @@ import br.com.fademy.application.usecase.DesbloquearUsuarioUseCase;
 import br.com.fademy.application.usecase.EditarPerfilUseCase;
 import br.com.fademy.application.usecase.EnviarAvatarUseCase;
 import br.com.fademy.application.usecase.GerarConviteUseCase;
+import br.com.fademy.application.usecase.LerNotificacaoUseCase;
 import br.com.fademy.application.usecase.ListarCategoriasUseCase;
+import br.com.fademy.application.usecase.ListarNotificacoesUseCase;
 import br.com.fademy.application.usecase.RegistrarViaConviteUseCase;
 import br.com.fademy.application.usecase.RejeitarPedidoUseCase;
 import br.com.fademy.application.usecase.RevogarConviteUseCase;
@@ -165,5 +169,16 @@ public class UseCaseConfig {
     @Bean
     public SugerirUsuariosUseCase sugerirUsuarios(UsuarioGateway usuarios) {
         return new SugerirUsuariosService(usuarios);
+    }
+
+    @Bean
+    public ListarNotificacoesUseCase listarNotificacoes(NotificacaoGateway notificacoes, UsuarioGateway usuarios,
+                                                        SeguirGateway seguires) {
+        return new ListarNotificacoesService(notificacoes, usuarios, seguires);
+    }
+
+    @Bean
+    public LerNotificacaoUseCase lerNotificacao(NotificacaoGateway notificacoes) {
+        return new LerNotificacaoService(notificacoes);
     }
 }

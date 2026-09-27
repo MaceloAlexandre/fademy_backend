@@ -4,6 +4,7 @@ import br.com.fademy.domain.excecao.NaoAutenticadoException;
 import br.com.fademy.domain.usuario.Usuario;
 import br.com.fademy.domain.usuario.Visualizador;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,8 @@ public interface UsuarioGateway {
         return buscarPorId(visualizador.id())
                 .orElseThrow(() -> new NaoAutenticadoException("Invalid or expired token"));
     }
+
+    List<Usuario> buscarPorIds(Collection<String> ids);
 
     /** Busca pelo e-mail, sem diferenciar maiúsculas. */
     Optional<Usuario> buscarPorEmail(String email);
