@@ -44,6 +44,9 @@ public interface UsuarioGateway {
      */
     List<Usuario> candidatosASugestao(Usuario visualizador);
 
+    /** Quem segue o usuário e é seguido por ele, os dois com follow aceito (SPEC RN40). */
+    List<Usuario> seguidoresMutuos(Usuario usuario);
+
     /** Grava privacidade e avatar do usuário. */
     void atualizar(Usuario usuario);
 }

@@ -76,6 +76,19 @@ public class PostgresSeguirGateway implements SeguirGateway {
     }
 
     @Override
+    public boolean seguemUmAoOutro(String usuarioA, String usuarioB) {
+        return jdbc.sql("""
+                        select count(*) = 2 from seguir
+                        where status = 'accepted'
+                          and ((seguidor_id = :a and seguido_id = :b) or (seguidor_id = :b and seguido_id = :a))
+                        """)
+                .param("a", UUID.fromString(usuarioA))
+                .param("b", UUID.fromString(usuarioB))
+                .query(Boolean.class)
+                .single();
+    }
+
+    @Override
     public long contarSeguidores(String usuarioId) {
         return jdbc.sql("select count(*) from seguir where seguido_id = :id and status = 'accepted'")
                 .param("id", UUID.fromString(usuarioId))

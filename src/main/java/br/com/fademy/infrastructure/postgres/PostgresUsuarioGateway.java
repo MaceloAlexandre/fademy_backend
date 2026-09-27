@@ -109,6 +109,21 @@ public class PostgresUsuarioGateway implements UsuarioGateway {
                 .list();
     }
 
+    @Override
+    public List<Usuario> seguidoresMutuos(Usuario usuario) {
+        return jdbc.sql("""
+                        select u.* from usuario u
+                        where exists (select 1 from seguir s
+                                      where s.seguidor_id = :eu and s.seguido_id = u.id and s.status = 'accepted')
+                          and exists (select 1 from seguir s
+                                      where s.seguidor_id = u.id and s.seguido_id = :eu and s.status = 'accepted')
+                        order by u.nome
+                        """)
+                .param("eu", UUID.fromString(usuario.id()))
+                .query(USUARIO)
+                .list();
+    }
+
     // O trecho digitado é texto, não padrão: % e _ valem como caracteres comuns.
     private static String escaparLike(String trecho) {
         return trecho.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_");

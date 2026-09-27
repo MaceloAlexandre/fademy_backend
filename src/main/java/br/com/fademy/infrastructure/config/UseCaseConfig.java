@@ -4,6 +4,7 @@ import br.com.fademy.application.gateway.ArmazenamentoGateway;
 import br.com.fademy.application.gateway.BloqueioGateway;
 import br.com.fademy.application.gateway.CategoriaGateway;
 import br.com.fademy.application.gateway.ComentarioGateway;
+import br.com.fademy.application.gateway.ConversaGateway;
 import br.com.fademy.application.gateway.ConviteGateway;
 import br.com.fademy.application.gateway.InstituicaoGateway;
 import br.com.fademy.application.gateway.NotificacaoGateway;
@@ -25,8 +26,10 @@ import br.com.fademy.application.service.DesbloquearUsuarioService;
 import br.com.fademy.application.service.EditarPerfilService;
 import br.com.fademy.application.service.EnviarAvatarService;
 import br.com.fademy.application.service.GerarConviteService;
+import br.com.fademy.application.service.IniciarConversaService;
 import br.com.fademy.application.service.LerNotificacaoService;
 import br.com.fademy.application.service.ListarCategoriasService;
+import br.com.fademy.application.service.ListarConversasService;
 import br.com.fademy.application.service.ListarNotificacoesService;
 import br.com.fademy.application.service.ListarPostsDoUsuarioService;
 import br.com.fademy.application.service.PublicarPostService;
@@ -51,8 +54,10 @@ import br.com.fademy.application.usecase.DesbloquearUsuarioUseCase;
 import br.com.fademy.application.usecase.EditarPerfilUseCase;
 import br.com.fademy.application.usecase.EnviarAvatarUseCase;
 import br.com.fademy.application.usecase.GerarConviteUseCase;
+import br.com.fademy.application.usecase.IniciarConversaUseCase;
 import br.com.fademy.application.usecase.LerNotificacaoUseCase;
 import br.com.fademy.application.usecase.ListarCategoriasUseCase;
+import br.com.fademy.application.usecase.ListarConversasUseCase;
 import br.com.fademy.application.usecase.ListarNotificacoesUseCase;
 import br.com.fademy.application.usecase.ListarPostsDoUsuarioUseCase;
 import br.com.fademy.application.usecase.PublicarPostUseCase;
@@ -224,5 +229,16 @@ public class UseCaseConfig {
                                     ComentarioGateway comentarios, NotificacaoGateway notificacoes,
                                     TransacaoGateway transacao) {
         return new ComentarService(usuarios, posts, bloqueios, comentarios, notificacoes, transacao);
+    }
+
+    @Bean
+    public IniciarConversaUseCase iniciarConversa(UsuarioGateway usuarios, BloqueioGateway bloqueios,
+                                                  SeguirGateway seguires, ConversaGateway conversas) {
+        return new IniciarConversaService(usuarios, bloqueios, seguires, conversas);
+    }
+
+    @Bean
+    public ListarConversasUseCase listarConversas(UsuarioGateway usuarios, ConversaGateway conversas) {
+        return new ListarConversasService(usuarios, conversas);
     }
 }
