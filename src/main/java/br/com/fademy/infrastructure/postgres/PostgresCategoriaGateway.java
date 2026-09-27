@@ -6,7 +6,9 @@ import br.com.fademy.domain.instituicao.TipoCategoria;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class PostgresCategoriaGateway implements CategoriaGateway {
@@ -30,6 +32,18 @@ public class PostgresCategoriaGateway implements CategoriaGateway {
                     .param("tipo", categoria.tipo().texto())
                     .update();
         }
+    }
+
+    @Override
+    public boolean existem(Collection<String> ids) {
+        List<UUID> validos = ids.stream().flatMap(id -> Ids.ler(id).stream()).distinct().toList();
+        if (validos.size() < ids.stream().distinct().count()) {
+            return false;
+        }
+        return validos.isEmpty() || jdbc.sql("select count(*) from categoria where id in (:ids)")
+                .param("ids", validos)
+                .query(Long.class)
+                .single() == validos.size();
     }
 
     @Override

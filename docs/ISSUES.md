@@ -14,7 +14,7 @@ a etapa anterior termina.
 | E2 — Identidade | #4–#6 | Hierarquia de usuários, carga inicial, login funcionando no frontend |
 | E3 — Entrada | #13–#16 | Fluxo completo de convite → cadastro (o diagrama de sequência) |
 | E4 — Social | #21–#26 | Notificações no Mongo, perfil, busca, seguir, bloquear |
-| E5 — Conteúdo | a publicar | Posts, feed, comentários |
+| E5 — Conteúdo | #33–#36 | Posts, feed, comentários |
 | E6 — Chat | a publicar | Conversas e mensagens no Mongo, tempo real |
 | E7 — Fechamento | a publicar | Painel admin, diagramas UML novos, roteiro da apresentação |
 
@@ -253,10 +253,10 @@ Reordenada pelas dependências: seguir vem primeiro, porque perfil, busca e noti
 
 | # | Título | Regras | Destaque |
 |---|---|---|---|
-| — | Publicar post | RN28 | `Post.publicar()` consulta `autor.podePublicarLink()`; imagens pelo #13 |
-| — | Feed com paginação por cursor | RN29, seção 5.4 | Cursor sobre UUIDv7 |
-| — | Ver post e posts de um usuário | RN30, RN31 | Visibilidade por bloqueio e perfil privado |
-| — | Comentar e listar comentários | RN32, RN33, RN46 | Comentário + contador na mesma transação |
+| 33 | Publicar post | RN28, RN15, D9 | `Post.publicar()` consulta `autor.podePublicarLink()`; imagens pelo #13; tudo validado antes do upload |
+| 34 | Feed com paginação por cursor | RN29, seção 5.4 | Cursor sobre UUIDv7 |
+| 35 | Ver post e posts de um usuário | RN30, RN31, D5, D6 | Visibilidade por bloqueio e perfil privado (`mostraConteudoPara`) |
+| 36 | Comentar e listar comentários | RN32, RN33, RN46, D4 | Comentário + contador na mesma transação; `post_comment` no Mongo |
 
 ## E6 — Chat (resumo)
 
