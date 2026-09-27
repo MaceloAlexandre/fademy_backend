@@ -5,12 +5,14 @@ import br.com.fademy.application.usecase.CarregarDadosIniciaisUseCase.AdminInici
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
  * Roda a carga inicial (SPEC RN03) na subida da aplicação.
  */
 @Component
+@Order(1)
 public class CargaInicial implements ApplicationRunner {
 
     private final CarregarDadosIniciaisUseCase carregarDadosIniciais;
