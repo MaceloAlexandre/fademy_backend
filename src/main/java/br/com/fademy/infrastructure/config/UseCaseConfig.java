@@ -18,6 +18,7 @@ import br.com.fademy.application.service.CarregarDadosIniciaisService;
 import br.com.fademy.application.service.ConsultarConviteService;
 import br.com.fademy.application.service.DeixarDeSeguirService;
 import br.com.fademy.application.service.DesbloquearUsuarioService;
+import br.com.fademy.application.service.EditarPerfilService;
 import br.com.fademy.application.service.EnviarAvatarService;
 import br.com.fademy.application.service.GerarConviteService;
 import br.com.fademy.application.service.ListarCategoriasService;
@@ -25,6 +26,7 @@ import br.com.fademy.application.service.RegistrarViaConviteService;
 import br.com.fademy.application.service.RejeitarPedidoService;
 import br.com.fademy.application.service.RevogarConviteService;
 import br.com.fademy.application.service.SeguirUsuarioService;
+import br.com.fademy.application.service.VerPerfilService;
 import br.com.fademy.application.service.VerificarSaudeService;
 import br.com.fademy.application.usecase.AceitarPedidoUseCase;
 import br.com.fademy.application.usecase.AutenticarUseCase;
@@ -33,6 +35,7 @@ import br.com.fademy.application.usecase.CarregarDadosIniciaisUseCase;
 import br.com.fademy.application.usecase.ConsultarConviteUseCase;
 import br.com.fademy.application.usecase.DeixarDeSeguirUseCase;
 import br.com.fademy.application.usecase.DesbloquearUsuarioUseCase;
+import br.com.fademy.application.usecase.EditarPerfilUseCase;
 import br.com.fademy.application.usecase.EnviarAvatarUseCase;
 import br.com.fademy.application.usecase.GerarConviteUseCase;
 import br.com.fademy.application.usecase.ListarCategoriasUseCase;
@@ -40,6 +43,7 @@ import br.com.fademy.application.usecase.RegistrarViaConviteUseCase;
 import br.com.fademy.application.usecase.RejeitarPedidoUseCase;
 import br.com.fademy.application.usecase.RevogarConviteUseCase;
 import br.com.fademy.application.usecase.SeguirUsuarioUseCase;
+import br.com.fademy.application.usecase.VerPerfilUseCase;
 import br.com.fademy.application.usecase.VerificarSaudeUseCase;
 import br.com.fademy.infrastructure.mongo.MongoSaudeGateway;
 import br.com.fademy.infrastructure.postgres.PostgresSaudeGateway;
@@ -137,5 +141,15 @@ public class UseCaseConfig {
     @Bean
     public DesbloquearUsuarioUseCase desbloquearUsuario(BloqueioGateway bloqueios) {
         return new DesbloquearUsuarioService(bloqueios);
+    }
+
+    @Bean
+    public VerPerfilUseCase verPerfil(UsuarioGateway usuarios, SeguirGateway seguires, BloqueioGateway bloqueios) {
+        return new VerPerfilService(usuarios, seguires, bloqueios);
+    }
+
+    @Bean
+    public EditarPerfilUseCase editarPerfil(UsuarioGateway usuarios, ArmazenamentoGateway armazenamento) {
+        return new EditarPerfilService(usuarios, armazenamento);
     }
 }

@@ -13,8 +13,8 @@ public abstract class Usuario {
     private final String nome;
     private final String email;
     private final String senhaHash;
-    private final String avatarUrl;
-    private final boolean privado;
+    private String avatarUrl;
+    private boolean privado;
     private final boolean ativo;
     private final Instant criadoEm;
 
@@ -47,6 +47,24 @@ public abstract class Usuario {
 
     public boolean podeAcessarPainelAdmin() {
         return false;
+    }
+
+    /**
+     * Perfil privado só mostra números e posts ao dono e a quem o segue com follow aceito
+     * (SPEC RN17, RN31).
+     *
+     * @param seguidoPeloVisualizador o visualizador segue este usuário com follow aceito
+     */
+    public boolean mostraConteudoPara(String visualizadorId, boolean seguidoPeloVisualizador) {
+        return !privado || id.equals(visualizadorId) || seguidoPeloVisualizador;
+    }
+
+    public void definirPrivacidade(boolean privado) {
+        this.privado = privado;
+    }
+
+    public void trocarAvatar(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     /** Usuários de instituições diferentes não se enxergam (SPEC RN01). */

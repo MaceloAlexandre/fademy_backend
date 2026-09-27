@@ -1,5 +1,6 @@
 package br.com.fademy.domain.usuario;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -44,5 +45,32 @@ class UsuarioTest {
                     .as("%s convidando %s", papel, alvo)
                     .isEqualTo(esperado);
         }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            // privado, visualizador, segue aceito, mostra
+            "false,     outro,        false,        true",
+            "true,      outro,        false,        false",
+            "true,      outro,        true,         true",
+            "true,      id,           false,        true",
+    })
+    void perfilPrivadoSoMostraConteudoAoDonoEAQuemSegue(boolean privado, String visualizador, boolean segue,
+                                                         boolean mostra) {
+        Usuario usuario = Papel.ALUNO.criarUsuario(new DadosUsuario(
+                "id", "inst", "Ana", "ana@x.com", "hash", null, privado, true, Instant.now()));
+
+        assertThat(usuario.mostraConteudoPara(visualizador, segue)).isEqualTo(mostra);
+    }
+
+    @Test
+    void editarPrivacidadeEAvatar() {
+        Usuario usuario = usuario(Papel.ALUNO);
+
+        usuario.definirPrivacidade(true);
+        usuario.trocarAvatar("http://nova");
+
+        assertThat(usuario.privado()).isTrue();
+        assertThat(usuario.avatarUrl()).isEqualTo("http://nova");
     }
 }

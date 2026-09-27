@@ -14,6 +14,12 @@ public interface SeguirGateway {
 
     void removerPorId(String id);
 
+    /** Quantos seguem o usuário com follow aceito. */
+    long contarSeguidores(String usuarioId);
+
+    /** Quantos o usuário segue com follow aceito. */
+    long contarSeguindo(String usuarioId);
+
     /** Remove os follows entre A e B nos dois sentidos. */
     void removerEntre(String usuarioA, String usuarioB);
 
