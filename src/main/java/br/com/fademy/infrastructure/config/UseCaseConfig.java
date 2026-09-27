@@ -9,6 +9,7 @@ import br.com.fademy.application.gateway.TokenGateway;
 import br.com.fademy.application.gateway.UsuarioGateway;
 import br.com.fademy.application.service.AutenticarService;
 import br.com.fademy.application.service.CarregarDadosIniciaisService;
+import br.com.fademy.application.service.ConsultarConviteService;
 import br.com.fademy.application.service.EnviarAvatarService;
 import br.com.fademy.application.service.GerarConviteService;
 import br.com.fademy.application.service.ListarCategoriasService;
@@ -16,6 +17,7 @@ import br.com.fademy.application.service.RevogarConviteService;
 import br.com.fademy.application.service.VerificarSaudeService;
 import br.com.fademy.application.usecase.AutenticarUseCase;
 import br.com.fademy.application.usecase.CarregarDadosIniciaisUseCase;
+import br.com.fademy.application.usecase.ConsultarConviteUseCase;
 import br.com.fademy.application.usecase.EnviarAvatarUseCase;
 import br.com.fademy.application.usecase.GerarConviteUseCase;
 import br.com.fademy.application.usecase.ListarCategoriasUseCase;
@@ -71,5 +73,10 @@ public class UseCaseConfig {
     @Bean
     public RevogarConviteUseCase revogarConvite(UsuarioGateway usuarios, ConviteGateway convites) {
         return new RevogarConviteService(usuarios, convites);
+    }
+
+    @Bean
+    public ConsultarConviteUseCase consultarConvite(ConviteGateway convites, InstituicaoGateway instituicoes) {
+        return new ConsultarConviteService(convites, instituicoes);
     }
 }

@@ -483,4 +483,5 @@ Cada issue, ao ser entregue, registra aqui as regras que cobre.
 | RN02 (endpoint), RN07, RN08 (401) | #6 | entregue |
 | RN14, RN15 (tipos e tamanho) | #13 | entregue |
 | RN08 (403), RN10, RN12 | #14 | entregue |
+| RN11 | #15 | entregue |
 | demais | — | a implementar |
