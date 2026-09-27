@@ -53,6 +53,15 @@ public class PostgresUsuarioGateway implements UsuarioGateway {
     }
 
     @Override
+    public void atualizar(Usuario usuario) {
+        jdbc.sql("update usuario set privado = :privado, avatar_url = :avatarUrl where id = :id")
+                .param("privado", usuario.privado())
+                .param("avatarUrl", usuario.avatarUrl())
+                .param("id", UUID.fromString(usuario.id()))
+                .update();
+    }
+
+    @Override
     public Usuario criar(Usuario usuario) {
         UUID id = Ids.novo();
         try {

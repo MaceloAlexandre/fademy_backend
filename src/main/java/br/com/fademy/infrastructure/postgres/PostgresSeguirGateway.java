@@ -65,6 +65,22 @@ public class PostgresSeguirGateway implements SeguirGateway {
     }
 
     @Override
+    public long contarSeguidores(String usuarioId) {
+        return jdbc.sql("select count(*) from seguir where seguido_id = :id and status = 'accepted'")
+                .param("id", UUID.fromString(usuarioId))
+                .query(Long.class)
+                .single();
+    }
+
+    @Override
+    public long contarSeguindo(String usuarioId) {
+        return jdbc.sql("select count(*) from seguir where seguidor_id = :id and status = 'accepted'")
+                .param("id", UUID.fromString(usuarioId))
+                .query(Long.class)
+                .single();
+    }
+
+    @Override
     public void removerEntre(String usuarioA, String usuarioB) {
         jdbc.sql("""
                         delete from seguir

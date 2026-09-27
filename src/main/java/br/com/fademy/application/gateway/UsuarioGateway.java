@@ -25,4 +25,7 @@ public interface UsuarioGateway {
      * @throws br.com.fademy.domain.excecao.ConflitoException se o e-mail já existe (SPEC RN09)
      */
     Usuario criar(Usuario usuario);
+
+    /** Grava privacidade e avatar do usuário. */
+    void atualizar(Usuario usuario);
 }

@@ -37,6 +37,23 @@ public class PostgresBloqueioGateway implements BloqueioGateway {
     }
 
     @Override
+    public boolean bloqueou(String bloqueadorId, String bloqueadoId) {
+        Optional<UUID> bloqueador = Ids.ler(bloqueadorId);
+        Optional<UUID> bloqueado = Ids.ler(bloqueadoId);
+        if (bloqueador.isEmpty() || bloqueado.isEmpty()) {
+            return false;
+        }
+        return jdbc.sql("""
+                        select exists (select 1 from bloqueio
+                                       where bloqueador_id = :bloqueador and bloqueado_id = :bloqueado)
+                        """)
+                .param("bloqueador", bloqueador.get())
+                .param("bloqueado", bloqueado.get())
+                .query(Boolean.class)
+                .single();
+    }
+
+    @Override
     public void bloquear(String bloqueadorId, String bloqueadoId) {
         jdbc.sql("""
                         insert into bloqueio (id, bloqueador_id, bloqueado_id, criado_em)
