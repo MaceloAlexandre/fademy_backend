@@ -10,6 +10,11 @@ public abstract class MembroDaEquipe extends Usuario {
     }
 
     @Override
+    public boolean ehDaEquipe() {
+        return true;
+    }
+
+    @Override
     public boolean podeGerarConvite() {
         return true;
     }

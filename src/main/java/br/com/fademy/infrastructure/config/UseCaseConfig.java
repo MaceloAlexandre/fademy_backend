@@ -14,6 +14,7 @@ import br.com.fademy.application.gateway.UsuarioGateway;
 import br.com.fademy.application.service.AceitarPedidoService;
 import br.com.fademy.application.service.AutenticarService;
 import br.com.fademy.application.service.BloquearUsuarioService;
+import br.com.fademy.application.service.BuscarUsuariosService;
 import br.com.fademy.application.service.CarregarDadosIniciaisService;
 import br.com.fademy.application.service.ConsultarConviteService;
 import br.com.fademy.application.service.DeixarDeSeguirService;
@@ -26,11 +27,13 @@ import br.com.fademy.application.service.RegistrarViaConviteService;
 import br.com.fademy.application.service.RejeitarPedidoService;
 import br.com.fademy.application.service.RevogarConviteService;
 import br.com.fademy.application.service.SeguirUsuarioService;
+import br.com.fademy.application.service.SugerirUsuariosService;
 import br.com.fademy.application.service.VerPerfilService;
 import br.com.fademy.application.service.VerificarSaudeService;
 import br.com.fademy.application.usecase.AceitarPedidoUseCase;
 import br.com.fademy.application.usecase.AutenticarUseCase;
 import br.com.fademy.application.usecase.BloquearUsuarioUseCase;
+import br.com.fademy.application.usecase.BuscarUsuariosUseCase;
 import br.com.fademy.application.usecase.CarregarDadosIniciaisUseCase;
 import br.com.fademy.application.usecase.ConsultarConviteUseCase;
 import br.com.fademy.application.usecase.DeixarDeSeguirUseCase;
@@ -43,6 +46,7 @@ import br.com.fademy.application.usecase.RegistrarViaConviteUseCase;
 import br.com.fademy.application.usecase.RejeitarPedidoUseCase;
 import br.com.fademy.application.usecase.RevogarConviteUseCase;
 import br.com.fademy.application.usecase.SeguirUsuarioUseCase;
+import br.com.fademy.application.usecase.SugerirUsuariosUseCase;
 import br.com.fademy.application.usecase.VerPerfilUseCase;
 import br.com.fademy.application.usecase.VerificarSaudeUseCase;
 import br.com.fademy.infrastructure.mongo.MongoSaudeGateway;
@@ -151,5 +155,15 @@ public class UseCaseConfig {
     @Bean
     public EditarPerfilUseCase editarPerfil(UsuarioGateway usuarios, ArmazenamentoGateway armazenamento) {
         return new EditarPerfilService(usuarios, armazenamento);
+    }
+
+    @Bean
+    public BuscarUsuariosUseCase buscarUsuarios(UsuarioGateway usuarios) {
+        return new BuscarUsuariosService(usuarios);
+    }
+
+    @Bean
+    public SugerirUsuariosUseCase sugerirUsuarios(UsuarioGateway usuarios) {
+        return new SugerirUsuariosService(usuarios);
     }
 }

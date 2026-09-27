@@ -32,6 +32,11 @@ public abstract class Usuario {
 
     public abstract Papel papel();
 
+    /** Coordenação, professores, funcionários e administradores. */
+    public boolean ehDaEquipe() {
+        return false;
+    }
+
     public boolean podeGerarConvite() {
         return false;
     }
