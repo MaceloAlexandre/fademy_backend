@@ -13,7 +13,7 @@ a etapa anterior termina.
 | E1 — Esqueleto | #1–#3 | Projeto compila, Singleton conectado aos dois bancos, `/health` e erros no padrão |
 | E2 — Identidade | #4–#6 | Hierarquia de usuários, carga inicial, login funcionando no frontend |
 | E3 — Entrada | #13–#16 | Fluxo completo de convite → cadastro (o diagrama de sequência) |
-| E4 — Social | a publicar | Notificações no Mongo, perfil, busca, seguir, bloquear |
+| E4 — Social | #21–#26 | Notificações no Mongo, perfil, busca, seguir, bloquear |
 | E5 — Conteúdo | a publicar | Posts, feed, comentários |
 | E6 — Chat | a publicar | Conversas e mensagens no Mongo, tempo real |
 | E7 — Fechamento | a publicar | Painel admin, diagramas UML novos, roteiro da apresentação |
@@ -238,14 +238,16 @@ primeira delas, `GET /api/categories`.
 
 ## E4 — Social (resumo)
 
+Reordenada pelas dependências: seguir vem primeiro, porque perfil, busca e notificações usam os follows.
+
 | # | Título | Regras | Destaque |
 |---|---|---|---|
-| — | Notificações no MongoDB | RN35, RN36, RN48 | Listar, marcar como lida e excluir; ator populado a partir do Postgres (a criação entra no #16) |
-| — | Ver e editar perfil | RN17, RN18 | Perfil privado × público; `GET/PATCH /api/users/me` |
-| — | Busca e sugestões | RN19, RN20 | Consultas com exclusão de bloqueios e follows |
-| — | Seguir e deixar de seguir | RN21, RN22 | `Seguir.solicitar()`: privado nasce `pending` |
-| — | Aceitar e rejeitar pedido | RN23, RN24 | `Seguir.aceitarPor()` |
-| — | Bloquear e desbloquear | RN25–RN27, RN47 | Postgres (follows, bloqueio) + Mongo (limpeza de notificações) no mesmo caso de uso |
+| 21 | Seguir e deixar de seguir | RN21, RN22 | `Seguir.solicitar()`: privado nasce `pending`; cria também a tabela de bloqueios |
+| 22 | Aceitar e rejeitar pedido de seguir | RN23, RN24 | `Seguir.aceitarPor()` / `rejeitarPor()` |
+| 23 | Bloquear e desbloquear | RN25, RN26, RN47 | Postgres (follows, bloqueio) + Mongo (limpeza de pedidos) no mesmo caso de uso |
+| 24 | Ver e editar perfil | RN17, RN18 | Perfil privado × público; `GET/PATCH /api/users/me` |
+| 25 | Busca e sugestões de usuários | RN19, RN20 | Exclusão de bloqueios e follows; equipe primeiro |
+| 26 | Listar, ler e excluir notificações | RN35, RN36, RN48 | Mongo + Postgres na leitura; primeira paginação por cursor |
 
 ## E5 — Conteúdo (resumo)
 
