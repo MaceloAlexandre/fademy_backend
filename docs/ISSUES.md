@@ -15,7 +15,7 @@ a etapa anterior termina.
 | E3 — Entrada | #13–#16 | Fluxo completo de convite → cadastro (o diagrama de sequência) |
 | E4 — Social | #21–#26 | Notificações no Mongo, perfil, busca, seguir, bloquear |
 | E5 — Conteúdo | #33–#36 | Posts, feed, comentários |
-| E6 — Chat | a publicar | Conversas e mensagens no Mongo, tempo real |
+| E6 — Chat | #41–#43 | Conversas e mensagens no Mongo, tempo real |
 | E7 — Fechamento | a publicar | Painel admin, diagramas UML novos, roteiro da apresentação |
 
 ---
@@ -260,11 +260,13 @@ Reordenada pelas dependências: seguir vem primeiro, porque perfil, busca e noti
 
 ## E6 — Chat (resumo)
 
+Ordem: conversas → servidor de tempo real → mensagens (que já emitem o evento).
+
 | # | Título | Regras | Destaque |
 |---|---|---|---|
-| — | Conversas 1:1 | RN38–RN40 | Conversa no Mongo, regra de seguidores mútuos e bloqueio no Postgres |
-| — | Enviar e listar mensagens | RN41, RN42 | Mensagem no Mongo + notificação + evento |
-| — | Tempo real com Socket.IO | RN43 | `TempoRealGateway` + netty-socketio; o chat do React atual atualiza sozinho |
+| 41 | Conversas 1:1 | RN38–RN40, D7 | Conversa no Mongo (índice único por par); quem pode conversar vem do Postgres |
+| 42 | Tempo real com Socket.IO na porta da API | RN43 | `socket.io-server-java` no Tomcat (polling + WebSocket), sem mudar o React |
+| 43 | Enviar e listar mensagens | RN39, RN41, RN42, D10 | Mensagem no Mongo + notificação + `message:new` |
 
 ## E7 — Fechamento (resumo)
 

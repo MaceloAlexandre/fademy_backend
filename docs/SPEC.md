@@ -498,4 +498,5 @@ Cada issue, ao ser entregue, registra aqui as regras que cobre.
 | RN29; RN27 no feed | #34 | entregue |
 | RN30, RN31 (D5, D6); RN27 em posts | #35 | entregue |
 | RN32, RN33 (D4), RN34 (`post_comment`), RN46 | #36 | entregue |
+| RN38 (D7), RN39 (sem última mensagem), RN40 | #41 | entregue |
 | demais | — | a implementar |
