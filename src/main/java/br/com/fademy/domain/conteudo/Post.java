@@ -61,6 +61,10 @@ public class Post {
         imagens.add(url);
     }
 
+    public boolean daInstituicao(String instituicaoId) {
+        return this.instituicaoId.equals(instituicaoId);
+    }
+
     public boolean temLink() {
         return linkUrl != null;
     }

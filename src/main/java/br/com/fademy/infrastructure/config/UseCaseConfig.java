@@ -26,6 +26,7 @@ import br.com.fademy.application.service.GerarConviteService;
 import br.com.fademy.application.service.LerNotificacaoService;
 import br.com.fademy.application.service.ListarCategoriasService;
 import br.com.fademy.application.service.ListarNotificacoesService;
+import br.com.fademy.application.service.ListarPostsDoUsuarioService;
 import br.com.fademy.application.service.PublicarPostService;
 import br.com.fademy.application.service.RegistrarViaConviteService;
 import br.com.fademy.application.service.RejeitarPedidoService;
@@ -34,6 +35,7 @@ import br.com.fademy.application.service.SeguirUsuarioService;
 import br.com.fademy.application.service.SugerirUsuariosService;
 import br.com.fademy.application.service.VerFeedService;
 import br.com.fademy.application.service.VerPerfilService;
+import br.com.fademy.application.service.VerPostService;
 import br.com.fademy.application.service.VerificarSaudeService;
 import br.com.fademy.application.usecase.AceitarPedidoUseCase;
 import br.com.fademy.application.usecase.AutenticarUseCase;
@@ -49,6 +51,7 @@ import br.com.fademy.application.usecase.GerarConviteUseCase;
 import br.com.fademy.application.usecase.LerNotificacaoUseCase;
 import br.com.fademy.application.usecase.ListarCategoriasUseCase;
 import br.com.fademy.application.usecase.ListarNotificacoesUseCase;
+import br.com.fademy.application.usecase.ListarPostsDoUsuarioUseCase;
 import br.com.fademy.application.usecase.PublicarPostUseCase;
 import br.com.fademy.application.usecase.RegistrarViaConviteUseCase;
 import br.com.fademy.application.usecase.RejeitarPedidoUseCase;
@@ -57,6 +60,7 @@ import br.com.fademy.application.usecase.SeguirUsuarioUseCase;
 import br.com.fademy.application.usecase.SugerirUsuariosUseCase;
 import br.com.fademy.application.usecase.VerFeedUseCase;
 import br.com.fademy.application.usecase.VerPerfilUseCase;
+import br.com.fademy.application.usecase.VerPostUseCase;
 import br.com.fademy.application.usecase.VerificarSaudeUseCase;
 import br.com.fademy.infrastructure.mongo.MongoSaudeGateway;
 import br.com.fademy.infrastructure.postgres.PostgresSaudeGateway;
@@ -197,5 +201,18 @@ public class UseCaseConfig {
     @Bean
     public VerFeedUseCase verFeed(UsuarioGateway usuarios, PostGateway posts, CategoriaGateway categorias) {
         return new VerFeedService(usuarios, posts, categorias);
+    }
+
+    @Bean
+    public VerPostUseCase verPost(UsuarioGateway usuarios, PostGateway posts, BloqueioGateway bloqueios,
+                                  CategoriaGateway categorias) {
+        return new VerPostService(usuarios, posts, bloqueios, categorias);
+    }
+
+    @Bean
+    public ListarPostsDoUsuarioUseCase listarPostsDoUsuario(UsuarioGateway usuarios, PostGateway posts,
+                                                            SeguirGateway seguires, BloqueioGateway bloqueios,
+                                                            CategoriaGateway categorias) {
+        return new ListarPostsDoUsuarioService(usuarios, posts, seguires, bloqueios, categorias);
     }
 }

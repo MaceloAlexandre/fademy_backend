@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -62,6 +63,36 @@ public class PostgresPostGateway implements PostGateway {
         }
         return new Post(id.toString(), p.autorId(), p.instituicaoId(), p.texto(), p.imagens(), p.linkUrl(),
                 p.categoriaIds(), p.comentarios(), p.criadoEm());
+    }
+
+    @Override
+    public Optional<Post> buscarPorId(String id) {
+        return Ids.ler(id).flatMap(uuid -> jdbc.sql("select " + COLUNAS + " from post p where p.id = :id")
+                .param("id", uuid)
+                .query(POST)
+                .optional());
+    }
+
+    @Override
+    public List<Post> doAutor(String autorId, String instituicaoId, String cursor, int quantidade) {
+        UUID aPartirDe = cursor(cursor);
+        Optional<UUID> autor = Ids.ler(autorId);
+        if (autor.isEmpty()) {
+            return List.of();
+        }
+        return jdbc.sql("select " + COLUNAS + """
+                        from post p
+                        where p.autor_id = :autor and p.instituicao_id = :instituicao
+                          and (cast(:cursor as uuid) is null or p.id < :cursor)
+                        order by p.id desc
+                        limit :quantidade
+                        """)
+                .param("autor", autor.get())
+                .param("instituicao", UUID.fromString(instituicaoId))
+                .param("cursor", aPartirDe)
+                .param("quantidade", quantidade)
+                .query(POST)
+                .list();
     }
 
     @Override
