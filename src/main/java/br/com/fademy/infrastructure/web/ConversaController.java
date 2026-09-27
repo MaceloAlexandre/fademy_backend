@@ -57,7 +57,8 @@ public class ConversaController {
     private static ConversaResponse<Autor> de(ConversaDetalhada d) {
         Conversa c = d.conversa();
         return new ConversaResponse<>(c.id(), d.membros().stream().map(Autor::de).toList(), false, c.criadaPorId(),
-                c.criadaEm(), c.atualizadaEm(), null);
+                c.criadaEm(), c.atualizadaEm(),
+                d.ultimaMensagem() != null ? MensagemResponse.de(d.ultimaMensagem()) : null);
     }
 
     public record IniciarRequest(String userId) {
@@ -65,7 +66,8 @@ public class ConversaController {
 
     /** Membros como ids (ao criar) ou populados (na lista), SPEC 5.3. */
     public record ConversaResponse<M>(@JsonProperty("_id") String id, List<M> memberIds, boolean isGroup,
-                                      String createdById, Instant createdAt, Instant updatedAt, Object lastMessage) {
+                                      String createdById, Instant createdAt, Instant updatedAt,
+                                      MensagemResponse lastMessage) {
     }
 
     public record ConversaCriadaResponse(ConversaResponse<String> conversation) {

@@ -502,4 +502,5 @@ Cada issue, ao ser entregue, registra aqui as regras que cobre.
 | RN32, RN33 (D4), RN34 (`post_comment`), RN46 | #36 | entregue |
 | RN38 (D7), RN39 (sem última mensagem), RN40 | #41 | entregue |
 | RN43 (conexão, autenticação e salas) | #42 | entregue |
+| RN39 (última mensagem), RN41, RN42, RN43 (`message:new`), RN34 (`message_received`), D10 | #43 | entregue |
 | demais | — | a implementar |

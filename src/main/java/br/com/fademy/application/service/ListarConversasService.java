@@ -1,6 +1,7 @@
 package br.com.fademy.application.service;
 
 import br.com.fademy.application.gateway.ConversaGateway;
+import br.com.fademy.application.gateway.MensagemGateway;
 import br.com.fademy.application.gateway.UsuarioGateway;
 import br.com.fademy.application.usecase.ListarConversasUseCase;
 import br.com.fademy.domain.conversa.Conversa;
@@ -17,10 +18,12 @@ public class ListarConversasService implements ListarConversasUseCase {
 
     private final UsuarioGateway usuarios;
     private final ConversaGateway conversas;
+    private final MensagemGateway mensagens;
 
-    public ListarConversasService(UsuarioGateway usuarios, ConversaGateway conversas) {
+    public ListarConversasService(UsuarioGateway usuarios, ConversaGateway conversas, MensagemGateway mensagens) {
         this.usuarios = usuarios;
         this.conversas = conversas;
+        this.mensagens = mensagens;
     }
 
     @Override
@@ -30,8 +33,10 @@ public class ListarConversasService implements ListarConversasUseCase {
         Map<String, Usuario> membros = usuarios.buscarPorIds(
                         minhas.stream().flatMap(c -> c.membros().stream()).collect(Collectors.toSet()))
                 .stream().collect(Collectors.toMap(Usuario::id, Function.identity()));
+        // Uma consulta de última mensagem por conversa: a lista de conversas de alguém é curta.
         return minhas.stream().map(c -> new ConversaDetalhada(c,
-                c.membros().stream().map(membros::get).filter(Objects::nonNull).toList())).toList();
+                c.membros().stream().map(membros::get).filter(Objects::nonNull).toList(),
+                mensagens.ultimaDe(c.id()).orElse(null))).toList();
     }
 
     @Override
