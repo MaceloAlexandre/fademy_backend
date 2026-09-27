@@ -478,4 +478,5 @@ Cada issue, ao ser entregue, registra aqui as regras que cobre.
 |---|---|---|
 | RN45 | #2 | entregue |
 | Seção 5.1: erros, datas, CORS | #3 | entregue |
+| RN04, RN05, RN06 (no domínio) | #4 | entregue |
 | demais | — | a implementar |
