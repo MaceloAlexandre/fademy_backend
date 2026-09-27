@@ -1,0 +1,87 @@
+package br.com.fademy.domain.usuario;
+
+import java.time.Instant;
+
+/**
+ * Usuário da Fademy. Cada papel é uma subclasse e responde o que pode fazer (SPEC RN05).
+ * Por padrão, nenhuma permissão especial: as subclasses liberam o que o papel permite.
+ */
+public abstract class Usuario {
+
+    private final String id;
+    private final String instituicaoId;
+    private final String nome;
+    private final String email;
+    private final String senhaHash;
+    private final String avatarUrl;
+    private final boolean privado;
+    private final boolean ativo;
+    private final Instant criadoEm;
+
+    protected Usuario(DadosUsuario dados) {
+        this.id = dados.id();
+        this.instituicaoId = dados.instituicaoId();
+        this.nome = dados.nome();
+        this.email = dados.email();
+        this.senhaHash = dados.senhaHash();
+        this.avatarUrl = dados.avatarUrl();
+        this.privado = dados.privado();
+        this.ativo = dados.ativo();
+        this.criadoEm = dados.criadoEm();
+    }
+
+    public abstract Papel papel();
+
+    public boolean podeGerarConvite() {
+        return false;
+    }
+
+    /** Só administrador gera convite para outro administrador. */
+    public boolean podeGerarConvitePara(Papel alvo) {
+        return podeGerarConvite() && alvo != Papel.ADMIN;
+    }
+
+    public boolean podePublicarLink() {
+        return false;
+    }
+
+    public boolean podeAcessarPainelAdmin() {
+        return false;
+    }
+
+    public String id() {
+        return id;
+    }
+
+    public String instituicaoId() {
+        return instituicaoId;
+    }
+
+    public String nome() {
+        return nome;
+    }
+
+    public String email() {
+        return email;
+    }
+
+    public String senhaHash() {
+        return senhaHash;
+    }
+
+    public String avatarUrl() {
+        return avatarUrl;
+    }
+
+    public boolean privado() {
+        return privado;
+    }
+
+    public boolean ativo() {
+        return ativo;
+    }
+
+    public Instant criadoEm() {
+        return criadoEm;
+    }
+}
