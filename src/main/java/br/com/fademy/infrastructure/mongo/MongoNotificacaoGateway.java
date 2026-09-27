@@ -56,4 +56,17 @@ public class MongoNotificacaoGateway implements NotificacaoGateway {
             log.error("Falha ao apagar pedido de seguir de {} para {}", atorId, destinatarioId, e);
         }
     }
+
+    @Override
+    public void removerPedidosDeSeguirEntre(String usuarioA, String usuarioB) {
+        try {
+            colecao.deleteMany(Filters.and(
+                    Filters.eq("tipo", "follow_request"),
+                    Filters.or(
+                            Filters.and(Filters.eq("atorId", usuarioA), Filters.eq("destinatarioId", usuarioB)),
+                            Filters.and(Filters.eq("atorId", usuarioB), Filters.eq("destinatarioId", usuarioA)))));
+        } catch (MongoException e) {
+            log.error("Falha ao apagar pedidos de seguir entre {} e {}", usuarioA, usuarioB, e);
+        }
+    }
 }

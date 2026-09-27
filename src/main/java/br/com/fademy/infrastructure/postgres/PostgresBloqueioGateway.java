@@ -4,6 +4,8 @@ import br.com.fademy.application.gateway.BloqueioGateway;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -32,5 +34,31 @@ public class PostgresBloqueioGateway implements BloqueioGateway {
                 .param("b", b.get())
                 .query(Boolean.class)
                 .single();
+    }
+
+    @Override
+    public void bloquear(String bloqueadorId, String bloqueadoId) {
+        jdbc.sql("""
+                        insert into bloqueio (id, bloqueador_id, bloqueado_id, criado_em)
+                        values (:id, :bloqueador, :bloqueado, :agora)
+                        on conflict (bloqueador_id, bloqueado_id) do nothing
+                        """)
+                .param("id", Ids.novo())
+                .param("bloqueador", UUID.fromString(bloqueadorId))
+                .param("bloqueado", UUID.fromString(bloqueadoId))
+                .param("agora", Timestamp.from(Instant.now()))
+                .update();
+    }
+
+    @Override
+    public void desbloquear(String bloqueadorId, String bloqueadoId) {
+        Optional<UUID> bloqueador = Ids.ler(bloqueadorId);
+        Optional<UUID> bloqueado = Ids.ler(bloqueadoId);
+        if (bloqueador.isPresent() && bloqueado.isPresent()) {
+            jdbc.sql("delete from bloqueio where bloqueador_id = :bloqueador and bloqueado_id = :bloqueado")
+                    .param("bloqueador", bloqueador.get())
+                    .param("bloqueado", bloqueado.get())
+                    .update();
+        }
     }
 }
