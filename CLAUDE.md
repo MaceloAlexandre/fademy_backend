@@ -1,146 +1,80 @@
-# CLAUDE.md
+# Fademy API — contexto para o Claude
 
-Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
+API da Fademy, rede social acadêmica só por convite e multi-instituição (primeira
+instituição: Faculdade Católica da Paraíba). Projeto da disciplina de Programação Orientada
+a Objetos. Autores: Macelo Alexandre, Wacelys Nunes e Arthur Casimiro.
 
-**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
+Repo `MaceloAlexandre/fademy_backend`, branch `main`. Frontend React em `../fademy_frontend`
+(`MaceloAlexandre/fademy_frontend`), que **não muda**: a API mantém o contrato do backend Node
+antigo, que está na branch `legado-node` (só consulta). O exemplo de Singleton/Adapter do
+professor e a análise de POO do grupo estão em `docs/referencias/`.
 
-## 1. Think Before Coding
+## Documentos (leia antes de mexer)
 
-**Don't assume. Don't hide confusion. Surface tradeoffs.**
+- `docs/SPEC.md` — regras de negócio (RN01...) e contrato da API. **Fonte da verdade.**
+- `docs/ARQUITETURA.md` — camadas, pacotes, Singleton, convenções de código.
+- `.claude/skills/github-issue-implementation/SKILL.md` — como implementar uma issue.
 
-Before implementing:
+## Stack e comandos
 
-- State your assumptions explicitly. If uncertain, ask.
-- If multiple interpretations exist, present them - don't pick silently.
-- If a simpler approach exists, say so. Push back when warranted.
-- If something is unclear, stop. Name what's confusing. Ask.
+Java 25 · Spring Boot 4.1 · PostgreSQL 17 + Flyway · MongoDB 8 · MinIO (S3) · netty-socketio ·
+JUnit 5 + Mockito + Testcontainers + ArchUnit. Build pelo wrapper, sem Maven instalado.
 
-## 2. Simplicity First
-
-**Minimum code that solves the problem. Nothing speculative.**
-
-- No features beyond what was asked.
-- No abstractions for single-use code.
-- No "flexibility" or "configurability" that wasn't requested.
-- No error handling for impossible scenarios.
-- If you write 200 lines and it could be 50, rewrite it.
-
-Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
-
-## 3. Surgical Changes
-
-**Touch only what you must. Clean up only your own mess.**
-
-When editing existing code:
-
-- Don't "improve" adjacent code, comments, or formatting.
-- Don't refactor things that aren't broken.
-- Match existing style, even if you'd do it differently.
-- If you notice unrelated dead code, mention it - don't delete it.
-
-When your changes create orphans:
-
-- Remove imports/variables/functions that YOUR changes made unused.
-- Don't remove pre-existing dead code unless asked.
-
-The test: Every changed line should trace directly to the user's request.
-
-## 4. Goal-Driven Execution
-
-**Define success criteria. Loop until verified.**
-
-Transform tasks into verifiable goals:
-
-- "Add validation" → "Write tests for invalid inputs, then make them pass"
-- "Fix the bug" → "Write a test that reproduces it, then make it pass"
-- "Refactor X" → "Ensure tests pass before and after"
-
-For multi-step tasks, state a brief plan:
-
+```bash
+docker compose up -d       # postgres, mongo, minio
+./mvnw spring-boot:run     # API em :3000
+./mvnw verify              # todos os testes (Docker rodando)
 ```
 
-1. [Step] → verify: [check]
-2. [Step] → verify: [check]
-3. [Step] → verify: [check]
+## Regras que não se negociam
 
-```
+- **Clean Architecture:** `domain` e `application` sem Spring, JPA ou Mongo. Todo caso de uso
+  é interface (`application/usecase`) + implementação (`application/service`); todo acesso
+  externo é interface (`application/gateway`) + implementação (`infrastructure/`).
+- **Orientação a objetos:** regra sobre um objeto é método dele. Variação por papel é
+  polimorfismo na hierarquia de `Usuario`, nunca `if (papel.equals("aluno"))`.
+- **Singleton:** só o `DatabaseConfig` chama `DatabaseManager.getInstance()`, na subida.
+- **Contrato:** rotas, status, mensagens de erro e nomes de campo (`_id`) seguem o SPEC seção 5.
+- **Migrations Flyway:** nunca editar uma já commitada; sempre uma nova.
 
-Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+## Fluxo de trabalho: issues + SDD
+
+Todo trabalho nasce de uma issue com critérios de aceite (Dado / Quando / Então), agrupada
+por milestone (etapa) e acompanhada no Project **Fademy**. Para implementar, use a skill
+`github-issue-implementation`: branch `feature/<id>` ou `bugfix/<id>` a partir da `main`,
+teste para cada critério, SPEC atualizado, commit `feat #<id>: ...` / `fix #<id>: ...`,
+PR com `Refs #<id>`. O merge é do usuário. Não use `.planning/` nem comandos `/gsd-*`.
+
+Onde houver bifurcação real (schema, regra de negócio, contrato), **pergunte com uma
+recomendação**; não decida sozinho.
 
 ---
 
-**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
+## Diretrizes de código
 
-<!-- GSD:project-start source:PROJECT.md -->
+**Tradeoff:** estas diretrizes favorecem cautela em vez de velocidade. Em tarefa trivial, use o bom senso.
 
-## Project
+### 1. Pense antes de codar
 
-**Fademy**
+- Explicite suposições. Se estiver em dúvida, pergunte.
+- Se houver mais de uma interpretação, apresente-as; não escolha em silêncio.
+- Se existir um caminho mais simples, diga. Discorde quando fizer sentido.
 
-Fademy is a mobile-first, invite-only mini social network for educational institutions — built first for the **Faculdade Católica da Paraíba** but multi-tenant from day one. Students, professors, staff, and coordinators join by invitation, build profiles, post content (text/images/links) tagged by category, follow each other, comment, get in-app notifications, and chat 1:1 or in groups. It ships as an Express/MongoDB REST API plus a React web frontend, and is intended to go to production on the owner's VPS.
+### 2. Simplicidade primeiro
 
-**Core Value:** A student opens Fademy on their phone, gets in via an invite, and immediately sees a personalized feed of posts from people they follow — and can post their own. The invite→register→post→feed loop is the heart; if that works flawlessly on mobile, Fademy feels real.
+- Só o que a issue pede. Nada especulativo.
+- Sem abstração para um único uso além das que a arquitetura exige (use case, gateway).
+- Sem tratamento de erro para cenário impossível.
 
-### Constraints
+### 3. Mudanças cirúrgicas
 
-- **Tech stack (backend)**: Node.js, Express, MongoDB, Mongoose, dotenv, JWT — fixed by the existing spec.
-- **Tech stack (frontend)**: React, mobile-first — chosen by owner; native app is a later milestone.
-- **Design**: Color palette dark blue, black, beige, tobacco brown — owner-specified brand for Fademy.
-- **Real-time**: Socket.io for chat messages; polling for notifications — balances demo impact against the owner's real-time experience and the 3-week window.
-- **Media**: Uploads to S3 (owner has a bucket).
-- **Deployment**: VPS owned by the user.
-- **Timeline**: ~3 weeks until institutional presentation — slice work as vertical MVP so there's always a deployable, demo-able product; highest-risk features (chat) land last.
-- **Multi-tenancy**: institution scoping required from day one, even though only Católica PB seeds initially.
+- Não "melhore" código vizinho, comentários ou formatação.
+- Siga o estilo existente.
+- Código morto não relacionado: mencione, não apague.
+- Toda linha alterada deve se ligar ao pedido.
 
-<!-- GSD:project-end -->
+### 4. Execução guiada por objetivo
 
-<!-- GSD:stack-start source:STACK.md -->
-
-## Technology Stack
-
-Technology stack not yet documented. Will populate after codebase mapping or first phase.
-<!-- GSD:stack-end -->
-
-<!-- GSD:conventions-start source:CONVENTIONS.md -->
-
-## Conventions
-
-Conventions not yet established. Will populate as patterns emerge during development.
-<!-- GSD:conventions-end -->
-
-<!-- GSD:architecture-start source:ARCHITECTURE.md -->
-
-## Architecture
-
-Architecture not yet mapped. Follow existing patterns found in the codebase.
-<!-- GSD:architecture-end -->
-
-<!-- GSD:skills-start source:skills/ -->
-
-## Project Skills
-
-No project skills found. Add skills to any of: `.claude/skills/`, `.agents/skills/`, `.cursor/skills/`, `.github/skills/`, or `.codex/skills/` with a `SKILL.md` index file.
-<!-- GSD:skills-end -->
-
-<!-- GSD:workflow-start source:GSD defaults -->
-
-## GSD Workflow Enforcement
-
-Before using Edit, Write, or other file-changing tools, start work through a GSD command so planning artifacts and execution context stay in sync.
-
-Use these entry points:
-
-- `/gsd:quick` for small fixes, doc updates, and ad-hoc tasks
-- `/gsd:debug` for investigation and bug fixing
-- `/gsd:execute-phase` for planned phase work
-
-Do not make direct repo edits outside a GSD workflow unless the user explicitly asks to bypass it.
-<!-- GSD:workflow-end -->
-
-<!-- GSD:profile-start -->
-
-## Developer Profile
-
-> Profile not yet configured. Run `/gsd:profile-user` to generate your developer profile.
-> This section is managed by `generate-claude-profile` -- do not edit manually.
-<!-- GSD:profile-end -->
+- Transforme a tarefa em critério verificável ("adicionar validação" → "teste com entrada
+  inválida, depois fazer passar").
+- Repita até verificar. Critério fraco ("fazer funcionar") exige esclarecimento.

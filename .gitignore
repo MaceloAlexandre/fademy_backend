@@ -1,5 +1,13 @@
-node_modules/
+# Build
+target/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Ambiente
 .env
-coverage/
-*.log
+
+# SO
 .DS_Store
