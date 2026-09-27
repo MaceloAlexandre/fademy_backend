@@ -1,6 +1,12 @@
 package br.com.fademy.infrastructure.config;
 
+import br.com.fademy.application.gateway.CategoriaGateway;
+import br.com.fademy.application.gateway.InstituicaoGateway;
+import br.com.fademy.application.gateway.SenhaGateway;
+import br.com.fademy.application.gateway.UsuarioGateway;
+import br.com.fademy.application.service.CarregarDadosIniciaisService;
 import br.com.fademy.application.service.VerificarSaudeService;
+import br.com.fademy.application.usecase.CarregarDadosIniciaisUseCase;
 import br.com.fademy.application.usecase.VerificarSaudeUseCase;
 import br.com.fademy.infrastructure.mongo.MongoSaudeGateway;
 import br.com.fademy.infrastructure.postgres.PostgresSaudeGateway;
@@ -20,5 +26,12 @@ public class UseCaseConfig {
     @Bean
     public VerificarSaudeUseCase verificarSaude(DataSource dataSource, MongoClient mongo) {
         return new VerificarSaudeService(new PostgresSaudeGateway(dataSource), new MongoSaudeGateway(mongo));
+    }
+
+    @Bean
+    public CarregarDadosIniciaisUseCase carregarDadosIniciais(InstituicaoGateway instituicoes,
+                                                              CategoriaGateway categorias,
+                                                              UsuarioGateway usuarios, SenhaGateway senhas) {
+        return new CarregarDadosIniciaisService(instituicoes, categorias, usuarios, senhas);
     }
 }
