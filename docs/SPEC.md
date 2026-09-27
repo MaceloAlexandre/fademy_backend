@@ -428,7 +428,9 @@ quando os dois bancos respondem; senão 503 `{ status: "degraded", postgres, mon
 ```
 
 Em RN38 `memberIds` é a lista de ids; em RN39 cada membro vem populado `{ _id, name, avatarUrl }`.
-No post criado (RN28) `authorId` e `categoryIds` vêm como ids, sem popular.
+No post criado (RN28) `authorId` e `categoryIds` vêm como ids, sem popular. O comentário criado
+(RN32) já vem com `authorId` populado, para a tela mostrar nome e foto sem recarregar (no Node
+vinha só o id; #36).
 
 ### 5.4 Paginação por cursor
 
@@ -495,4 +497,5 @@ Cada issue, ao ser entregue, registra aqui as regras que cobre.
 | RN28, RN15 (imagens de post), D9 | #33 | entregue |
 | RN29; RN27 no feed | #34 | entregue |
 | RN30, RN31 (D5, D6); RN27 em posts | #35 | entregue |
+| RN32, RN33 (D4), RN34 (`post_comment`), RN46 | #36 | entregue |
 | demais | — | a implementar |

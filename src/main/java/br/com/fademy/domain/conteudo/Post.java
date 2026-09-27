@@ -65,6 +65,11 @@ public class Post {
         return this.instituicaoId.equals(instituicaoId);
     }
 
+    /** O autor é avisado dos comentários dos outros, não dos próprios (SPEC RN32). */
+    public boolean notificaAutorSobreComentarioDe(Usuario comentarista) {
+        return !autorId.equals(comentarista.id());
+    }
+
     public boolean temLink() {
         return linkUrl != null;
     }
