@@ -3,10 +3,15 @@ package br.com.fademy.infrastructure.config;
 import br.com.fademy.application.gateway.CategoriaGateway;
 import br.com.fademy.application.gateway.InstituicaoGateway;
 import br.com.fademy.application.gateway.SenhaGateway;
+import br.com.fademy.application.gateway.TokenGateway;
 import br.com.fademy.application.gateway.UsuarioGateway;
+import br.com.fademy.application.service.AutenticarService;
 import br.com.fademy.application.service.CarregarDadosIniciaisService;
+import br.com.fademy.application.service.ListarCategoriasService;
 import br.com.fademy.application.service.VerificarSaudeService;
+import br.com.fademy.application.usecase.AutenticarUseCase;
 import br.com.fademy.application.usecase.CarregarDadosIniciaisUseCase;
+import br.com.fademy.application.usecase.ListarCategoriasUseCase;
 import br.com.fademy.application.usecase.VerificarSaudeUseCase;
 import br.com.fademy.infrastructure.mongo.MongoSaudeGateway;
 import br.com.fademy.infrastructure.postgres.PostgresSaudeGateway;
@@ -33,5 +38,15 @@ public class UseCaseConfig {
                                                               CategoriaGateway categorias,
                                                               UsuarioGateway usuarios, SenhaGateway senhas) {
         return new CarregarDadosIniciaisService(instituicoes, categorias, usuarios, senhas);
+    }
+
+    @Bean
+    public AutenticarUseCase autenticar(UsuarioGateway usuarios, SenhaGateway senhas, TokenGateway tokens) {
+        return new AutenticarService(usuarios, senhas, tokens);
+    }
+
+    @Bean
+    public ListarCategoriasUseCase listarCategorias(CategoriaGateway categorias) {
+        return new ListarCategoriasService(categorias);
     }
 }

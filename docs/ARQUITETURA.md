@@ -258,9 +258,12 @@ Um teste garante que o objeto usado pelo Spring é o mesmo que `getInstance` dev
 | qualquer outra | 500 `Internal server error` |
 
   Corpo sempre `{ "error": "<mensagem>" }`, com a mensagem exata do SPEC.
-- A autenticação é um filtro que valida o JWT e coloca o visualizador (`id`, `papel`,
-  `instituicaoId`) no contexto da requisição. A permissão por papel é decidida pelo domínio
-  (`usuario.podeGerarConvite()`), não por anotação no controller.
+- A autenticação é um `HandlerInterceptor` (`Autenticacao`) nas rotas `/api/**` que não são
+  públicas (lista em `WebConfig`). Ele valida o JWT pelo `TokenGateway` e guarda o
+  `Visualizador` (`id`, `papel`, `instituicaoId`) na requisição; o controller o recebe como
+  parâmetro. Por ser interceptor, o 401 passa pelo `TratadorDeErros` como qualquer erro.
+- A permissão por papel é decidida pelo domínio (`usuario.podeGerarConvite()`), não por
+  anotação no controller.
 
 ## 8. Ids
 
