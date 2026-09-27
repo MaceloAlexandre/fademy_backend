@@ -1,12 +1,17 @@
 package br.com.fademy.infrastructure.web;
 
 import br.com.fademy.application.usecase.ArquivoEnviado;
+import br.com.fademy.application.usecase.Pagina;
+import br.com.fademy.application.usecase.PostDetalhado;
 import br.com.fademy.application.usecase.PublicarPostUseCase;
+import br.com.fademy.application.usecase.VerFeedUseCase;
+import br.com.fademy.infrastructure.web.PostResponse.PaginaDePosts;
 import br.com.fademy.domain.conteudo.Post;
 import br.com.fademy.domain.usuario.Visualizador;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -22,9 +27,24 @@ import java.util.List;
 public class PostController {
 
     private final PublicarPostUseCase publicarPost;
+    private final VerFeedUseCase verFeed;
 
-    public PostController(PublicarPostUseCase publicarPost) {
+    public PostController(PublicarPostUseCase publicarPost, VerFeedUseCase verFeed) {
         this.publicarPost = publicarPost;
+        this.verFeed = verFeed;
+    }
+
+    /** SPEC RN29. */
+    @GetMapping("/api/posts/feed")
+    public PaginaDePosts feed(Visualizador visualizador,
+                              @RequestParam(required = false) String cursor,
+                              @RequestParam(required = false) String limit) {
+        return pagina(verFeed.executar(visualizador, cursor, limit));
+    }
+
+    static PaginaDePosts pagina(Pagina<PostDetalhado> pagina) {
+        return new PaginaDePosts(pagina.itens().stream().map(PostResponse::de).toList(), pagina.temMais(),
+                pagina.proximoCursor());
     }
 
     /** SPEC RN28. */

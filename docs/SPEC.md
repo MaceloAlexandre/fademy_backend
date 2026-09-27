@@ -492,4 +492,5 @@ Cada issue, ao ser entregue, registra aqui as regras que cobre.
 | RN19, RN20; RN27 para busca e sugestões | #25 | entregue |
 | RN35, RN36, RN48; seção 5.4 (paginação por cursor) | #26 | entregue |
 | RN28, RN15 (imagens de post), D9 | #33 | entregue |
+| RN29; RN27 no feed | #34 | entregue |
 | demais | — | a implementar |
