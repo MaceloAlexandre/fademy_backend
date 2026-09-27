@@ -489,4 +489,5 @@ Cada issue, ao ser entregue, registra aqui as regras que cobre.
 | RN23, RN24, RN34 (`follow_accepted`) | #22 | entregue |
 | RN25, RN26; RN27 para seguir | #23 | entregue |
 | RN17, RN18 (D2, D3); RN27 para perfil | #24 | entregue |
+| RN19, RN20; RN27 para busca e sugestões | #25 | entregue |
 | demais | — | a implementar |

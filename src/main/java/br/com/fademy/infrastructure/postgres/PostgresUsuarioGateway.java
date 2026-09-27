@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -50,6 +51,57 @@ public class PostgresUsuarioGateway implements UsuarioGateway {
                 .param("email", email)
                 .query(USUARIO)
                 .optional();
+    }
+
+    // Mesma instituição, sem o visualizador e sem bloqueio em nenhum sentido (SPEC RN19, RN20).
+    private static final String VISIVEIS = """
+            u.instituicao_id = :instituicao and u.id <> :eu
+            and not exists (select 1 from bloqueio b
+                            where (b.bloqueador_id = :eu and b.bloqueado_id = u.id)
+                               or (b.bloqueador_id = u.id and b.bloqueado_id = :eu))
+            """;
+
+    private static final String NOME_CONTEM =
+            "unaccent(lower(u.nome)) like '%' || unaccent(lower(:trecho)) || '%' escape '\\'";
+
+    @Override
+    public List<Usuario> buscarPorNome(Usuario visualizador, String trecho, int deslocamento, int limite) {
+        return jdbc.sql("select u.* from usuario u where " + VISIVEIS + " and " + NOME_CONTEM
+                        + " order by u.nome, u.id limit :limite offset :deslocamento")
+                .param("instituicao", UUID.fromString(visualizador.instituicaoId()))
+                .param("eu", UUID.fromString(visualizador.id()))
+                .param("trecho", escaparLike(trecho))
+                .param("limite", limite)
+                .param("deslocamento", deslocamento)
+                .query(USUARIO)
+                .list();
+    }
+
+    @Override
+    public long contarPorNome(Usuario visualizador, String trecho) {
+        return jdbc.sql("select count(*) from usuario u where " + VISIVEIS + " and " + NOME_CONTEM)
+                .param("instituicao", UUID.fromString(visualizador.instituicaoId()))
+                .param("eu", UUID.fromString(visualizador.id()))
+                .param("trecho", escaparLike(trecho))
+                .query(Long.class)
+                .single();
+    }
+
+    @Override
+    public List<Usuario> candidatosASugestao(Usuario visualizador) {
+        return jdbc.sql("select u.* from usuario u where " + VISIVEIS + """
+                         and not exists (select 1 from seguir s where s.seguidor_id = :eu and s.seguido_id = u.id)
+                        order by u.criado_em desc, u.id desc
+                        """)
+                .param("instituicao", UUID.fromString(visualizador.instituicaoId()))
+                .param("eu", UUID.fromString(visualizador.id()))
+                .query(USUARIO)
+                .list();
+    }
+
+    // O trecho digitado é texto, não padrão: % e _ valem como caracteres comuns.
+    private static String escaparLike(String trecho) {
+        return trecho.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_");
     }
 
     @Override

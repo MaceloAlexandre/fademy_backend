@@ -57,10 +57,19 @@ public class Cenario {
     }
 
     public Usuario usuario(Papel papel, Instituicao instituicao, boolean privado) {
+        return usuario(papel, instituicao, "Usuário " + papel.texto(), privado);
+    }
+
+    public Usuario usuario(Papel papel, Instituicao instituicao, String nome, boolean privado) {
         String email = papel.texto() + "-" + UUID.randomUUID() + "@teste.com";
         return usuarios.criar(papel.criarUsuario(new DadosUsuario(
-                null, instituicao.id(), "Usuário " + papel.texto(), email, senhas.gerarHash(SENHA),
+                null, instituicao.id(), nome, email, senhas.gerarHash(SENHA),
                 "http://avatar", privado, true, Instant.now())));
+    }
+
+    /** Instituição nova, só deste teste. */
+    public Instituicao instituicaoNova() {
+        return instituicao("teste-" + UUID.randomUUID());
     }
 
     public String token(Usuario usuario) {
