@@ -17,7 +17,7 @@ professor e a análise de POO do grupo estão em `docs/referencias/`.
 
 ## Stack e comandos
 
-Java 25 · Spring Boot 4.1 · PostgreSQL 17 + Flyway · MongoDB 8 · SeaweedFS (S3) · netty-socketio ·
+Java 25 · Spring Boot 4.1 · PostgreSQL 17 + Flyway · MongoDB 8 · SeaweedFS (S3) · socket.io-server-java ·
 JUnit 5 + Mockito + Testcontainers + ArchUnit. Build pelo wrapper, sem Maven instalado.
 Precisa do **JDK** 25 (o JRE não compila): `sudo apt install openjdk-25-jdk-headless`, ou um JDK
 em `~/.jdks/` com `JAVA_HOME` apontando para ele.

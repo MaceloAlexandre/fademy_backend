@@ -22,6 +22,8 @@
         <uuid-creator.version>6.1.1</uuid-creator.version>
         <java-jwt.version>4.6.1</java-jwt.version>
         <aws-sdk.version>2.55.6</aws-sdk.version>
+        <socket.io-server.version>4.1.2</socket.io-server.version>
+        <socket.io-client.version>2.1.2</socket.io-client.version>
     </properties>
 
     <dependencies>
@@ -69,6 +71,15 @@
             <artifactId>s3</artifactId>
             <version>${aws-sdk.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.socket</groupId>
+            <artifactId>socket.io-server</artifactId>
+            <version>${socket.io-server.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -89,6 +100,12 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers-mongodb</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.socket</groupId>
+            <artifactId>socket.io-client</artifactId>
+            <version>${socket.io-client.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
