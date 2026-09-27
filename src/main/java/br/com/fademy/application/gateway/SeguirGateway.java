@@ -14,6 +14,9 @@ public interface SeguirGateway {
 
     void removerPorId(String id);
 
+    /** Remove os follows entre A e B nos dois sentidos. */
+    void removerEntre(String usuarioA, String usuarioB);
+
     /**
      * Grava um follow novo e o devolve com id.
      *

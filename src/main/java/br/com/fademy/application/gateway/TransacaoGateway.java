@@ -9,4 +9,12 @@ import java.util.function.Supplier;
 public interface TransacaoGateway {
 
     <T> T executar(Supplier<T> acao);
+
+    /** Mesma coisa, para ações sem retorno. */
+    default void executar(Runnable acao) {
+        executar(() -> {
+            acao.run();
+            return null;
+        });
+    }
 }

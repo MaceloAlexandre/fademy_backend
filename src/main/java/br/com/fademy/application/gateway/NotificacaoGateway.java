@@ -15,4 +15,7 @@ public interface NotificacaoGateway {
 
     /** Apaga o pedido de seguir do ator para o destinatário, se houver. Mesma regra de falha do criar. */
     void removerPedidoDeSeguir(String atorId, String destinatarioId);
+
+    /** Apaga os pedidos de seguir entre A e B nos dois sentidos. Mesma regra de falha do criar. */
+    void removerPedidosDeSeguirEntre(String usuarioA, String usuarioB);
 }

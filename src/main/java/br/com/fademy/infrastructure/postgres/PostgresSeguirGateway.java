@@ -65,6 +65,17 @@ public class PostgresSeguirGateway implements SeguirGateway {
     }
 
     @Override
+    public void removerEntre(String usuarioA, String usuarioB) {
+        jdbc.sql("""
+                        delete from seguir
+                        where (seguidor_id = :a and seguido_id = :b) or (seguidor_id = :b and seguido_id = :a)
+                        """)
+                .param("a", UUID.fromString(usuarioA))
+                .param("b", UUID.fromString(usuarioB))
+                .update();
+    }
+
+    @Override
     public Seguir criar(Seguir s) {
         UUID id = Ids.novo();
         try {

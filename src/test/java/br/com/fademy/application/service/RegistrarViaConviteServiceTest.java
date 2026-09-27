@@ -55,7 +55,7 @@ class RegistrarViaConviteServiceTest {
         when(convites.buscarPorToken("tok")).thenReturn(Optional.of(convite));
         when(armazenamento.existe("avatars/a.jpg")).thenReturn(true);
         when(senhas.gerarHash("segredo")).thenReturn("hash");
-        when(transacao.executar(any())).thenAnswer(i -> ((Supplier<?>) i.getArgument(0)).get());
+        when(transacao.executar(any(Supplier.class))).thenAnswer(i -> ((Supplier<?>) i.getArgument(0)).get());
         when(usuarios.criar(any())).thenAnswer(i -> comId(i.getArgument(0)));
         when(convites.consumirVaga("id-convite")).thenReturn(true);
     }
@@ -69,7 +69,7 @@ class RegistrarViaConviteServiceTest {
         assertThat(criado.senhaHash()).isEqualTo("hash");
 
         InOrder ordem = inOrder(transacao, usuarios, convites, notificacoes);
-        ordem.verify(transacao).executar(any());
+        ordem.verify(transacao).executar(any(Supplier.class));
         ordem.verify(usuarios).criar(any());
         ordem.verify(convites).consumirVaga("id-convite");
         ArgumentCaptor<Notificacao> notificacao = ArgumentCaptor.captor();

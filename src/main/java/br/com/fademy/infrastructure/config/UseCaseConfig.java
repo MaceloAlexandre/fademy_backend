@@ -13,9 +13,11 @@ import br.com.fademy.application.gateway.TransacaoGateway;
 import br.com.fademy.application.gateway.UsuarioGateway;
 import br.com.fademy.application.service.AceitarPedidoService;
 import br.com.fademy.application.service.AutenticarService;
+import br.com.fademy.application.service.BloquearUsuarioService;
 import br.com.fademy.application.service.CarregarDadosIniciaisService;
 import br.com.fademy.application.service.ConsultarConviteService;
 import br.com.fademy.application.service.DeixarDeSeguirService;
+import br.com.fademy.application.service.DesbloquearUsuarioService;
 import br.com.fademy.application.service.EnviarAvatarService;
 import br.com.fademy.application.service.GerarConviteService;
 import br.com.fademy.application.service.ListarCategoriasService;
@@ -26,9 +28,11 @@ import br.com.fademy.application.service.SeguirUsuarioService;
 import br.com.fademy.application.service.VerificarSaudeService;
 import br.com.fademy.application.usecase.AceitarPedidoUseCase;
 import br.com.fademy.application.usecase.AutenticarUseCase;
+import br.com.fademy.application.usecase.BloquearUsuarioUseCase;
 import br.com.fademy.application.usecase.CarregarDadosIniciaisUseCase;
 import br.com.fademy.application.usecase.ConsultarConviteUseCase;
 import br.com.fademy.application.usecase.DeixarDeSeguirUseCase;
+import br.com.fademy.application.usecase.DesbloquearUsuarioUseCase;
 import br.com.fademy.application.usecase.EnviarAvatarUseCase;
 import br.com.fademy.application.usecase.GerarConviteUseCase;
 import br.com.fademy.application.usecase.ListarCategoriasUseCase;
@@ -121,5 +125,17 @@ public class UseCaseConfig {
     @Bean
     public RejeitarPedidoUseCase rejeitarPedido(SeguirGateway seguires) {
         return new RejeitarPedidoService(seguires);
+    }
+
+    @Bean
+    public BloquearUsuarioUseCase bloquearUsuario(UsuarioGateway usuarios, SeguirGateway seguires,
+                                                  BloqueioGateway bloqueios, NotificacaoGateway notificacoes,
+                                                  TransacaoGateway transacao) {
+        return new BloquearUsuarioService(usuarios, seguires, bloqueios, notificacoes, transacao);
+    }
+
+    @Bean
+    public DesbloquearUsuarioUseCase desbloquearUsuario(BloqueioGateway bloqueios) {
+        return new DesbloquearUsuarioService(bloqueios);
     }
 }
