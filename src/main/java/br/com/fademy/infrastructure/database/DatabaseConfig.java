@@ -1,6 +1,7 @@
 package br.com.fademy.infrastructure.database;
 
 import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoDatabase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -28,5 +29,10 @@ public class DatabaseConfig {
     @Bean(destroyMethod = "")
     public MongoClient mongoClient(DatabaseManager databaseManager) {
         return databaseManager.getMongo();
+    }
+
+    @Bean
+    public MongoDatabase mongoDatabase(DatabaseManager databaseManager) {
+        return databaseManager.getMongoDatabase();
     }
 }

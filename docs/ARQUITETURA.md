@@ -124,14 +124,23 @@ O service não conhece Spring, então não usa `@Transactional`. Ele pede uma tr
 `TransacaoGateway`:
 
 ```java
-transacao.executar(() -> {
-    usuarios.salvar(novo);
-    convites.consumirVaga(convite.id());   // SPEC RN13, RN46
+Usuario criado = transacao.executar(() -> {
+    Usuario usuario = usuarios.criar(novo);
+    if (!convites.consumirVaga(convite.id())) {          // SPEC RN13, RN46
+        throw new DadosInvalidosException("Invite has no remaining slots");
+    }
+    return usuario;
 });
-notificacoes.criar(...);                    // depois do commit (RN47), falha só vai pro log (RN37)
+notificacoes.criar(...);   // MongoDB, depois do commit (RN47)
 ```
 
 A implementação (`SpringTransacaoGateway`) usa o `TransactionTemplate` do Spring.
+
+### Notificação como efeito colateral
+
+O contrato do `NotificacaoGateway` diz que ele nunca lança exceção (SPEC RN37): a
+implementação no Mongo registra a falha no log. Assim nenhum service precisa repetir
+`try/catch` em volta de cada notificação.
 
 ## 5. Domínio com comportamento
 

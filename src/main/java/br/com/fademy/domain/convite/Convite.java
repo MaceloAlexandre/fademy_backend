@@ -84,6 +84,19 @@ public class Convite {
         return SituacaoConvite.VALIDO;
     }
 
+    /** Validações do convite no cadastro, na ordem e com as mensagens da SPEC RN16. */
+    public void garantirValido(Instant agora) {
+        if (status != StatusConvite.ACTIVE) {
+            throw new DadosInvalidosException("Invite is no longer valid");
+        }
+        if (expiraEm.isBefore(agora)) {
+            throw new DadosInvalidosException("Invite has expired");
+        }
+        if (usos >= maxUsos) {
+            throw new DadosInvalidosException("Invite has no remaining slots");
+        }
+    }
+
     public int vagasRestantes() {
         return maxUsos - usos;
     }

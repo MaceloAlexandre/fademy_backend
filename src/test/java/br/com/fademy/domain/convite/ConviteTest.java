@@ -124,4 +124,25 @@ class ConviteTest {
     private static Convite convite(StatusConvite status, int usos, int max, Instant expiraEm) {
         return new Convite("id", "inst", "autor", Papel.ALUNO, "token", max, usos, status, expiraEm, AGORA);
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "REVOKED, 0,  10,  60, Invite is no longer valid",
+            "EXPIRED, 10, 10,  60, Invite is no longer valid",
+            "ACTIVE,  0,  10, -60, Invite has expired",
+            "ACTIVE,  10, 10,  60, Invite has no remaining slots",
+    })
+    void garantirValidoComAsMensagensDaRN16(StatusConvite status, int usos, int max, long expiraEmSegundos,
+                                             String mensagem) {
+        Convite convite = convite(status, usos, max, AGORA.plusSeconds(expiraEmSegundos));
+
+        assertThatThrownBy(() -> convite.garantirValido(AGORA))
+                .isInstanceOf(DadosInvalidosException.class)
+                .hasMessage(mensagem);
+    }
+
+    @Test
+    void conviteValidoPassa() {
+        convite(StatusConvite.ACTIVE, 9, 10, AGORA.plusSeconds(60)).garantirValido(AGORA);
+    }
 }
