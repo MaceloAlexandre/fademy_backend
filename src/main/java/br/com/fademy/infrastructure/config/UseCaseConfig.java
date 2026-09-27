@@ -3,6 +3,7 @@ package br.com.fademy.infrastructure.config;
 import br.com.fademy.application.gateway.ArmazenamentoGateway;
 import br.com.fademy.application.gateway.BloqueioGateway;
 import br.com.fademy.application.gateway.CategoriaGateway;
+import br.com.fademy.application.gateway.ComentarioGateway;
 import br.com.fademy.application.gateway.ConviteGateway;
 import br.com.fademy.application.gateway.InstituicaoGateway;
 import br.com.fademy.application.gateway.NotificacaoGateway;
@@ -17,6 +18,7 @@ import br.com.fademy.application.service.AutenticarService;
 import br.com.fademy.application.service.BloquearUsuarioService;
 import br.com.fademy.application.service.BuscarUsuariosService;
 import br.com.fademy.application.service.CarregarDadosIniciaisService;
+import br.com.fademy.application.service.ComentarService;
 import br.com.fademy.application.service.ConsultarConviteService;
 import br.com.fademy.application.service.DeixarDeSeguirService;
 import br.com.fademy.application.service.DesbloquearUsuarioService;
@@ -42,6 +44,7 @@ import br.com.fademy.application.usecase.AutenticarUseCase;
 import br.com.fademy.application.usecase.BloquearUsuarioUseCase;
 import br.com.fademy.application.usecase.BuscarUsuariosUseCase;
 import br.com.fademy.application.usecase.CarregarDadosIniciaisUseCase;
+import br.com.fademy.application.usecase.ComentarUseCase;
 import br.com.fademy.application.usecase.ConsultarConviteUseCase;
 import br.com.fademy.application.usecase.DeixarDeSeguirUseCase;
 import br.com.fademy.application.usecase.DesbloquearUsuarioUseCase;
@@ -214,5 +217,12 @@ public class UseCaseConfig {
                                                             SeguirGateway seguires, BloqueioGateway bloqueios,
                                                             CategoriaGateway categorias) {
         return new ListarPostsDoUsuarioService(usuarios, posts, seguires, bloqueios, categorias);
+    }
+
+    @Bean
+    public ComentarUseCase comentar(UsuarioGateway usuarios, PostGateway posts, BloqueioGateway bloqueios,
+                                    ComentarioGateway comentarios, NotificacaoGateway notificacoes,
+                                    TransacaoGateway transacao) {
+        return new ComentarService(usuarios, posts, bloqueios, comentarios, notificacoes, transacao);
     }
 }

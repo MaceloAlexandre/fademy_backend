@@ -74,6 +74,13 @@ public class PostgresPostGateway implements PostGateway {
     }
 
     @Override
+    public void somarComentario(String postId) {
+        jdbc.sql("update post set comentarios = comentarios + 1 where id = :id")
+                .param("id", UUID.fromString(postId))
+                .update();
+    }
+
+    @Override
     public List<Post> doAutor(String autorId, String instituicaoId, String cursor, int quantidade) {
         UUID aPartirDe = cursor(cursor);
         Optional<UUID> autor = Ids.ler(autorId);

@@ -13,6 +13,9 @@ public interface PostGateway {
 
     Optional<Post> buscarPorId(String id);
 
+    /** Soma 1 ao contador de comentários do post. */
+    void somarComentario(String postId);
+
     /**
      * Posts do autor na instituição, do mais novo para o mais antigo, só os anteriores ao cursor.
      *
