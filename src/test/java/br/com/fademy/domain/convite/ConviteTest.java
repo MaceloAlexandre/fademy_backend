@@ -85,4 +85,43 @@ class ConviteTest {
         return papel.criarUsuario(new DadosUsuario(
                 "id-" + papel.texto(), "inst", "Nome", "x@x.com", "hash", null, false, true, AGORA));
     }
+
+    @Test
+    void situacaoValida() {
+        Convite convite = convite(StatusConvite.ACTIVE, 3, 10, AGORA.plusSeconds(60));
+
+        assertThat(convite.situacao(AGORA)).isEqualTo(SituacaoConvite.VALIDO);
+        assertThat(convite.situacao(AGORA).valido()).isTrue();
+        assertThat(convite.situacao(AGORA).motivo()).isNull();
+        assertThat(convite.vagasRestantes()).isEqualTo(7);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            // status,  usos, max, expira em (s), situação
+            "REVOKED,   0,    10,   60,  REVOGADO",
+            "ACTIVE,    0,    10,  -60,  EXPIRADO",
+            "ACTIVE,    10,   10,   60,  CHEIO",
+            "EXPIRED,   10,   10,   60,  CHEIO",
+            "REVOKED,   10,   10,  -60,  REVOGADO",
+            "ACTIVE,    10,   10,  -60,  EXPIRADO",
+    })
+    void situacaoComPrecedencia(StatusConvite status, int usos, int max, long expiraEmSegundos,
+                                SituacaoConvite esperada) {
+        Convite convite = convite(status, usos, max, AGORA.plusSeconds(expiraEmSegundos));
+
+        assertThat(convite.situacao(AGORA)).isEqualTo(esperada);
+        assertThat(convite.situacao(AGORA).valido()).isFalse();
+    }
+
+    @Test
+    void motivosDaApi() {
+        assertThat(SituacaoConvite.REVOGADO.motivo()).isEqualTo("revoked");
+        assertThat(SituacaoConvite.EXPIRADO.motivo()).isEqualTo("expired");
+        assertThat(SituacaoConvite.CHEIO.motivo()).isEqualTo("full");
+    }
+
+    private static Convite convite(StatusConvite status, int usos, int max, Instant expiraEm) {
+        return new Convite("id", "inst", "autor", Papel.ALUNO, "token", max, usos, status, expiraEm, AGORA);
+    }
 }

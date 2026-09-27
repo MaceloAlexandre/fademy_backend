@@ -1,10 +1,13 @@
 package br.com.fademy.infrastructure.web;
 
+import br.com.fademy.application.usecase.ConsultarConviteUseCase;
+import br.com.fademy.application.usecase.ConsultarConviteUseCase.ConsultaConvite;
 import br.com.fademy.application.usecase.GerarConviteUseCase;
 import br.com.fademy.application.usecase.RevogarConviteUseCase;
 import br.com.fademy.domain.convite.Convite;
 import br.com.fademy.domain.usuario.Visualizador;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,10 +21,13 @@ public class ConviteController {
 
     private final GerarConviteUseCase gerarConvite;
     private final RevogarConviteUseCase revogarConvite;
+    private final ConsultarConviteUseCase consultarConvite;
 
-    public ConviteController(GerarConviteUseCase gerarConvite, RevogarConviteUseCase revogarConvite) {
+    public ConviteController(GerarConviteUseCase gerarConvite, RevogarConviteUseCase revogarConvite,
+                             ConsultarConviteUseCase consultarConvite) {
         this.gerarConvite = gerarConvite;
         this.revogarConvite = revogarConvite;
+        this.consultarConvite = consultarConvite;
     }
 
     /** SPEC RN10. */
@@ -32,6 +38,14 @@ public class ConviteController {
         GerarConviteRequest pedido = corpo != null ? corpo : new GerarConviteRequest(null, null, null);
         Convite convite = gerarConvite.executar(visualizador, pedido.roleTarget(), pedido.maxUses(), pedido.expiresAt());
         return new ConviteGeradoResponse(convite.token(), "/invite/" + convite.token());
+    }
+
+    /** SPEC RN11. Público. */
+    @GetMapping("/api/invites/{token}")
+    public ConsultaConviteResponse consultar(@PathVariable String token) {
+        ConsultaConvite consulta = consultarConvite.executar(token);
+        return new ConsultaConviteResponse(consulta.papelAlvo().texto(), consulta.nomeInstituicao(),
+                consulta.vagasRestantes(), consulta.situacao().valido(), consulta.situacao().motivo());
     }
 
     /** SPEC RN12. */
@@ -48,5 +62,9 @@ public class ConviteController {
     }
 
     public record ConviteRevogadoResponse(String message, String token) {
+    }
+
+    public record ConsultaConviteResponse(String roleTarget, String institutionName, int remainingSlots,
+                                          boolean valid, String reason) {
     }
 }

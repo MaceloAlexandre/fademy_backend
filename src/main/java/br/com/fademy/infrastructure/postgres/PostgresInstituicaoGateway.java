@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
+import java.util.Optional;
 
 @Component
 public class PostgresInstituicaoGateway implements InstituicaoGateway {
@@ -34,5 +35,14 @@ public class PostgresInstituicaoGateway implements InstituicaoGateway {
                 .single();
         return new Instituicao(id, instituicao.nome(), instituicao.slug(), instituicao.logoUrl(),
                 instituicao.ativa(), instituicao.criadaEm());
+    }
+
+    @Override
+    public Optional<Instituicao> buscarPorId(String id) {
+        return Ids.ler(id).flatMap(uuid -> jdbc.sql("select * from instituicao where id = :id")
+                .param("id", uuid)
+                .query((rs, n) -> new Instituicao(rs.getString("id"), rs.getString("nome"), rs.getString("slug"),
+                        rs.getString("logo_url"), rs.getBoolean("ativa"), rs.getTimestamp("criada_em").toInstant()))
+                .optional());
     }
 }

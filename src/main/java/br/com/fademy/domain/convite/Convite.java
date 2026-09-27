@@ -67,6 +67,27 @@ public class Convite {
                 expiraEm != null ? expiraEm : agora.plus(VALIDADE_PADRAO), agora);
     }
 
+    /**
+     * Precedência: revogado, expirado, cheio (SPEC RN11). O status "expired" só é gravado ao usar
+     * a última vaga, então esse caso já cai em "cheio".
+     */
+    public SituacaoConvite situacao(Instant agora) {
+        if (status == StatusConvite.REVOKED) {
+            return SituacaoConvite.REVOGADO;
+        }
+        if (expiraEm.isBefore(agora)) {
+            return SituacaoConvite.EXPIRADO;
+        }
+        if (usos >= maxUsos) {
+            return SituacaoConvite.CHEIO;
+        }
+        return SituacaoConvite.VALIDO;
+    }
+
+    public int vagasRestantes() {
+        return maxUsos - usos;
+    }
+
     public void revogar() {
         status = StatusConvite.REVOKED;
     }
