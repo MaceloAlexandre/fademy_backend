@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -49,6 +51,15 @@ public class PostgresSeguirGateway implements SeguirGateway {
                 .param("id", uuid)
                 .query(SEGUIR)
                 .optional());
+    }
+
+    @Override
+    public List<Seguir> buscarPorIds(Collection<String> ids) {
+        List<UUID> validos = ids.stream().flatMap(id -> Ids.ler(id).stream()).toList();
+        if (validos.isEmpty()) {
+            return List.of();
+        }
+        return jdbc.sql("select * from seguir where id in (:ids)").param("ids", validos).query(SEGUIR).list();
     }
 
     @Override

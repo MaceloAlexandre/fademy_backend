@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -43,6 +44,15 @@ public class PostgresUsuarioGateway implements UsuarioGateway {
                 .param("id", uuid)
                 .query(USUARIO)
                 .optional());
+    }
+
+    @Override
+    public List<Usuario> buscarPorIds(Collection<String> ids) {
+        List<UUID> validos = ids.stream().flatMap(id -> Ids.ler(id).stream()).toList();
+        if (validos.isEmpty()) {
+            return List.of();
+        }
+        return jdbc.sql("select * from usuario where id in (:ids)").param("ids", validos).query(USUARIO).list();
     }
 
     @Override
