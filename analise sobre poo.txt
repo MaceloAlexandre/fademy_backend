@@ -1,0 +1,40 @@
+Macelo Alexandre, Wacelys Nunes e Arthur Casimiro
+
+REVISAO DO PROJETO FADEMY - O CODIGO SEGUE ORIENTACAO A OBJETOS?
+
+O projeto nao segue o paradigma orientado a objetos.
+
+1. O diagrama que temos é um diagrama de dados (entidade-relacionamento),
+tipo os de banco de dados: mostra tabelas, campos e como elas se ligam.
+Nao e um diagrama de classes. Um diagrama de classes mostraria os
+metodos de cada classe e relacoes como heranca, e o meu nao tem nada
+disso.
+
+2. Os objetos ate existem em tempo de execucao, mas quem cria eles e o
+Mongoose (a biblioteca do banco), nao eu. Eu nunca escrevi uma classe
+propria em nenhum lugar do projeto. As unicas classes que existem
+vieram prontas de bibliotecas de terceiros.
+
+3. Esses objetos que o Mongoose cria so guardam dado, nao tem metodo
+proprio nenhum. Isso vale pra todos os modelos do projeto (usuario,
+post, follow, bloqueio, convite, notificacao, conversa, mensagem,
+categoria, instituicao, comentario). Sao so moldes de dados, sem
+comportamento — e o oposto de orientacao a objetos, que junta dado e
+comportamento na mesma coisa.
+
+4. As regras de negocio que deveriam estar dentro dos objetos ficaram
+soltas nas funcoes que tratam as rotas. Por exemplo, quando um usuario
+bloqueia outro, quem faz todo o trabalho (apagar follow, apagar
+notificacao, criar o bloqueio) e a funcao da rota, nao um comportamento
+do proprio usuario ou do bloqueio. Outro exemplo: tem 5 papeis de
+usuario diferentes (admin, coordenador, professor, funcionario, aluno)
+com permissoes diferentes, e isso deveria ter sido resolvido com
+heranca entre tipos de usuario — em vez disso, virou comparacao de
+texto espalhada pelas funcoes das rotas.
+
+Conclusao: nao usamos orientacao a objetos nesse projeto. O diagrama e
+de dados, nao de classes; as unicas classes que existem sao das
+bibliotecas, nao minhas; os objetos so guardam dado e nao tem
+comportamento; e as regras de negocio ficaram soltas em funcoes em vez
+de dentro dos objetos. O estilo que usei foi procedural: dado guardado
+num lugar, comportamento escrito solto em outro.
