@@ -13,7 +13,7 @@ documento trata só da estrutura. Mudou a estrutura, muda este documento no mesm
 | Postgres | PostgreSQL 17 + Flyway (migrations) + Spring JDBC (`JdbcClient`, SQL escrito à mão) |
 | Mongo | MongoDB 8 + driver oficial (`MongoClient` do Singleton) |
 | Imagens | API S3 (AWS SDK v2); localmente, SeaweedFS no `docker-compose` (o MinIO deixou de publicar imagens da edição comunitária) |
-| Tempo real | Socket.IO v4 com `netty-socketio` |
+| Tempo real | Socket.IO v4 com `socket.io-server-java`, dentro do Tomcat (mesma porta da API; o `netty-socketio` exigiria outra porta e o React conecta na URL da API) |
 | Autenticação | JWT HS256 + bcrypt |
 | Testes | JUnit 5, Mockito, AssertJ, Testcontainers (Postgres e Mongo reais), ArchUnit |
 
@@ -69,7 +69,7 @@ src/main/java/br/com/fademy/
     ├── armazenamento/  S3ArmazenamentoGateway
     ├── seguranca/      JwtTokenGateway, BcryptSenhaGateway, filtro de autenticação
     ├── web/            controllers, DTOs (record), tratamento de erro
-    ├── tempo_real/     SocketIoServer, SocketIoTempoRealGateway
+    ├── temporeal/      servidor Socket.IO (polling + WebSocket JSR-356), salas por usuário
     └── config/         UseCaseConfig (monta services com seus gateways), CargaInicial
 ```
 
@@ -253,6 +253,9 @@ Um teste garante que o objeto usado pelo Spring é o mesmo que `getInstance` dev
 
 ## 7. Web
 
+- Tempo real: `SocketIoConfig` sobe o servidor Socket.IO no Tomcat (servlet assíncrono para o
+  polling e endpoint JSR-356 para o WebSocket, os dois em `/socket.io/`); `SalasSocketIo`
+  autentica a conexão pelo `TokenGateway` e põe cada uma na sala do usuário.
 - DTOs de entrada e saída são `record`s em `infrastructure/web`, com os nomes de campo do
   contrato (`_id`, `authorId`, ...) — ver SPEC seção 5.
 - Exceções de domínio viram status HTTP num `@RestControllerAdvice`:

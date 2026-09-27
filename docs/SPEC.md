@@ -347,9 +347,11 @@ notifica o outro membro com `message_received` e emite `message:new` para ele (R
 
 ### 4.15 Tempo real
 
-**RN43 — Socket.IO.** Na mesma porta da API. O cliente conecta com `auth: { token }` (o JWT
-do login); sem token ou token inválido → conexão recusada. Cada conexão entra na sala cujo
-nome é o id do usuário. O servidor só emite; a escrita é sempre pela API REST. Evento:
+**RN43 — Socket.IO.** Na mesma porta da API (polling e WebSocket em `/socket.io/`). O cliente
+conecta com `auth: { token }` (o JWT do login); sem token ou com token inválido, a conexão é
+encerrada logo depois de aberta e não entra em sala nenhuma (a biblioteca Java não tem o
+middleware de handshake do Node, que respondia `connect_error`; #42). Cada conexão entra na sala
+cujo nome é o id do usuário. O servidor só emite; a escrita é sempre pela API REST. Evento:
 `message:new`, com a mensagem no formato da seção 5.3, enviado à sala do destinatário.
 
 ### 4.16 Administração e saúde
@@ -499,4 +501,5 @@ Cada issue, ao ser entregue, registra aqui as regras que cobre.
 | RN30, RN31 (D5, D6); RN27 em posts | #35 | entregue |
 | RN32, RN33 (D4), RN34 (`post_comment`), RN46 | #36 | entregue |
 | RN38 (D7), RN39 (sem última mensagem), RN40 | #41 | entregue |
+| RN43 (conexão, autenticação e salas) | #42 | entregue |
 | demais | — | a implementar |
