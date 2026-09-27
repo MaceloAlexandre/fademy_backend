@@ -470,9 +470,9 @@ antes de virar regra.
 
 ## 8. Status de implementação
 
-Nenhuma regra implementada ainda. Cada issue, ao ser entregue, preenche aqui a coluna
-"Issue" das regras que cobre.
+Cada issue, ao ser entregue, registra aqui as regras que cobre.
 
 | Regras | Issue | Status |
 |---|---|---|
-| RN01–RN48 | — | a implementar |
+| RN45 | #2 | entregue |
+| demais | — | a implementar |

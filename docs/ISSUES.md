@@ -66,7 +66,7 @@ guarda a conexão com o Postgres e com o Mongo, usadas pelo resto da aplicação
 ambiente local com Docker e o `/health`, que prova que os dois bancos estão de pé.
 
 ## Critérios de aceite
-- [ ] **CA1** — Dado o repositório, quando rodo `docker compose up -d`, então sobem PostgreSQL 17, MongoDB 8 e MinIO, e o bucket `fademy` é criado com leitura pública.
+- [ ] **CA1** — Dado o repositório, quando rodo `docker compose up -d`, então sobem PostgreSQL 17, MongoDB 8 e SeaweedFS (S3), e o bucket `fademy` é criado com leitura pública.
 - [ ] **CA2** — Dado `DatabaseManager`, quando chamo `getInstance()` duas vezes, então recebo o mesmo objeto.
 - [ ] **CA3** — Dada a aplicação no ar, então o `DataSource` e o `MongoClient` que o Spring injeta são exatamente os objetos devolvidos por `DatabaseManager.getInstance().getPostgres()` e `.getMongo()`.
 - [ ] **CA4** — Dado que nenhuma classe fora de `DatabaseConfig` chama `DatabaseManager.getInstance()`, então um teste ArchUnit garante isso.
@@ -231,7 +231,7 @@ primeira delas, `GET /api/categories`.
 
 | # | Título | Regras | Destaque |
 |---|---|---|---|
-| 7 | Armazenamento de imagens e upload de avatar | RN14, RN15 (validação) | `ArmazenamentoGateway` + `S3ArmazenamentoGateway` no MinIO; `POST /api/media/upload` |
+| 7 | Armazenamento de imagens e upload de avatar | RN14, RN15 (validação) | `ArmazenamentoGateway` + `S3ArmazenamentoGateway` no SeaweedFS; `POST /api/media/upload` |
 | 8 | Gerar e revogar convite | RN10, RN12 | `Convite` com comportamento; primeira rota restrita por papel, decidida por `usuario.podeGerarConvitePara()` |
 | 9 | Consultar convite (público) | RN11 | `Convite.situacao(agora)` devolve `revoked`/`expired`/`full`/válido |
 | 10 | Cadastro via convite | RN13, RN16, RN46 | Transação usuário + vaga; consumo atômico; notificação fica pendente até #11 (a issue registra só a chamada ao gateway) |

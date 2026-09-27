@@ -12,7 +12,7 @@ documento trata só da estrutura. Mudou a estrutura, muda este documento no mesm
 | Build | Maven, pelo wrapper `./mvnw` (não precisa instalar Maven) |
 | Postgres | PostgreSQL 17 + Flyway (migrations) + Spring Data JPA |
 | Mongo | MongoDB 8 + Spring Data MongoDB |
-| Imagens | API S3 (AWS SDK v2); localmente, MinIO no `docker-compose` |
+| Imagens | API S3 (AWS SDK v2); localmente, SeaweedFS no `docker-compose` (o MinIO deixou de publicar imagens da edição comunitária) |
 | Tempo real | Socket.IO v4 com `netty-socketio` |
 | Autenticação | JWT HS256 + bcrypt |
 | Testes | JUnit 5, Mockito, AssertJ, Testcontainers (Postgres e Mongo reais), ArchUnit |
@@ -267,14 +267,14 @@ Um teste garante que o objeto usado pelo Spring é o mesmo que `getInstance` dev
 ## 9. Ambiente local
 
 ```bash
-docker compose up -d        # postgres:17, mongo:8, minio (S3 local) + criação do bucket
+docker compose up -d        # postgres:17, mongo:8, seaweedfs (S3 local) + criação do bucket
 ./mvnw spring-boot:run      # API em http://localhost:3000
 ./mvnw verify               # testes unitários + integração (Testcontainers precisa do Docker)
 ```
 
 Na apresentação (rede local da faculdade): a API sobe no notebook, o frontend é servido com
 `VITE_API_URL=http://<ip-do-notebook>:3000` e `FRONTEND_ORIGIN` aponta para o endereço do
-frontend. Sem internet, o MinIO faz o papel do S3.
+frontend. Sem internet, o SeaweedFS faz o papel do S3.
 
 ## 10. Testes
 
@@ -282,6 +282,6 @@ frontend. Sem internet, o MinIO faz o papel do S3.
 |---|---|---|
 | domain | unitário puro | JUnit + AssertJ |
 | application (services) | unitário com gateways falsos | JUnit + Mockito |
-| infrastructure (gateways) | integração com banco real | Testcontainers (Postgres, Mongo, MinIO) |
+| infrastructure (gateways) | integração com banco real | Testcontainers (Postgres, Mongo, SeaweedFS) |
 | web | contrato HTTP (status, corpo, mensagens do SPEC) | `@SpringBootTest` + MockMvc |
 | arquitetura | regra de dependência da seção 2 | ArchUnit |
