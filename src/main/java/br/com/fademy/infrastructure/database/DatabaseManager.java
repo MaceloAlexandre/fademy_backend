@@ -4,6 +4,7 @@ import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -24,6 +25,7 @@ public class DatabaseManager {
 
     private final DataSource postgres;
     private final MongoClient mongo;
+    private final MongoDatabase mongoDatabase;
 
     private DatabaseManager() {
         ConfiguracaoBancos config = ConfiguracaoBancos.doAmbiente();
@@ -35,10 +37,12 @@ public class DatabaseManager {
         hikari.setConnectionTimeout(TimeUnit.SECONDS.toMillis(TIMEOUT_SEGUNDOS));
         postgres = new HikariDataSource(hikari);
 
+        ConnectionString mongoUri = new ConnectionString(config.mongoUri());
         mongo = MongoClients.create(MongoClientSettings.builder()
-                .applyConnectionString(new ConnectionString(config.mongoUri()))
+                .applyConnectionString(mongoUri)
                 .applyToClusterSettings(c -> c.serverSelectionTimeout(TIMEOUT_SEGUNDOS, TimeUnit.SECONDS))
                 .build());
+        mongoDatabase = mongo.getDatabase(mongoUri.getDatabase() != null ? mongoUri.getDatabase() : "fademy");
     }
 
     public static DatabaseManager getInstance() {
@@ -55,5 +59,10 @@ public class DatabaseManager {
 
     public MongoClient getMongo() {
         return mongo;
+    }
+
+    /** O banco do MongoDB indicado na MONGO_URI (padrão "fademy"). */
+    public MongoDatabase getMongoDatabase() {
+        return mongoDatabase;
     }
 }

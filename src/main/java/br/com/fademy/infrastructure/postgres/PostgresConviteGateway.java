@@ -72,4 +72,19 @@ public class PostgresConviteGateway implements ConviteGateway {
                 .param("id", UUID.fromString(convite.id()))
                 .update();
     }
+
+    @Override
+    public boolean consumirVaga(String conviteId) {
+        // A condição no WHERE torna o consumo atômico: com dois cadastros simultâneos, o segundo
+        // UPDATE espera o primeiro terminar, reavalia a condição e não encontra mais vaga.
+        int atualizados = jdbc.sql("""
+                        update convite
+                        set usos = usos + 1,
+                            status = case when usos + 1 >= max_usos then 'expired' else status end
+                        where id = :id and status = 'active' and usos < max_usos
+                        """)
+                .param("id", UUID.fromString(conviteId))
+                .update();
+        return atualizados == 1;
+    }
 }
