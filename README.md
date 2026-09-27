@@ -9,6 +9,7 @@ Java 25 · Spring Boot · Clean Architecture · PostgreSQL + MongoDB (Singleton 
 
 - [`docs/SPEC.md`](docs/SPEC.md) — regras de negócio e contrato da API
 - [`docs/ARQUITETURA.md`](docs/ARQUITETURA.md) — camadas, pacotes e padrões
+- [`docs/DIAGRAMAS.md`](docs/DIAGRAMAS.md) — diagramas de casos de uso, classes, Singleton/Adapter e sequência
 - [`docs/ISSUES.md`](docs/ISSUES.md) — plano de etapas
 - [`docs/referencias/`](docs/referencias/) — exemplo de Singleton/Adapter do professor e análise de POO do projeto antigo
 
