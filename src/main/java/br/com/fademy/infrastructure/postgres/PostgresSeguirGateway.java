@@ -44,6 +44,27 @@ public class PostgresSeguirGateway implements SeguirGateway {
     }
 
     @Override
+    public Optional<Seguir> buscarPorId(String id) {
+        return Ids.ler(id).flatMap(uuid -> jdbc.sql("select * from seguir where id = :id")
+                .param("id", uuid)
+                .query(SEGUIR)
+                .optional());
+    }
+
+    @Override
+    public void atualizarStatus(Seguir seguir) {
+        jdbc.sql("update seguir set status = :status where id = :id")
+                .param("status", seguir.status().texto())
+                .param("id", UUID.fromString(seguir.id()))
+                .update();
+    }
+
+    @Override
+    public void removerPorId(String id) {
+        jdbc.sql("delete from seguir where id = :id").param("id", UUID.fromString(id)).update();
+    }
+
+    @Override
     public Seguir criar(Seguir s) {
         UUID id = Ids.novo();
         try {

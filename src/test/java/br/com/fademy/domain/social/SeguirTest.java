@@ -1,5 +1,7 @@
 package br.com.fademy.domain.social;
 
+import br.com.fademy.domain.excecao.AcessoNegadoException;
+import br.com.fademy.domain.excecao.DadosInvalidosException;
 import br.com.fademy.domain.notificacao.TipoNotificacao;
 import br.com.fademy.domain.usuario.DadosUsuario;
 import br.com.fademy.domain.usuario.Papel;
@@ -9,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.time.Instant;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class SeguirTest {
 
@@ -30,6 +33,34 @@ class SeguirTest {
 
         assertThat(seguir.status()).isEqualTo(StatusSeguir.PENDING);
         assertThat(seguir.notificacaoParaOSeguido()).isEqualTo(TipoNotificacao.FOLLOW_REQUEST);
+    }
+
+    @Test
+    void seguidoAceitaPedidoPendente() {
+        Seguir pedido = Seguir.solicitar(ana, usuario("bia", true), Instant.now());
+
+        pedido.aceitarPor("bia");
+
+        assertThat(pedido.status()).isEqualTo(StatusSeguir.ACCEPTED);
+    }
+
+    @Test
+    void soOSeguidoResponde() {
+        Seguir pedido = Seguir.solicitar(ana, usuario("bia", true), Instant.now());
+
+        assertThatThrownBy(() -> pedido.aceitarPor("ana"))
+                .isInstanceOf(AcessoNegadoException.class).hasMessage("Forbidden");
+        assertThatThrownBy(() -> pedido.garantirQueEhOSeguido("carla"))
+                .isInstanceOf(AcessoNegadoException.class).hasMessage("Forbidden");
+        assertThat(pedido.status()).isEqualTo(StatusSeguir.PENDING);
+    }
+
+    @Test
+    void naoAceitaDuasVezes() {
+        Seguir aceito = Seguir.solicitar(ana, usuario("bia", false), Instant.now());
+
+        assertThatThrownBy(() -> aceito.aceitarPor("bia"))
+                .isInstanceOf(DadosInvalidosException.class).hasMessage("No pending request");
     }
 
     static Usuario usuario(String id, boolean privado) {

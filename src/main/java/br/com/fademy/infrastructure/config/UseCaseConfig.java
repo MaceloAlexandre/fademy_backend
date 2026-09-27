@@ -11,6 +11,7 @@ import br.com.fademy.application.gateway.SenhaGateway;
 import br.com.fademy.application.gateway.TokenGateway;
 import br.com.fademy.application.gateway.TransacaoGateway;
 import br.com.fademy.application.gateway.UsuarioGateway;
+import br.com.fademy.application.service.AceitarPedidoService;
 import br.com.fademy.application.service.AutenticarService;
 import br.com.fademy.application.service.CarregarDadosIniciaisService;
 import br.com.fademy.application.service.ConsultarConviteService;
@@ -19,9 +20,11 @@ import br.com.fademy.application.service.EnviarAvatarService;
 import br.com.fademy.application.service.GerarConviteService;
 import br.com.fademy.application.service.ListarCategoriasService;
 import br.com.fademy.application.service.RegistrarViaConviteService;
+import br.com.fademy.application.service.RejeitarPedidoService;
 import br.com.fademy.application.service.RevogarConviteService;
 import br.com.fademy.application.service.SeguirUsuarioService;
 import br.com.fademy.application.service.VerificarSaudeService;
+import br.com.fademy.application.usecase.AceitarPedidoUseCase;
 import br.com.fademy.application.usecase.AutenticarUseCase;
 import br.com.fademy.application.usecase.CarregarDadosIniciaisUseCase;
 import br.com.fademy.application.usecase.ConsultarConviteUseCase;
@@ -30,6 +33,7 @@ import br.com.fademy.application.usecase.EnviarAvatarUseCase;
 import br.com.fademy.application.usecase.GerarConviteUseCase;
 import br.com.fademy.application.usecase.ListarCategoriasUseCase;
 import br.com.fademy.application.usecase.RegistrarViaConviteUseCase;
+import br.com.fademy.application.usecase.RejeitarPedidoUseCase;
 import br.com.fademy.application.usecase.RevogarConviteUseCase;
 import br.com.fademy.application.usecase.SeguirUsuarioUseCase;
 import br.com.fademy.application.usecase.VerificarSaudeUseCase;
@@ -107,5 +111,15 @@ public class UseCaseConfig {
     @Bean
     public DeixarDeSeguirUseCase deixarDeSeguir(SeguirGateway seguires) {
         return new DeixarDeSeguirService(seguires);
+    }
+
+    @Bean
+    public AceitarPedidoUseCase aceitarPedido(SeguirGateway seguires, NotificacaoGateway notificacoes) {
+        return new AceitarPedidoService(seguires, notificacoes);
+    }
+
+    @Bean
+    public RejeitarPedidoUseCase rejeitarPedido(SeguirGateway seguires) {
+        return new RejeitarPedidoService(seguires);
     }
 }
