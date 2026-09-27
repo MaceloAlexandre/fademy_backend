@@ -1,22 +1,22 @@
 # Backlog — reescrita da Fademy API em Java
 
-Rascunho para revisão antes de publicar no GitHub. Cada etapa vira um **milestone** do
-`fademy_backend`; cada item vira uma issue no Project **Fademy**. Os números abaixo supõem
-publicação nesta ordem (o repo ainda não tem issues).
+Plano de etapas. Cada etapa é um **milestone** do `fademy_backend`; cada item é uma issue no
+Project **Fademy**. Issues e PRs dividem a mesma numeração no GitHub, então os números das
+etapas E3 em diante são os reais, atribuídos quando a etapa foi publicada.
 
-As issues da E1 e da E2 estão completas. As das etapas seguintes estão resumidas e ganham o
-corpo completo (critérios Dado/Quando/Então) quando a etapa anterior terminar, para usarmos o
-que aprendermos no caminho.
+As issues da E1 e da E2 estão completas abaixo. As das etapas seguintes estão resumidas; o
+corpo completo (critérios Dado/Quando/Então) fica na própria issue do GitHub, escrito quando
+a etapa anterior termina.
 
 | Etapa | Issues | Resultado ao final |
 |---|---|---|
 | E1 — Esqueleto | #1–#3 | Projeto compila, Singleton conectado aos dois bancos, `/health` e erros no padrão |
 | E2 — Identidade | #4–#6 | Hierarquia de usuários, carga inicial, login funcionando no frontend |
-| E3 — Entrada | #7–#10 | Fluxo completo de convite → cadastro (o diagrama de sequência) |
-| E4 — Social | #11–#16 | Notificações no Mongo, perfil, busca, seguir, bloquear |
-| E5 — Conteúdo | #17–#20 | Posts, feed, comentários |
-| E6 — Chat | #21–#23 | Conversas e mensagens no Mongo, tempo real |
-| E7 — Fechamento | #24–#26 | Painel admin, diagramas UML novos, roteiro da apresentação |
+| E3 — Entrada | #13–#16 | Fluxo completo de convite → cadastro (o diagrama de sequência) |
+| E4 — Social | a publicar | Notificações no Mongo, perfil, busca, seguir, bloquear |
+| E5 — Conteúdo | a publicar | Posts, feed, comentários |
+| E6 — Chat | a publicar | Conversas e mensagens no Mongo, tempo real |
+| E7 — Fechamento | a publicar | Painel admin, diagramas UML novos, roteiro da apresentação |
 
 ---
 
@@ -231,46 +231,46 @@ primeira delas, `GET /api/categories`.
 
 | # | Título | Regras | Destaque |
 |---|---|---|---|
-| 7 | Armazenamento de imagens e upload de avatar | RN14, RN15 (validação) | `ArmazenamentoGateway` + `S3ArmazenamentoGateway` no SeaweedFS; `POST /api/media/upload` |
-| 8 | Gerar e revogar convite | RN10, RN12 | `Convite` com comportamento; primeira rota restrita por papel, decidida por `usuario.podeGerarConvitePara()` |
-| 9 | Consultar convite (público) | RN11 | `Convite.situacao(agora)` devolve `revoked`/`expired`/`full`/válido |
-| 10 | Cadastro via convite | RN13, RN16, RN46 | Transação usuário + vaga; consumo atômico; notificação fica pendente até #11 (a issue registra só a chamada ao gateway) |
+| 13 | Armazenamento de imagens e upload de avatar | RN14, RN15 (validação) | `ArmazenamentoGateway` + `S3ArmazenamentoGateway` no SeaweedFS; `POST /api/media/upload` |
+| 14 | Gerar e revogar convite | RN08 (403), RN10, RN12 | `Convite` com comportamento; primeira rota restrita por papel, decidida por `usuario.podeGerarConvitePara()` |
+| 15 | Consultar convite (público) | RN11 | `Convite.situacao(agora)` devolve `revoked`/`expired`/`full`/válido |
+| 16 | Cadastro via convite | RN13, RN16, RN34, RN37, RN46, RN47 | Transação usuário + vaga; consumo atômico; notificação `invite_received` já gravada no MongoDB |
 
 ## E4 — Social (resumo)
 
 | # | Título | Regras | Destaque |
 |---|---|---|---|
-| 11 | Notificações no MongoDB | RN34–RN37, RN48 | Primeiro gateway Mongo; ator populado a partir do Postgres; liga a notificação do #10 |
-| 12 | Ver e editar perfil | RN17, RN18 | Perfil privado × público; `GET/PATCH /api/users/me` |
-| 13 | Busca e sugestões | RN19, RN20 | Consultas com exclusão de bloqueios e follows |
-| 14 | Seguir e deixar de seguir | RN21, RN22 | `Seguir.solicitar()`: privado nasce `pending` |
-| 15 | Aceitar e rejeitar pedido | RN23, RN24 | `Seguir.aceitarPor()` |
-| 16 | Bloquear e desbloquear | RN25–RN27, RN47 | Postgres (follows, bloqueio) + Mongo (limpeza de notificações) no mesmo caso de uso |
+| — | Notificações no MongoDB | RN35, RN36, RN48 | Listar, marcar como lida e excluir; ator populado a partir do Postgres (a criação entra no #16) |
+| — | Ver e editar perfil | RN17, RN18 | Perfil privado × público; `GET/PATCH /api/users/me` |
+| — | Busca e sugestões | RN19, RN20 | Consultas com exclusão de bloqueios e follows |
+| — | Seguir e deixar de seguir | RN21, RN22 | `Seguir.solicitar()`: privado nasce `pending` |
+| — | Aceitar e rejeitar pedido | RN23, RN24 | `Seguir.aceitarPor()` |
+| — | Bloquear e desbloquear | RN25–RN27, RN47 | Postgres (follows, bloqueio) + Mongo (limpeza de notificações) no mesmo caso de uso |
 
 ## E5 — Conteúdo (resumo)
 
 | # | Título | Regras | Destaque |
 |---|---|---|---|
-| 17 | Publicar post | RN28 | `Post.publicar()` consulta `autor.podePublicarLink()`; imagens pelo #7 |
-| 18 | Feed com paginação por cursor | RN29, seção 5.4 | Cursor sobre UUIDv7 |
-| 19 | Ver post e posts de um usuário | RN30, RN31 | Visibilidade por bloqueio e perfil privado |
-| 20 | Comentar e listar comentários | RN32, RN33, RN46 | Comentário + contador na mesma transação |
+| — | Publicar post | RN28 | `Post.publicar()` consulta `autor.podePublicarLink()`; imagens pelo #13 |
+| — | Feed com paginação por cursor | RN29, seção 5.4 | Cursor sobre UUIDv7 |
+| — | Ver post e posts de um usuário | RN30, RN31 | Visibilidade por bloqueio e perfil privado |
+| — | Comentar e listar comentários | RN32, RN33, RN46 | Comentário + contador na mesma transação |
 
 ## E6 — Chat (resumo)
 
 | # | Título | Regras | Destaque |
 |---|---|---|---|
-| 21 | Conversas 1:1 | RN38–RN40 | Conversa no Mongo, regra de seguidores mútuos e bloqueio no Postgres |
-| 22 | Enviar e listar mensagens | RN41, RN42 | Mensagem no Mongo + notificação + evento |
-| 23 | Tempo real com Socket.IO | RN43 | `TempoRealGateway` + netty-socketio; o chat do React atual atualiza sozinho |
+| — | Conversas 1:1 | RN38–RN40 | Conversa no Mongo, regra de seguidores mútuos e bloqueio no Postgres |
+| — | Enviar e listar mensagens | RN41, RN42 | Mensagem no Mongo + notificação + evento |
+| — | Tempo real com Socket.IO | RN43 | `TempoRealGateway` + netty-socketio; o chat do React atual atualiza sozinho |
 
 ## E7 — Fechamento (resumo)
 
 | # | Título | Regras | Destaque |
 |---|---|---|---|
-| 24 | Painel administrativo | RN44 | `usuario.podeAcessarPainelAdmin()` |
-| 25 | Diagramas UML do novo projeto | — | Diagrama de classes de verdade (métodos, herança, interfaces de use case e gateway), sequência do cadastro atualizada, pacotes |
-| 26 | Roteiro de apresentação na rede local | — | Subir tudo num notebook, frontend acessível pelo celular na rede da faculdade, dados de demonstração |
+| — | Painel administrativo | RN44 | `usuario.podeAcessarPainelAdmin()` |
+| — | Diagramas UML do novo projeto | — | Diagrama de classes de verdade (métodos, herança, interfaces de use case e gateway), sequência do cadastro atualizada, pacotes |
+| — | Roteiro de apresentação na rede local | — | Subir tudo num notebook, frontend acessível pelo celular na rede da faculdade, dados de demonstração |
 
 ---
 

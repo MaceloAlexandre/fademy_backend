@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
@@ -56,6 +57,14 @@ public class TratadorDeErros extends ResponseEntityExceptionHandler {
     ResponseEntity<ErroResponse> inesperado(Exception e) {
         log.error("Erro inesperado", e);
         return erro(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error");
+    }
+
+    // Arquivo acima de MAX_UPLOAD_BYTES: 400 como no Node (SPEC RN14), não o 413 padrão.
+    @Override
+    protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e,
+                                                                         HttpHeaders headers, HttpStatusCode status,
+                                                                         WebRequest request) {
+        return ResponseEntity.badRequest().body(new ErroResponse("File upload error"));
     }
 
     @Override
