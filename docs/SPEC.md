@@ -371,7 +371,9 @@ quando os dois bancos respondem; senão 503 `{ status: "degraded", postgres, mon
   RN18) e de cadastro (RN16) usam `id`, como no Node.
 - Um id de path em formato inválido é tratado como inexistente (404 da rota).
 - **Datas:** ISO-8601 em UTC com sufixo `Z`.
-- **Erros:** `{ "error": "<mensagem>" }`. Erro inesperado → 500 `Internal server error`.
+- **Erros:** `{ "error": "<mensagem>" }`. Erro inesperado → 500 `Internal server error`,
+  sem detalhe interno no corpo. Erros de protocolo HTTP (JSON malformado, rota inexistente,
+  método não suportado) mantêm o status padrão (400, 404, 405) com o mesmo formato de corpo (#3).
 - CORS liberado para `FRONTEND_ORIGIN` (padrão `http://localhost:5173`).
 
 ### 5.2 Endpoints
@@ -475,4 +477,5 @@ Cada issue, ao ser entregue, registra aqui as regras que cobre.
 | Regras | Issue | Status |
 |---|---|---|
 | RN45 | #2 | entregue |
+| Seção 5.1: erros, datas, CORS | #3 | entregue |
 | demais | — | a implementar |
