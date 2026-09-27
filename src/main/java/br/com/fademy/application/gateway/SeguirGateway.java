@@ -8,6 +8,12 @@ public interface SeguirGateway {
 
     Optional<Seguir> buscar(String seguidorId, String seguidoId);
 
+    Optional<Seguir> buscarPorId(String id);
+
+    void atualizarStatus(Seguir seguir);
+
+    void removerPorId(String id);
+
     /**
      * Grava um follow novo e o devolve com id.
      *

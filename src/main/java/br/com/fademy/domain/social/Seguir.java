@@ -1,5 +1,7 @@
 package br.com.fademy.domain.social;
 
+import br.com.fademy.domain.excecao.AcessoNegadoException;
+import br.com.fademy.domain.excecao.DadosInvalidosException;
 import br.com.fademy.domain.notificacao.TipoNotificacao;
 import br.com.fademy.domain.usuario.Usuario;
 
@@ -13,7 +15,7 @@ public class Seguir {
     private final String id;
     private final String seguidorId;
     private final String seguidoId;
-    private final StatusSeguir status;
+    private StatusSeguir status;
     private final Instant criadoEm;
 
     public Seguir(String id, String seguidorId, String seguidoId, StatusSeguir status, Instant criadoEm) {
@@ -33,6 +35,22 @@ public class Seguir {
     /** O aviso que o seguido recebe: novo seguidor ou pedido para seguir (SPEC RN34). */
     public TipoNotificacao notificacaoParaOSeguido() {
         return status == StatusSeguir.ACCEPTED ? TipoNotificacao.NEW_FOLLOWER : TipoNotificacao.FOLLOW_REQUEST;
+    }
+
+    /** Só o seguido responde a um pedido (SPEC RN23, RN24). */
+    public void garantirQueEhOSeguido(String usuarioId) {
+        if (!seguidoId.equals(usuarioId)) {
+            throw new AcessoNegadoException("Forbidden");
+        }
+    }
+
+    /** O seguido aceita um pedido pendente (SPEC RN23). */
+    public void aceitarPor(String usuarioId) {
+        garantirQueEhOSeguido(usuarioId);
+        if (status != StatusSeguir.PENDING) {
+            throw new DadosInvalidosException("No pending request");
+        }
+        status = StatusSeguir.ACCEPTED;
     }
 
     public String id() {
