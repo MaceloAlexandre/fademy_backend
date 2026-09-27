@@ -47,6 +47,8 @@ public interface UsuarioGateway {
     /** Quem segue o usuário e é seguido por ele, os dois com follow aceito (SPEC RN40). */
     List<Usuario> seguidoresMutuos(Usuario usuario);
 
+    long contarDaInstituicao(String instituicaoId);
+
     /** Grava privacidade e avatar do usuário. */
     void atualizar(Usuario usuario);
 }

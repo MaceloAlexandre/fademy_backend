@@ -503,4 +503,7 @@ Cada issue, ao ser entregue, registra aqui as regras que cobre.
 | RN38 (D7), RN39 (sem última mensagem), RN40 | #41 | entregue |
 | RN43 (conexão, autenticação e salas) | #42 | entregue |
 | RN39 (última mensagem), RN41, RN42, RN43 (`message:new`), RN34 (`message_received`), D10 | #43 | entregue |
-| demais | — | a implementar |
+| RN44 (e o painel da RN05) | #47 | entregue |
+| RN01 (isolamento por instituição) | em cada recurso: #14, #21–#26, #33–#36, #41 | entregue |
+
+Com a #47, todas as regras RN01–RN48 estão implementadas.
