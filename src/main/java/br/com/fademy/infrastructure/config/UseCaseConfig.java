@@ -32,6 +32,7 @@ import br.com.fademy.application.service.RejeitarPedidoService;
 import br.com.fademy.application.service.RevogarConviteService;
 import br.com.fademy.application.service.SeguirUsuarioService;
 import br.com.fademy.application.service.SugerirUsuariosService;
+import br.com.fademy.application.service.VerFeedService;
 import br.com.fademy.application.service.VerPerfilService;
 import br.com.fademy.application.service.VerificarSaudeService;
 import br.com.fademy.application.usecase.AceitarPedidoUseCase;
@@ -54,6 +55,7 @@ import br.com.fademy.application.usecase.RejeitarPedidoUseCase;
 import br.com.fademy.application.usecase.RevogarConviteUseCase;
 import br.com.fademy.application.usecase.SeguirUsuarioUseCase;
 import br.com.fademy.application.usecase.SugerirUsuariosUseCase;
+import br.com.fademy.application.usecase.VerFeedUseCase;
 import br.com.fademy.application.usecase.VerPerfilUseCase;
 import br.com.fademy.application.usecase.VerificarSaudeUseCase;
 import br.com.fademy.infrastructure.mongo.MongoSaudeGateway;
@@ -190,5 +192,10 @@ public class UseCaseConfig {
                                             ArmazenamentoGateway armazenamento, PostGateway posts,
                                             TransacaoGateway transacao) {
         return new PublicarPostService(usuarios, categorias, armazenamento, posts, transacao);
+    }
+
+    @Bean
+    public VerFeedUseCase verFeed(UsuarioGateway usuarios, PostGateway posts, CategoriaGateway categorias) {
+        return new VerFeedService(usuarios, posts, categorias);
     }
 }

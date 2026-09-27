@@ -12,6 +12,8 @@ public interface CategoriaGateway {
 
     List<Categoria> listar();
 
+    List<Categoria> buscarPorIds(Collection<String> ids);
+
     /** Todos os ids existem. */
     boolean existem(Collection<String> ids);
 }

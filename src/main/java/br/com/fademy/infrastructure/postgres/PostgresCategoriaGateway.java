@@ -3,6 +3,7 @@ package br.com.fademy.infrastructure.postgres;
 import br.com.fademy.application.gateway.CategoriaGateway;
 import br.com.fademy.domain.instituicao.Categoria;
 import br.com.fademy.domain.instituicao.TipoCategoria;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,9 @@ import java.util.UUID;
 
 @Component
 public class PostgresCategoriaGateway implements CategoriaGateway {
+
+    private static final RowMapper<Categoria> CATEGORIA = (rs, n) -> new Categoria(
+            rs.getString("id"), rs.getString("nome"), rs.getString("slug"), TipoCategoria.deTexto(rs.getString("tipo")));
 
     private final JdbcClient jdbc;
 
@@ -35,6 +39,15 @@ public class PostgresCategoriaGateway implements CategoriaGateway {
     }
 
     @Override
+    public List<Categoria> buscarPorIds(Collection<String> ids) {
+        List<UUID> validos = ids.stream().flatMap(id -> Ids.ler(id).stream()).distinct().toList();
+        if (validos.isEmpty()) {
+            return List.of();
+        }
+        return jdbc.sql("select * from categoria where id in (:ids)").param("ids", validos).query(CATEGORIA).list();
+    }
+
+    @Override
     public boolean existem(Collection<String> ids) {
         List<UUID> validos = ids.stream().flatMap(id -> Ids.ler(id).stream()).distinct().toList();
         if (validos.size() < ids.stream().distinct().count()) {
@@ -48,9 +61,6 @@ public class PostgresCategoriaGateway implements CategoriaGateway {
 
     @Override
     public List<Categoria> listar() {
-        return jdbc.sql("select * from categoria order by nome")
-                .query((rs, n) -> new Categoria(rs.getString("id"), rs.getString("nome"), rs.getString("slug"),
-                        TipoCategoria.deTexto(rs.getString("tipo"))))
-                .list();
+        return jdbc.sql("select * from categoria order by nome").query(CATEGORIA).list();
     }
 }
