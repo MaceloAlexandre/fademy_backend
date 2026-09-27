@@ -110,6 +110,14 @@ public class PostgresUsuarioGateway implements UsuarioGateway {
     }
 
     @Override
+    public long contarDaInstituicao(String instituicaoId) {
+        return jdbc.sql("select count(*) from usuario where instituicao_id = :instituicao")
+                .param("instituicao", UUID.fromString(instituicaoId))
+                .query(Long.class)
+                .single();
+    }
+
+    @Override
     public List<Usuario> seguidoresMutuos(Usuario usuario) {
         return jdbc.sql("""
                         select u.* from usuario u

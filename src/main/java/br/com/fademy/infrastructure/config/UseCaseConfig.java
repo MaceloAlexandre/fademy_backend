@@ -42,6 +42,7 @@ import br.com.fademy.application.service.RevogarConviteService;
 import br.com.fademy.application.service.SeguirUsuarioService;
 import br.com.fademy.application.service.SugerirUsuariosService;
 import br.com.fademy.application.service.VerFeedService;
+import br.com.fademy.application.service.VerPainelAdminService;
 import br.com.fademy.application.service.VerPerfilService;
 import br.com.fademy.application.service.VerPostService;
 import br.com.fademy.application.service.VerificarSaudeService;
@@ -71,6 +72,7 @@ import br.com.fademy.application.usecase.RevogarConviteUseCase;
 import br.com.fademy.application.usecase.SeguirUsuarioUseCase;
 import br.com.fademy.application.usecase.SugerirUsuariosUseCase;
 import br.com.fademy.application.usecase.VerFeedUseCase;
+import br.com.fademy.application.usecase.VerPainelAdminUseCase;
 import br.com.fademy.application.usecase.VerPerfilUseCase;
 import br.com.fademy.application.usecase.VerPostUseCase;
 import br.com.fademy.application.usecase.VerificarSaudeUseCase;
@@ -252,5 +254,10 @@ public class UseCaseConfig {
                                       ArmazenamentoGateway armazenamento, NotificacaoGateway notificacoes,
                                       TempoRealGateway tempoReal) {
         return new MensagensService(conversas, mensagens, bloqueios, armazenamento, notificacoes, tempoReal);
+    }
+
+    @Bean
+    public VerPainelAdminUseCase verPainelAdmin(UsuarioGateway usuarios, InstituicaoGateway instituicoes) {
+        return new VerPainelAdminService(usuarios, instituicoes);
     }
 }
