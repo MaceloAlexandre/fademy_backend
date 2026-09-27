@@ -1,5 +1,6 @@
 package br.com.fademy.infrastructure.config;
 
+import br.com.fademy.application.gateway.ArmazenamentoGateway;
 import br.com.fademy.application.gateway.CategoriaGateway;
 import br.com.fademy.application.gateway.InstituicaoGateway;
 import br.com.fademy.application.gateway.SenhaGateway;
@@ -7,10 +8,12 @@ import br.com.fademy.application.gateway.TokenGateway;
 import br.com.fademy.application.gateway.UsuarioGateway;
 import br.com.fademy.application.service.AutenticarService;
 import br.com.fademy.application.service.CarregarDadosIniciaisService;
+import br.com.fademy.application.service.EnviarAvatarService;
 import br.com.fademy.application.service.ListarCategoriasService;
 import br.com.fademy.application.service.VerificarSaudeService;
 import br.com.fademy.application.usecase.AutenticarUseCase;
 import br.com.fademy.application.usecase.CarregarDadosIniciaisUseCase;
+import br.com.fademy.application.usecase.EnviarAvatarUseCase;
 import br.com.fademy.application.usecase.ListarCategoriasUseCase;
 import br.com.fademy.application.usecase.VerificarSaudeUseCase;
 import br.com.fademy.infrastructure.mongo.MongoSaudeGateway;
@@ -48,5 +51,10 @@ public class UseCaseConfig {
     @Bean
     public ListarCategoriasUseCase listarCategorias(CategoriaGateway categorias) {
         return new ListarCategoriasService(categorias);
+    }
+
+    @Bean
+    public EnviarAvatarUseCase enviarAvatar(ArmazenamentoGateway armazenamento) {
+        return new EnviarAvatarService(armazenamento);
     }
 }
