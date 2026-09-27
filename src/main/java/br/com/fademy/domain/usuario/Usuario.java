@@ -49,6 +49,11 @@ public abstract class Usuario {
         return false;
     }
 
+    /** Usuários de instituições diferentes não se enxergam (SPEC RN01). */
+    public boolean mesmaInstituicao(Usuario outro) {
+        return instituicaoId.equals(outro.instituicaoId);
+    }
+
     public String id() {
         return id;
     }

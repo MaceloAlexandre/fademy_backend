@@ -485,4 +485,5 @@ Cada issue, ao ser entregue, registra aqui as regras que cobre.
 | RN08 (403), RN10, RN12 | #14 | entregue |
 | RN11 | #15 | entregue |
 | RN13, RN16, RN34 (`invite_received`), RN37, RN46, RN47 | #16 | entregue |
+| RN21, RN22, RN34 (`new_follower`, `follow_request`) | #21 | entregue |
 | demais | — | a implementar |

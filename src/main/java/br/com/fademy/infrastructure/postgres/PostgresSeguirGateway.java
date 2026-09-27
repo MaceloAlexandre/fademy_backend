@@ -1,0 +1,77 @@
+package br.com.fademy.infrastructure.postgres;
+
+import br.com.fademy.application.gateway.SeguirGateway;
+import br.com.fademy.domain.excecao.ConflitoException;
+import br.com.fademy.domain.social.Seguir;
+import br.com.fademy.domain.social.StatusSeguir;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.stereotype.Component;
+
+import java.sql.Timestamp;
+import java.util.Optional;
+import java.util.UUID;
+
+@Component
+public class PostgresSeguirGateway implements SeguirGateway {
+
+    static final RowMapper<Seguir> SEGUIR = (rs, n) -> new Seguir(
+            rs.getString("id"),
+            rs.getString("seguidor_id"),
+            rs.getString("seguido_id"),
+            StatusSeguir.deTexto(rs.getString("status")),
+            rs.getTimestamp("criado_em").toInstant());
+
+    private final JdbcClient jdbc;
+
+    public PostgresSeguirGateway(JdbcClient jdbc) {
+        this.jdbc = jdbc;
+    }
+
+    @Override
+    public Optional<Seguir> buscar(String seguidorId, String seguidoId) {
+        Optional<UUID> seguidor = Ids.ler(seguidorId);
+        Optional<UUID> seguido = Ids.ler(seguidoId);
+        if (seguidor.isEmpty() || seguido.isEmpty()) {
+            return Optional.empty();
+        }
+        return jdbc.sql("select * from seguir where seguidor_id = :seguidor and seguido_id = :seguido")
+                .param("seguidor", seguidor.get())
+                .param("seguido", seguido.get())
+                .query(SEGUIR)
+                .optional();
+    }
+
+    @Override
+    public Seguir criar(Seguir s) {
+        UUID id = Ids.novo();
+        try {
+            jdbc.sql("""
+                            insert into seguir (id, seguidor_id, seguido_id, status, criado_em)
+                            values (:id, :seguidor, :seguido, :status, :criadoEm)
+                            """)
+                    .param("id", id)
+                    .param("seguidor", UUID.fromString(s.seguidorId()))
+                    .param("seguido", UUID.fromString(s.seguidoId()))
+                    .param("status", s.status().texto())
+                    .param("criadoEm", Timestamp.from(s.criadoEm()))
+                    .update();
+        } catch (DuplicateKeyException e) {
+            throw new ConflitoException("Already following or request pending");
+        }
+        return new Seguir(id.toString(), s.seguidorId(), s.seguidoId(), s.status(), s.criadoEm());
+    }
+
+    @Override
+    public void remover(String seguidorId, String seguidoId) {
+        Optional<UUID> seguidor = Ids.ler(seguidorId);
+        Optional<UUID> seguido = Ids.ler(seguidoId);
+        if (seguidor.isPresent() && seguido.isPresent()) {
+            jdbc.sql("delete from seguir where seguidor_id = :seguidor and seguido_id = :seguido")
+                    .param("seguidor", seguidor.get())
+                    .param("seguido", seguido.get())
+                    .update();
+        }
+    }
+}

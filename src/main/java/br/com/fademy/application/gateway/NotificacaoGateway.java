@@ -12,4 +12,7 @@ public interface NotificacaoGateway {
      * (SPEC RN37): em caso de falha, a implementação registra no log e não lança exceção.
      */
     void criar(Notificacao notificacao);
+
+    /** Apaga o pedido de seguir do ator para o destinatário, se houver. Mesma regra de falha do criar. */
+    void removerPedidoDeSeguir(String atorId, String destinatarioId);
 }

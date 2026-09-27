@@ -1,10 +1,12 @@
 package br.com.fademy.infrastructure.config;
 
 import br.com.fademy.application.gateway.ArmazenamentoGateway;
+import br.com.fademy.application.gateway.BloqueioGateway;
 import br.com.fademy.application.gateway.CategoriaGateway;
 import br.com.fademy.application.gateway.ConviteGateway;
 import br.com.fademy.application.gateway.InstituicaoGateway;
 import br.com.fademy.application.gateway.NotificacaoGateway;
+import br.com.fademy.application.gateway.SeguirGateway;
 import br.com.fademy.application.gateway.SenhaGateway;
 import br.com.fademy.application.gateway.TokenGateway;
 import br.com.fademy.application.gateway.TransacaoGateway;
@@ -12,20 +14,24 @@ import br.com.fademy.application.gateway.UsuarioGateway;
 import br.com.fademy.application.service.AutenticarService;
 import br.com.fademy.application.service.CarregarDadosIniciaisService;
 import br.com.fademy.application.service.ConsultarConviteService;
+import br.com.fademy.application.service.DeixarDeSeguirService;
 import br.com.fademy.application.service.EnviarAvatarService;
 import br.com.fademy.application.service.GerarConviteService;
 import br.com.fademy.application.service.ListarCategoriasService;
 import br.com.fademy.application.service.RegistrarViaConviteService;
 import br.com.fademy.application.service.RevogarConviteService;
+import br.com.fademy.application.service.SeguirUsuarioService;
 import br.com.fademy.application.service.VerificarSaudeService;
 import br.com.fademy.application.usecase.AutenticarUseCase;
 import br.com.fademy.application.usecase.CarregarDadosIniciaisUseCase;
 import br.com.fademy.application.usecase.ConsultarConviteUseCase;
+import br.com.fademy.application.usecase.DeixarDeSeguirUseCase;
 import br.com.fademy.application.usecase.EnviarAvatarUseCase;
 import br.com.fademy.application.usecase.GerarConviteUseCase;
 import br.com.fademy.application.usecase.ListarCategoriasUseCase;
 import br.com.fademy.application.usecase.RegistrarViaConviteUseCase;
 import br.com.fademy.application.usecase.RevogarConviteUseCase;
+import br.com.fademy.application.usecase.SeguirUsuarioUseCase;
 import br.com.fademy.application.usecase.VerificarSaudeUseCase;
 import br.com.fademy.infrastructure.mongo.MongoSaudeGateway;
 import br.com.fademy.infrastructure.postgres.PostgresSaudeGateway;
@@ -90,5 +96,16 @@ public class UseCaseConfig {
                                                           TransacaoGateway transacao,
                                                           NotificacaoGateway notificacoes) {
         return new RegistrarViaConviteService(convites, usuarios, armazenamento, senhas, transacao, notificacoes);
+    }
+
+    @Bean
+    public SeguirUsuarioUseCase seguirUsuario(UsuarioGateway usuarios, SeguirGateway seguires,
+                                              BloqueioGateway bloqueios, NotificacaoGateway notificacoes) {
+        return new SeguirUsuarioService(usuarios, seguires, bloqueios, notificacoes);
+    }
+
+    @Bean
+    public DeixarDeSeguirUseCase deixarDeSeguir(SeguirGateway seguires) {
+        return new DeixarDeSeguirService(seguires);
     }
 }

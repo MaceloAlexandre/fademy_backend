@@ -5,6 +5,7 @@ import br.com.fademy.domain.notificacao.Notificacao;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,18 @@ public class MongoNotificacaoGateway implements NotificacaoGateway {
         } catch (MongoException e) {
             // SPEC RN37: a notificação nunca derruba a ação principal.
             log.error("Falha ao gravar notificação {} para {}", n.tipo().texto(), n.destinatarioId(), e);
+        }
+    }
+
+    @Override
+    public void removerPedidoDeSeguir(String atorId, String destinatarioId) {
+        try {
+            colecao.deleteOne(Filters.and(
+                    Filters.eq("tipo", "follow_request"),
+                    Filters.eq("atorId", atorId),
+                    Filters.eq("destinatarioId", destinatarioId)));
+        } catch (MongoException e) {
+            log.error("Falha ao apagar pedido de seguir de {} para {}", atorId, destinatarioId, e);
         }
     }
 }
