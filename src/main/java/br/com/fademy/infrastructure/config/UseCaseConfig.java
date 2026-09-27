@@ -7,10 +7,12 @@ import br.com.fademy.application.gateway.ComentarioGateway;
 import br.com.fademy.application.gateway.ConversaGateway;
 import br.com.fademy.application.gateway.ConviteGateway;
 import br.com.fademy.application.gateway.InstituicaoGateway;
+import br.com.fademy.application.gateway.MensagemGateway;
 import br.com.fademy.application.gateway.NotificacaoGateway;
 import br.com.fademy.application.gateway.PostGateway;
 import br.com.fademy.application.gateway.SeguirGateway;
 import br.com.fademy.application.gateway.SenhaGateway;
+import br.com.fademy.application.gateway.TempoRealGateway;
 import br.com.fademy.application.gateway.TokenGateway;
 import br.com.fademy.application.gateway.TransacaoGateway;
 import br.com.fademy.application.gateway.UsuarioGateway;
@@ -32,6 +34,7 @@ import br.com.fademy.application.service.ListarCategoriasService;
 import br.com.fademy.application.service.ListarConversasService;
 import br.com.fademy.application.service.ListarNotificacoesService;
 import br.com.fademy.application.service.ListarPostsDoUsuarioService;
+import br.com.fademy.application.service.MensagensService;
 import br.com.fademy.application.service.PublicarPostService;
 import br.com.fademy.application.service.RegistrarViaConviteService;
 import br.com.fademy.application.service.RejeitarPedidoService;
@@ -60,6 +63,7 @@ import br.com.fademy.application.usecase.ListarCategoriasUseCase;
 import br.com.fademy.application.usecase.ListarConversasUseCase;
 import br.com.fademy.application.usecase.ListarNotificacoesUseCase;
 import br.com.fademy.application.usecase.ListarPostsDoUsuarioUseCase;
+import br.com.fademy.application.usecase.MensagensUseCase;
 import br.com.fademy.application.usecase.PublicarPostUseCase;
 import br.com.fademy.application.usecase.RegistrarViaConviteUseCase;
 import br.com.fademy.application.usecase.RejeitarPedidoUseCase;
@@ -238,7 +242,15 @@ public class UseCaseConfig {
     }
 
     @Bean
-    public ListarConversasUseCase listarConversas(UsuarioGateway usuarios, ConversaGateway conversas) {
-        return new ListarConversasService(usuarios, conversas);
+    public ListarConversasUseCase listarConversas(UsuarioGateway usuarios, ConversaGateway conversas,
+                                                  MensagemGateway mensagens) {
+        return new ListarConversasService(usuarios, conversas, mensagens);
+    }
+
+    @Bean
+    public MensagensUseCase mensagens(ConversaGateway conversas, MensagemGateway mensagens, BloqueioGateway bloqueios,
+                                      ArmazenamentoGateway armazenamento, NotificacaoGateway notificacoes,
+                                      TempoRealGateway tempoReal) {
+        return new MensagensService(conversas, mensagens, bloqueios, armazenamento, notificacoes, tempoReal);
     }
 }

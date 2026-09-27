@@ -1,6 +1,7 @@
 package br.com.fademy.application.usecase;
 
 import br.com.fademy.domain.conversa.Conversa;
+import br.com.fademy.domain.conversa.Mensagem;
 import br.com.fademy.domain.usuario.Usuario;
 import br.com.fademy.domain.usuario.Visualizador;
 
@@ -15,6 +16,9 @@ public interface ListarConversasUseCase {
 
     List<Usuario> contatos(Visualizador visualizador);
 
-    record ConversaDetalhada(Conversa conversa, List<Usuario> membros) {
+    /**
+     * @param ultimaMensagem nula quando a conversa ainda não tem mensagens
+     */
+    record ConversaDetalhada(Conversa conversa, List<Usuario> membros, Mensagem ultimaMensagem) {
     }
 }

@@ -18,9 +18,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import org.bson.types.ObjectId;
+
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Coleção "conversas". O campo "par" (os dois ids em ordem) tem índice único: é ele que garante
@@ -62,6 +66,21 @@ public class MongoConversaGateway implements ConversaGateway {
             criada = false;
         }
         return new Resultado(conversa(colecao.find(Filters.eq("par", par)).first()), criada);
+    }
+
+    @Override
+    public Optional<Conversa> buscarPorId(String id) {
+        if (!ObjectId.isValid(id)) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(colecao.find(Filters.eq("_id", new ObjectId(id))).first())
+                .map(MongoConversaGateway::conversa);
+    }
+
+    @Override
+    public void registrarAtividade(String conversaId, Instant quando) {
+        colecao.updateOne(Filters.eq("_id", new ObjectId(conversaId)),
+                Updates.set("atualizadaEm", Date.from(quando)));
     }
 
     @Override
