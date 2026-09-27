@@ -37,6 +37,14 @@ public class PostgresUsuarioGateway implements UsuarioGateway {
     }
 
     @Override
+    public Optional<Usuario> buscarPorId(String id) {
+        return Ids.ler(id).flatMap(uuid -> jdbc.sql("select * from usuario where id = :id")
+                .param("id", uuid)
+                .query(USUARIO)
+                .optional());
+    }
+
+    @Override
     public Optional<Usuario> buscarPorEmail(String email) {
         return jdbc.sql("select * from usuario where lower(email) = lower(:email)")
                 .param("email", email)

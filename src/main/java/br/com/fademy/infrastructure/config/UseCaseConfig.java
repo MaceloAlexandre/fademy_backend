@@ -2,6 +2,7 @@ package br.com.fademy.infrastructure.config;
 
 import br.com.fademy.application.gateway.ArmazenamentoGateway;
 import br.com.fademy.application.gateway.CategoriaGateway;
+import br.com.fademy.application.gateway.ConviteGateway;
 import br.com.fademy.application.gateway.InstituicaoGateway;
 import br.com.fademy.application.gateway.SenhaGateway;
 import br.com.fademy.application.gateway.TokenGateway;
@@ -9,12 +10,16 @@ import br.com.fademy.application.gateway.UsuarioGateway;
 import br.com.fademy.application.service.AutenticarService;
 import br.com.fademy.application.service.CarregarDadosIniciaisService;
 import br.com.fademy.application.service.EnviarAvatarService;
+import br.com.fademy.application.service.GerarConviteService;
 import br.com.fademy.application.service.ListarCategoriasService;
+import br.com.fademy.application.service.RevogarConviteService;
 import br.com.fademy.application.service.VerificarSaudeService;
 import br.com.fademy.application.usecase.AutenticarUseCase;
 import br.com.fademy.application.usecase.CarregarDadosIniciaisUseCase;
 import br.com.fademy.application.usecase.EnviarAvatarUseCase;
+import br.com.fademy.application.usecase.GerarConviteUseCase;
 import br.com.fademy.application.usecase.ListarCategoriasUseCase;
+import br.com.fademy.application.usecase.RevogarConviteUseCase;
 import br.com.fademy.application.usecase.VerificarSaudeUseCase;
 import br.com.fademy.infrastructure.mongo.MongoSaudeGateway;
 import br.com.fademy.infrastructure.postgres.PostgresSaudeGateway;
@@ -56,5 +61,15 @@ public class UseCaseConfig {
     @Bean
     public EnviarAvatarUseCase enviarAvatar(ArmazenamentoGateway armazenamento) {
         return new EnviarAvatarService(armazenamento);
+    }
+
+    @Bean
+    public GerarConviteUseCase gerarConvite(UsuarioGateway usuarios, ConviteGateway convites) {
+        return new GerarConviteService(usuarios, convites);
+    }
+
+    @Bean
+    public RevogarConviteUseCase revogarConvite(UsuarioGateway usuarios, ConviteGateway convites) {
+        return new RevogarConviteService(usuarios, convites);
     }
 }

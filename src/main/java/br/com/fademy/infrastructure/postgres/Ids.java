@@ -2,6 +2,7 @@ package br.com.fademy.infrastructure.postgres;
 
 import com.github.f4b6a3.uuid.UuidCreator;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -15,5 +16,14 @@ final class Ids {
 
     static UUID novo() {
         return UuidCreator.getTimeOrderedEpoch();
+    }
+
+    /** Id vindo de fora (path, token); formato inválido vale como inexistente (SPEC 5.1). */
+    static Optional<UUID> ler(String id) {
+        try {
+            return Optional.of(UUID.fromString(id));
+        } catch (IllegalArgumentException | NullPointerException e) {
+            return Optional.empty();
+        }
     }
 }
