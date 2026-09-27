@@ -30,7 +30,7 @@ docker compose up -d       # postgres, mongo, seaweedfs (S3)
 
 ## Regras que não se negociam
 
-- **Clean Architecture:** `domain` e `application` sem Spring, JPA ou Mongo. Todo caso de uso
+- **Clean Architecture:** `domain` e `application` sem Spring, JDBC ou Mongo. Todo caso de uso
   é interface (`application/usecase`) + implementação (`application/service`); todo acesso
   externo é interface (`application/gateway`) + implementação (`infrastructure/`).
 - **Orientação a objetos:** regra sobre um objeto é método dele. Variação por papel é

@@ -67,7 +67,7 @@ Implemente só o escopo da issue, seguindo `docs/ARQUITETURA.md`:
 - regra de negócio no **domínio** (método da entidade) sempre que a regra for sobre o próprio objeto; orquestração no **service**;
 - cada caso de uso novo = interface em `application/usecase` + implementação em `application/service`;
 - acesso a banco, armazenamento, token, senha ou tempo real = interface em `application/gateway` + implementação em `infrastructure/`;
-- nada de Spring, JPA ou Mongo em `domain` e `application` (o teste ArchUnit quebra o build);
+- nada de Spring, JDBC ou Mongo em `domain` e `application` (o teste ArchUnit quebra o build);
 - migration Flyway nova `V<n>__<descricao>.sql`; nunca editar uma migration já commitada na `main`.
 
 **Cada critério de aceite deve ser coberto por pelo menos um teste automatizado** que falharia sem a mudança. Regra de domínio → teste unitário; orquestração → teste do service com gateways mockados; gateway → teste de integração com Testcontainers; contrato HTTP (status, corpo, mensagem) → teste web. Quando inviável (ex.: visual no frontend), registre no PR o passo manual e o motivo.

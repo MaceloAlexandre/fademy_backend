@@ -10,8 +10,8 @@ documento trata só da estrutura. Mudou a estrutura, muda este documento no mesm
 | Linguagem | Java 25 |
 | Framework | Spring Boot 4.1 (só na camada de infraestrutura) |
 | Build | Maven, pelo wrapper `./mvnw` (não precisa instalar Maven) |
-| Postgres | PostgreSQL 17 + Flyway (migrations) + Spring Data JPA |
-| Mongo | MongoDB 8 + Spring Data MongoDB |
+| Postgres | PostgreSQL 17 + Flyway (migrations) + Spring JDBC (`JdbcClient`, SQL escrito à mão) |
+| Mongo | MongoDB 8 + driver oficial (`MongoClient` do Singleton) |
 | Imagens | API S3 (AWS SDK v2); localmente, SeaweedFS no `docker-compose` (o MinIO deixou de publicar imagens da edição comunitária) |
 | Tempo real | Socket.IO v4 com `netty-socketio` |
 | Autenticação | JWT HS256 + bcrypt |
@@ -21,7 +21,7 @@ documento trata só da estrutura. Mudou a estrutura, muda este documento no mesm
 
 ```
              ┌──────────────────────────────────────────────────┐
-             │ infrastructure  (Spring, JPA, Mongo, S3, HTTP)   │
+             │ infrastructure  (Spring, JDBC, Mongo, S3, HTTP)  │
              │   ┌──────────────────────────────────────────┐   │
              │   │ application  (use cases, services,       │   │
              │   │               interfaces de gateway)     │   │
@@ -64,8 +64,8 @@ src/main/java/br/com/fademy/
 │                       TransacaoGateway, ...
 └── infrastructure/
     ├── database/       DatabaseManager (Singleton), DatabaseConfig
-    ├── postgres/       entidades JPA, repositórios Spring Data e PostgresXxxGateway
-    ├── mongo/          documentos, repositórios Spring Data e MongoXxxGateway
+    ├── postgres/       PostgresXxxGateway (SQL com JdbcClient)
+    ├── mongo/          MongoXxxGateway (driver do MongoDB)
     ├── armazenamento/  S3ArmazenamentoGateway
     ├── seguranca/      JwtTokenGateway, BcryptSenhaGateway, filtro de autenticação
     ├── web/            controllers, DTOs (record), tratamento de erro
@@ -109,8 +109,14 @@ public class PostgresSeguirGateway implements SeguirGateway { ... }
 - Services recebem **interfaces de gateway**, nunca a implementação.
 - Quem liga cada service aos gateways é `infrastructure/config/UseCaseConfig`, com `@Bean`.
   Os services não têm anotação do Spring.
-- Gateway devolve e recebe **entidades de domínio**. A conversão de/para entidade JPA ou
-  documento Mongo acontece dentro da implementação do gateway.
+- Implementações de gateway são `@Component` (a infraestrutura pode usar Spring) e são
+  injetadas nos services pela interface.
+- Gateway devolve e recebe **entidades de domínio**. A conversão de/para linha do Postgres
+  ou documento do Mongo acontece dentro da implementação do gateway.
+- Sem JPA nem Spring Data: cada gateway escreve o próprio SQL (ou consulta Mongo). Com JPA,
+  cada entidade precisaria de três classes a mais (entidade JPA, repositório, conversor); o
+  SQL direto é mais simples e deixa o gateway como um Adapter fino sobre a conexão do
+  Singleton, como no exemplo do professor.
 
 ### Transação
 
@@ -221,7 +227,7 @@ public class DatabaseManager {
   e `MONGO_URI` (variável de ambiente ou propriedade de sistema). Sem elas, usa os valores do
   `docker-compose` em `localhost`, como o exemplo do professor.
 - `DatabaseConfig` (Spring) chama `getInstance()` **uma vez, na subida**, e expõe
-  `getPostgres()` e `getMongo()` como beans. JPA, Flyway e Spring Data Mongo usam esses beans.
+  `getPostgres()` e `getMongo()` como beans. Flyway, `JdbcClient` e os gateways do Mongo usam esses beans.
 - Os gateways (`PostgresXxxGateway`, `MongoXxxGateway`) são os Adapters: cada um implementa
   uma interface de `application/gateway` usando uma das conexões do Singleton.
 - **Ninguém além do `DatabaseConfig` chama `getInstance()`.** Services e gateways recebem as
