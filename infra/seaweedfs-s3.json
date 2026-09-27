@@ -1,0 +1,13 @@
+{
+  "identities": [
+    {
+      "name": "fademy",
+      "credentials": [{ "accessKey": "fademy", "secretKey": "fademy123" }],
+      "actions": ["Admin", "Read", "Write", "List", "Tagging"]
+    },
+    {
+      "name": "anonymous",
+      "actions": ["Read:fademy"]
+    }
+  ]
+}

@@ -28,7 +28,7 @@ Para qualquer outro repositório, pergunte ao usuário a branch-base antes de qu
 
 - Projeto acadêmico da disciplina de Programação Orientada a Objetos. O que importa: **orientação a objetos de verdade** (entidades com comportamento, herança onde há variação de comportamento, polimorfismo no lugar de `if` por tipo), **Clean Architecture** (use case → service → gateway, regra de dependência) e o **Singleton `DatabaseManager`** com Postgres e Mongo usados de verdade. Não trate hardening de segurança como critério implícito nem amplie escopo por isso.
 - O frontend React (`fademy_frontend`) não muda: o **contrato da API** (SPEC seção 5 — rotas, status, mensagens de erro, nomes de campo como `_id`) é invariável, salvo quando a issue disser o contrário.
-- A apresentação é na rede local da faculdade, sem depender de internet: nada de serviço externo obrigatório (S3 é MinIO local).
+- A apresentação é na rede local da faculdade, sem depender de internet: nada de serviço externo obrigatório (S3 é o SeaweedFS local).
 - Idioma: código (classes, métodos), mensagens de commit, PR e SPEC em português (Brasil). Mensagens de erro da API seguem o texto exato do SPEC (herdado do Node, em inglês na maioria).
 - Nunca commite `.env` nem segredos.
 

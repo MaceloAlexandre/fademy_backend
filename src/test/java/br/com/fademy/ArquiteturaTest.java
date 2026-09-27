@@ -1,5 +1,7 @@
 package br.com.fademy;
 
+import br.com.fademy.infrastructure.database.DatabaseConfig;
+import br.com.fademy.infrastructure.database.DatabaseManager;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
@@ -40,4 +42,10 @@ class ArquiteturaTest {
             .that().resideInAPackage("..application..")
             .should().dependOnClassesThat().resideInAnyPackage(FRAMEWORKS)
             .allowEmptyShould(true);
+
+    // Singleton: só o DatabaseConfig chama getInstance(), na subida (seção 6).
+    @ArchTest
+    static final ArchRule soDatabaseConfigChamaGetInstance = noClasses()
+            .that().doNotHaveFullyQualifiedName(DatabaseConfig.class.getName())
+            .should().callMethod(DatabaseManager.class, "getInstance");
 }
