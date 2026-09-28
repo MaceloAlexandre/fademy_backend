@@ -50,6 +50,25 @@ PR com `Refs #<id>`. O merge é do usuário. Não use `.planning/` nem comandos 
 Onde houver bifurcação real (schema, regra de negócio, contrato), **pergunte com uma
 recomendação**; não decida sozinho.
 
+## Preferências do usuário
+
+- Simples primeiro, nada de over-engineering.
+- **Nenhuma regra de negócio em controller**: o controller só traduz HTTP ↔ use case. Regra
+  sobre um objeto fica no domínio; orquestração no service; banco, armazenamento, token e tempo
+  real nos gateways.
+- Responsabilidades bem separadas e visíveis (é o que a disciplina avalia).
+- Sempre dizer o que foi e o que não foi verificado (ex.: "validado com curl, falta o navegador").
+
+## Ambiente
+
+- É preciso o **JDK 25**, não só o JRE (`javac -version` tem que responder). Sem JDK, o Maven
+  falha com `release version 25 not supported`.
+- Docker com `docker compose`. Se o usuário acabou de entrar no grupo `docker`, um shell antigo
+  ainda não tem a permissão: use `sg docker -c "<comando>"` ou peça para ele entrar de novo.
+- Os testes de integração sobem Postgres, Mongo e SeaweedFS pelo Testcontainers: o Docker precisa
+  estar rodando para o `./mvnw verify`.
+- Não use `pkill -f "<texto>"` com um texto que aparece na própria linha de comando: mata o shell.
+
 ---
 
 ## Diretrizes de código

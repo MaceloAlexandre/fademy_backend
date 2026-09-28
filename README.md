@@ -16,6 +16,38 @@ Java 25 · Spring Boot · Clean Architecture · PostgreSQL + MongoDB (Singleton 
 
 O backend Node original está na branch `legado-node`.
 
+## Montar o ambiente numa máquina nova
+
+Pré-requisitos: **JDK 25** (não só o JRE; no Debian/Ubuntu/Kali: `sudo apt install
+openjdk-25-jdk-headless`), Docker com `docker compose` e Node 20+ (para o frontend). Maven não
+precisa: o projeto usa o `./mvnw`.
+
+```bash
+mkdir fademy && cd fademy
+git clone https://github.com/MaceloAlexandre/fademy_backend.git
+git clone https://github.com/MaceloAlexandre/fademy_frontend.git
+
+# bancos e armazenamento de imagens
+cd fademy_backend
+docker compose up -d
+
+# API em http://localhost:3000 (com dados de demonstração)
+SPRING_PROFILES_ACTIVE=demo ./mvnw spring-boot:run
+
+# frontend em http://localhost:5173 (outro terminal)
+cd ../fademy_frontend
+npm install
+npm run dev
+```
+
+Contas: `admin@fademy.com` / `changeme`; com o perfil `demo`, também `ana@demo.fademy`,
+`helena@demo.fademy`... com a senha `demo1234` (lista completa em `docs/APRESENTACAO.md`).
+Testes: `./mvnw verify` (com o Docker rodando). No IntelliJ, escolha o JDK 25 em *Project
+Structure → SDK* e rode a classe `FademyApplication`.
+
+Abra o Claude Code na pasta `fademy/` (acima dos dois repositórios) ou dentro de
+`fademy_backend/`: a skill `github-issue-implementation` e o `CLAUDE.md` vêm com o repositório.
+
 ## Como trabalhamos: issues + SDD
 
 1. Todo trabalho nasce de uma issue com critérios de aceite verificáveis (Dado / Quando / Então),
