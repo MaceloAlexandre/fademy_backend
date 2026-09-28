@@ -1,6 +1,7 @@
 package br.com.fademy.infrastructure.config;
 
 import br.com.fademy.application.gateway.ArmazenamentoGateway;
+import br.com.fademy.application.gateway.AvatarPadraoGateway;
 import br.com.fademy.application.gateway.BloqueioGateway;
 import br.com.fademy.application.gateway.CategoriaGateway;
 import br.com.fademy.application.gateway.ComentarioGateway;
@@ -99,8 +100,9 @@ public class UseCaseConfig {
     @Bean
     public CarregarDadosIniciaisUseCase carregarDadosIniciais(InstituicaoGateway instituicoes,
                                                               CategoriaGateway categorias,
-                                                              UsuarioGateway usuarios, SenhaGateway senhas) {
-        return new CarregarDadosIniciaisService(instituicoes, categorias, usuarios, senhas);
+                                                              UsuarioGateway usuarios, SenhaGateway senhas,
+                                                              AvatarPadraoGateway avatares) {
+        return new CarregarDadosIniciaisService(instituicoes, categorias, usuarios, senhas, avatares);
     }
 
     @Bean

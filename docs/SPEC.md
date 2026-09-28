@@ -67,7 +67,9 @@ O `slug` é o nome em minúsculas, sem acento, com espaços trocados por `-`.
 nome de) a instituição `catolica-pb` "Faculdade Católica da Paraíba"; cria as categorias da
 RN02; cria o admin inicial com `BOOTSTRAP_ADMIN_EMAIL` (padrão `admin@fademy.com`),
 `BOOTSTRAP_ADMIN_PASSWORD` (padrão `changeme`) e `BOOTSTRAP_ADMIN_NAME` (padrão `Admin`)
-nessa instituição. Rodar de novo não altera a senha de um admin que já existe.
+nessa instituição, com um avatar de iniciais. Rodar de novo não altera a senha de um admin que
+já existe; se ele não tem foto, ganha o avatar de iniciais. Se o armazenamento de imagens estiver
+fora do ar, o admin é criado sem foto e a aplicação sobe mesmo assim (#54).
 
 ### 4.2 Papéis e permissões
 
@@ -512,5 +514,6 @@ Cada issue, ao ser entregue, registra aqui as regras que cobre.
 | RN44 (e o painel da RN05) | #47 | entregue |
 | RN01 (isolamento por instituição) | em cada recurso: #14, #21–#26, #33–#36, #41 | entregue |
 | Seção 5.1: imagens por chave; RN16 e RN18 gravam a chave | #53 | entregue |
+| RN03 (avatar de iniciais do admin) | #54 | entregue |
 
 Com a #47, todas as regras RN01–RN48 estão implementadas.
