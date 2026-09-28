@@ -293,12 +293,12 @@ Um teste garante que o objeto usado pelo Spring é o mesmo que `getInstance` dev
 
 ```bash
 docker compose up -d        # postgres:17, mongo:8, seaweedfs (S3 local) + criação do bucket
-./mvnw spring-boot:run      # API em http://localhost:3000
+./mvnw spring-boot:run      # API em http://localhost:8080
 ./mvnw verify               # testes unitários + integração (Testcontainers precisa do Docker)
 ```
 
 Na apresentação (rede local da faculdade): a API sobe no notebook, o frontend é servido com
-`VITE_API_URL=http://<ip-do-notebook>:3000` e `FRONTEND_ORIGIN` aponta para o endereço do
+`VITE_API_URL=http://<ip-do-notebook>:8080` e `FRONTEND_ORIGIN` aponta para o endereço do
 frontend. Sem internet, o SeaweedFS faz o papel do S3.
 
 ## 10. Testes

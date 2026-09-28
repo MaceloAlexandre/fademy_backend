@@ -372,7 +372,7 @@ quando os dois bancos respondem; senão 503 `{ status: "degraded", postgres, mon
 
 ### 5.1 Convenções
 
-- Prefixo `/api` (exceto `/health`). JSON em UTF-8. Porta padrão `3000`.
+- Prefixo `/api` (exceto `/health`). JSON em UTF-8. Porta padrão `8080` (#59).
 - **Ids:** texto opaco, no campo `_id`. Entidades do Postgres usam UUIDv7 (ordenado pelo
   tempo); entidades do Mongo usam ObjectId em hexadecimal. As respostas de perfil (RN17,
   RN18) e de cadastro (RN16) usam `id`, como no Node.
@@ -515,5 +515,6 @@ Cada issue, ao ser entregue, registra aqui as regras que cobre.
 | RN01 (isolamento por instituição) | em cada recurso: #14, #21–#26, #33–#36, #41 | entregue |
 | Seção 5.1: imagens por chave; RN16 e RN18 gravam a chave | #53 | entregue |
 | RN03 (avatar de iniciais do admin) | #54 | entregue |
+| Seção 5: porta padrão 8080 | #59 | entregue |
 
 Com a #47, todas as regras RN01–RN48 estão implementadas.
