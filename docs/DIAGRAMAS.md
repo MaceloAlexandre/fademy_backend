@@ -378,9 +378,10 @@ O mesmo desenho se repete nos outros 29 casos de uso: `XxxUseCase` (interface) �
 
 | Exemplo do professor (`docs/referencias/exemplo-singleton-adapter/`) | Fademy |
 |---|---|
-| `DatabaseManager.getInstance()` guarda os adapters de Postgres e Mongo | `DatabaseManager.getInstance()` guarda o pool do Postgres e o cliente do Mongo |
-| `DataBaseAdapter` (interface) | uma interface por necessidade: `UsuarioGateway`, `ConversaGateway`, ... |
-| `PostgresAdapter`, `MongoAdapter` | `Postgres*Gateway` (9 classes) e `Mongo*Gateway` (4 classes) |
+| `DatabaseManager.getInstance()` guarda os adapters de Postgres e Mongo | igual: `getPostgresAdapter()` e `getMongoAdapter()` (#61) |
+| `DataBaseAdapter` (interface: `conectar`, `desconectar`) | igual |
+| `PostgresAdapter`, `MongoAdapter` | igual; guardam o `DataSource` e o `MongoClient`/`MongoDatabase` |
+| `salvarUsuario` no adapter | uma interface por necessidade (`UsuarioGateway`, `ConversaGateway`, ...), implementada por `Postgres*Gateway` e `Mongo*Gateway` com a conexão do adapter |
 | `PostgresClient`, `MongoClient` (simulados) | `DataSource` (Hikari) e `MongoClient` do driver oficial, reais |
 | `UsuarioService` recebe o adapter | cada `*Service` recebe as interfaces de gateway |
 | `Main` chama `getInstance()` | só o `DatabaseConfig` chama `getInstance()`, na subida (regra verificada por ArchUnit) |
@@ -392,24 +393,35 @@ classDiagram
     class DatabaseManager {
         <<Singleton>>
         -DatabaseManager instance$
-        -DataSource postgres
-        -MongoClient mongo
-        -MongoDatabase mongoDatabase
+        -PostgresAdapter postgresAdapter
+        -MongoAdapter mongoAdapter
         -DatabaseManager()
         +getInstance()$ DatabaseManager
-        +getPostgres() DataSource
-        +getMongo() MongoClient
-        +getMongoDatabase() MongoDatabase
+        +getPostgresAdapter() PostgresAdapter
+        +getMongoAdapter() MongoAdapter
+    }
+    class DataBaseAdapter {
+        <<interface>>
+        +conectar()
+        +desconectar()
+    }
+    class PostgresAdapter {
+        +getDataSource() DataSource
+    }
+    class MongoAdapter {
+        +getCliente() MongoClient
+        +getBanco() MongoDatabase
     }
     class ConfiguracaoBancos {
         <<record>>
         +doAmbiente()$ ConfiguracaoBancos
     }
     class DatabaseConfig {
-        +databaseManager() DatabaseManager
-        +dataSource(DatabaseManager m) DataSource
-        +mongoClient(DatabaseManager m) MongoClient
-        +mongoDatabase(DatabaseManager m) MongoDatabase
+        +postgresAdapter() PostgresAdapter
+        +mongoAdapter() MongoAdapter
+        +dataSource(PostgresAdapter a) DataSource
+        +mongoClient(MongoAdapter a) MongoClient
+        +mongoDatabase(MongoAdapter a) MongoDatabase
     }
     class UsuarioGateway {
         <<interface>>
@@ -425,11 +437,15 @@ classDiagram
     }
 
     DatabaseManager ..> ConfiguracaoBancos : lê
+    DatabaseManager *-- PostgresAdapter : cria
+    DatabaseManager *-- MongoAdapter : cria
+    DataBaseAdapter <|.. PostgresAdapter
+    DataBaseAdapter <|.. MongoAdapter
     DatabaseConfig ..> DatabaseManager : getInstance() na subida
     UsuarioGateway <|.. PostgresUsuarioGateway
     ConversaGateway <|.. MongoConversaGateway
-    PostgresUsuarioGateway ..> DatabaseManager : DataSource do Singleton
-    MongoConversaGateway ..> DatabaseManager : MongoDatabase do Singleton
+    PostgresUsuarioGateway ..> PostgresAdapter : DataSource do adapter
+    MongoConversaGateway ..> MongoAdapter : MongoDatabase do adapter
 ```
 
 `getInstance()` é o do professor, sem `synchronized`. É seguro porque a primeira chamada

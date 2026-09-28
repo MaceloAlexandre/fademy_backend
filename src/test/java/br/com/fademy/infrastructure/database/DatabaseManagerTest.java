@@ -2,6 +2,7 @@ package br.com.fademy.infrastructure.database;
 
 import br.com.fademy.IntegracaoTest;
 import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoDatabase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,15 +19,29 @@ class DatabaseManagerTest extends IntegracaoTest {
     @Autowired
     MongoClient mongoClient;
 
+    @Autowired
+    MongoDatabase mongoDatabase;
+
     @Test
     void getInstanceDevolveSempreOMesmoObjeto() {
         assertThat(DatabaseManager.getInstance()).isSameAs(DatabaseManager.getInstance());
     }
 
     @Test
-    void springUsaAsConexoesDoSingleton() {
-        assertThat(dataSource).isSameAs(DatabaseManager.getInstance().getPostgres());
-        assertThat(mongoClient).isSameAs(DatabaseManager.getInstance().getMongo());
+    void entregaOsAdaptersJaConectados() {
+        DatabaseManager manager = DatabaseManager.getInstance();
+
+        assertThat(manager.getPostgresAdapter().getDataSource()).isNotNull();
+        assertThat(manager.getMongoAdapter().getBanco()).isNotNull();
+    }
+
+    @Test
+    void springUsaAsConexoesDosAdaptersDoSingleton() {
+        DatabaseManager manager = DatabaseManager.getInstance();
+
+        assertThat(dataSource).isSameAs(manager.getPostgresAdapter().getDataSource());
+        assertThat(mongoClient).isSameAs(manager.getMongoAdapter().getCliente());
+        assertThat(mongoDatabase).isSameAs(manager.getMongoAdapter().getBanco());
     }
 
     @Test

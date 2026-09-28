@@ -212,12 +212,15 @@ Segue o exemplo do professor (`docs/referencias/exemplo-singleton-adapter/`):
 public class DatabaseManager {
     private static DatabaseManager instance;
 
-    private final DataSource postgres;       // pool de conexões do PostgreSQL
-    private final MongoClient mongo;         // cliente do MongoDB
+    private final PostgresAdapter postgresAdapter;   // pool de conexões do PostgreSQL
+    private final MongoAdapter mongoAdapter;         // cliente e banco do MongoDB
 
     private DatabaseManager() {
         ConfiguracaoBancos config = ConfiguracaoBancos.doAmbiente();
-        ...
+        postgresAdapter = new PostgresAdapter(config.postgresUrl(), ...);
+        mongoAdapter = new MongoAdapter(config.mongoUri(), ...);
+        postgresAdapter.conectar();
+        mongoAdapter.conectar();
     }
 
     public static DatabaseManager getInstance() {
@@ -227,18 +230,25 @@ public class DatabaseManager {
         return instance;
     }
 
-    public DataSource getPostgres() { ... }
-    public MongoClient getMongo() { ... }
+    public PostgresAdapter getPostgresAdapter() { ... }
+    public MongoAdapter getMongoAdapter() { ... }
 }
 ```
+
+- `DataBaseAdapter` é a interface do exemplo (`conectar()`, `desconectar()`), implementada por
+  `PostgresAdapter` (guarda o `DataSource` do HikariCP) e `MongoAdapter` (guarda o `MongoClient`
+  e o `MongoDatabase`). Como no exemplo, o construtor privado do `DatabaseManager` cria os
+  adapters, e o Singleton os entrega (#61).
 
 - `ConfiguracaoBancos.doAmbiente()` lê `POSTGRES_URL`, `POSTGRES_USER`, `POSTGRES_PASSWORD`
   e `MONGO_URI` (variável de ambiente ou propriedade de sistema). Sem elas, usa os valores do
   `docker-compose` em `localhost`, como o exemplo do professor.
-- `DatabaseConfig` (Spring) chama `getInstance()` **uma vez, na subida**, e expõe
-  `getPostgres()` e `getMongo()` como beans. Flyway, `JdbcClient` e os gateways do Mongo usam esses beans.
-- Os gateways (`PostgresXxxGateway`, `MongoXxxGateway`) são os Adapters: cada um implementa
-  uma interface de `application/gateway` usando uma das conexões do Singleton.
+- `DatabaseConfig` (Spring) chama `getInstance()` **na subida** e expõe os dois adapters como
+  beans; o `DataSource`, o `MongoClient` e o `MongoDatabase` saem de dentro deles. Flyway,
+  `JdbcClient` e os gateways do Mongo usam esses beans. No desligamento, o Spring chama
+  `desconectar()` dos dois adapters.
+- Os gateways (`PostgresXxxGateway`, `MongoXxxGateway`) implementam as interfaces de
+  `application/gateway` usando a conexão que o adapter do banco guarda.
 - **Ninguém além do `DatabaseConfig` chama `getInstance()`.** Services e gateways recebem as
   conexões por injeção.
 - Nos testes de integração, os containers do Testcontainers sobem uma vez por execução e
