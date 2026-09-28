@@ -5,9 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.MultipartBodyBuilder;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,18 +27,20 @@ class LimiteDeUploadTest extends IntegracaoTest {
 
     @Test
     void arquivoAcimaDoLimiteDa400() {
-        MultipartBodyBuilder corpo = new MultipartBodyBuilder();
-        corpo.part("file", new ByteArrayResource(new byte[5 * 1024 * 1024 + 1]) {
+        HttpHeaders tipo = new HttpHeaders();
+        tipo.setContentType(MediaType.IMAGE_JPEG);
+        MultiValueMap<String, Object> corpo = new LinkedMultiValueMap<>();
+        corpo.add("file", new HttpEntity<>(new ByteArrayResource(new byte[5 * 1024 * 1024 + 1]) {
             @Override
             public String getFilename() {
                 return "grande.jpg";
             }
-        }).contentType(MediaType.IMAGE_JPEG);
+        }, tipo));
 
         ResponseEntity<String> resposta = RestClient.create("http://localhost:" + porta)
                 .post().uri("/api/media/upload")
                 .contentType(MediaType.MULTIPART_FORM_DATA)
-                .body(corpo.build())
+                .body(corpo)
                 .retrieve()
                 .onStatus(status -> true, (requisicao, r) -> { })
                 .toEntity(String.class);

@@ -16,9 +16,9 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
 
     // Rotas públicas da SPEC 5.2. GET /api/invites/{token} é a única rota com um segmento
-    // depois de /api/invites.
+    // depois de /api/invites; /api/media/{pasta}/{arquivo} serve as imagens (RN49).
     private static final String[] ROTAS_PUBLICAS = {
-            "/api/auth/login", "/api/auth/register", "/api/media/upload", "/api/invites/*"
+            "/api/auth/login", "/api/auth/register", "/api/media/upload", "/api/invites/*", "/api/media/*/*"
     };
 
     private final String origemDoFrontend;

@@ -17,13 +17,13 @@ professor e a análise de POO do grupo estão em `docs/referencias/`.
 
 ## Stack e comandos
 
-Java 25 · Spring Boot 4.1 · PostgreSQL 17 + Flyway · MongoDB 8 · SeaweedFS (S3) · socket.io-server-java ·
+Java 25 · Spring Boot 4.1 · PostgreSQL 17 + Flyway · MongoDB 8 (imagens no GridFS) · socket.io-server-java ·
 JUnit 5 + Mockito + Testcontainers + ArchUnit. Build pelo wrapper, sem Maven instalado.
 Precisa do **JDK** 25 (o JRE não compila): `sudo apt install openjdk-25-jdk-headless`, ou um JDK
 em `~/.jdks/` com `JAVA_HOME` apontando para ele.
 
 ```bash
-docker compose up -d       # postgres, mongo, seaweedfs (S3)
+docker compose up -d       # postgres, mongo
 ./mvnw spring-boot:run     # API em :8080
 ./mvnw verify              # todos os testes (Docker rodando)
 ```
@@ -65,7 +65,7 @@ recomendação**; não decida sozinho.
   falha com `release version 25 not supported`.
 - Docker com `docker compose`. Se o usuário acabou de entrar no grupo `docker`, um shell antigo
   ainda não tem a permissão: use `sg docker -c "<comando>"` ou peça para ele entrar de novo.
-- Os testes de integração sobem Postgres, Mongo e SeaweedFS pelo Testcontainers: o Docker precisa
+- Os testes de integração sobem Postgres e Mongo pelo Testcontainers: o Docker precisa
   estar rodando para o `./mvnw verify`.
 - Não use `pkill -f "<texto>"` com um texto que aparece na própria linha de comando: mata o shell.
 

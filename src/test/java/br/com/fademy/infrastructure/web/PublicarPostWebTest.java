@@ -15,10 +15,6 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -70,10 +67,11 @@ class PublicarPostWebTest extends IntegracaoTest {
                 .andReturn().getResponse().getContentAsString();
 
         String url = JsonPath.read(resposta, "$.post.imageUrls[0]");
-        assertThat(url).contains("/posts/");
-        HttpResponse<byte[]> imagem = HttpClient.newHttpClient().send(
-                HttpRequest.newBuilder(URI.create(url)).build(), HttpResponse.BodyHandlers.ofByteArray());
-        assertThat(imagem.body()).isEqualTo(FOTO);
+        assertThat(url).startsWith(url("posts/"));
+        // A imagem gravada no GridFS sai pela rota da própria API (RN49).
+        mvc.perform(get(url.substring(url.indexOf("/api/media/"))))
+                .andExpect(status().isOk())
+                .andExpect(content().bytes(FOTO));
     }
 
     @Test

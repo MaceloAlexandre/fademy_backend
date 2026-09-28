@@ -41,7 +41,7 @@ alteração**: o contrato REST e Socket.IO da seção 5 é o mesmo do backend No
 | Banco | Dados | Por quê |
 |---|---|---|
 | PostgreSQL | instituições, usuários, convites, categorias, follows, bloqueios, posts, comentários | Dados relacionais com unicidade e integridade referencial (FKs, `UNIQUE`), transações e consultas com JOIN (feed, busca, sugestões). |
-| MongoDB | conversas, mensagens, notificações | Alto volume de escrita, leitura por linha do tempo de um único dono, documento autocontido (mensagem com lista de mídias, notificação com referência polimórfica). |
+| MongoDB | conversas, mensagens, notificações; **imagens** (GridFS, bucket `imagens`) | Alto volume de escrita, leitura por linha do tempo de um único dono, documento autocontido (mensagem com lista de mídias, notificação com referência polimórfica). As imagens ficam no GridFS, o recurso do MongoDB para arquivos, com a chave como nome e o tipo nos metadados (#62). |
 
 Referências entre os bancos são só por id (ex.: `senderId` de uma mensagem é o id de um
 usuário do Postgres). Não há chave estrangeira entre bancos. Regras de consistência na
@@ -150,6 +150,12 @@ autenticação** (acontece antes de a conta existir). Aceita `image/jpeg`, `imag
 tipos e o tamanho da RN14. Chaves `posts/<uuid>.<ext>` e `messages/<uuid>.<ext>`. Todos os
 arquivos são validados **antes** de qualquer envio ao armazenamento; um arquivo inválido
 rejeita a requisição inteira (400 `Invalid file type`) sem deixar objeto órfão.
+
+As imagens das RN14 e RN15 são gravadas no MongoDB, pelo GridFS (#62).
+
+**RN49 — Ver imagem.** `GET /api/media/<chave>` (ex.: `/api/media/avatars/<uuid>.jpg`), **sem
+autenticação** (o navegador abre a imagem direto pela URL). Chave existente → 200 com os bytes
+da imagem e o `Content-Type` dela; inexistente → 404 `Image not found` (#62).
 
 ### 4.6 Cadastro via convite
 
@@ -380,8 +386,9 @@ quando os dois bancos respondem; senão 503 `{ status: "degraded", postgres, mon
 - **Datas:** ISO-8601 em UTC com sufixo `Z`.
 - **Imagens:** o banco guarda só a chave no armazenamento (`avatars/…`, `posts/…`,
   `messages/…`). Toda URL de imagem na resposta (`avatarUrl`, `imageUrls`, `mediaUrls`,
-  `objectUrl`) é montada na hora como `S3_PUBLIC_URL` + `/` + chave, com o endereço da execução
-  atual; trocar o endereço não quebra as imagens que já existiam (#53).
+  `objectUrl`) é montada na hora como `IMAGENS_URL_PUBLICA` + `/` + chave (padrão
+  `http://localhost:8080/api/media`, a rota da RN49), com o endereço da execução atual; trocar o
+  endereço não quebra as imagens que já existiam (#53, #62).
 - **Erros:** `{ "error": "<mensagem>" }`. Erro inesperado → 500 `Internal server error`,
   sem detalhe interno no corpo. Erros de protocolo HTTP (JSON malformado, rota inexistente,
   método não suportado) mantêm o status padrão (400, 404, 405) com o mesmo formato de corpo (#3).
@@ -395,6 +402,7 @@ quando os dois bancos respondem; senão 503 `{ status: "degraded", postgres, mon
 | `POST /api/auth/login` | — | RN07 |
 | `POST /api/auth/register` | — | RN16 |
 | `POST /api/media/upload` | — | RN14 |
+| `GET /api/media/<chave>` | — | RN49 |
 | `GET /api/invites/:token` | — | RN11 |
 | `POST /api/invites` | equipe | RN10 |
 | `POST /api/invites/:token/revoke` | equipe | RN12 |
@@ -516,5 +524,6 @@ Cada issue, ao ser entregue, registra aqui as regras que cobre.
 | Seção 5.1: imagens por chave; RN16 e RN18 gravam a chave | #53 | entregue |
 | RN03 (avatar de iniciais do admin) | #54 | entregue |
 | Seção 5: porta padrão 8080 | #59 | entregue |
+| Seção 3, RN14, RN15 (imagens no MongoDB/GridFS), RN49 | #62 | entregue |
 
 Com a #47, todas as regras RN01–RN48 estão implementadas.

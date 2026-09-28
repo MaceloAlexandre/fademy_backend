@@ -28,6 +28,7 @@ import br.com.fademy.application.service.DeixarDeSeguirService;
 import br.com.fademy.application.service.DesbloquearUsuarioService;
 import br.com.fademy.application.service.EditarPerfilService;
 import br.com.fademy.application.service.EnviarAvatarService;
+import br.com.fademy.application.service.VerImagemService;
 import br.com.fademy.application.service.GerarConviteService;
 import br.com.fademy.application.service.IniciarConversaService;
 import br.com.fademy.application.service.LerNotificacaoService;
@@ -58,6 +59,7 @@ import br.com.fademy.application.usecase.DeixarDeSeguirUseCase;
 import br.com.fademy.application.usecase.DesbloquearUsuarioUseCase;
 import br.com.fademy.application.usecase.EditarPerfilUseCase;
 import br.com.fademy.application.usecase.EnviarAvatarUseCase;
+import br.com.fademy.application.usecase.VerImagemUseCase;
 import br.com.fademy.application.usecase.GerarConviteUseCase;
 import br.com.fademy.application.usecase.IniciarConversaUseCase;
 import br.com.fademy.application.usecase.LerNotificacaoUseCase;
@@ -118,6 +120,11 @@ public class UseCaseConfig {
     @Bean
     public EnviarAvatarUseCase enviarAvatar(ArmazenamentoGateway armazenamento) {
         return new EnviarAvatarService(armazenamento);
+    }
+
+    @Bean
+    public VerImagemUseCase verImagem(ArmazenamentoGateway armazenamento) {
+        return new VerImagemService(armazenamento);
     }
 
     @Bean

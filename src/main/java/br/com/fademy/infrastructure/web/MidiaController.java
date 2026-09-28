@@ -1,7 +1,13 @@
 package br.com.fademy.infrastructure.web;
 
 import br.com.fademy.application.usecase.EnviarAvatarUseCase;
+import br.com.fademy.application.usecase.VerImagemUseCase;
+import br.com.fademy.domain.midia.Imagem;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -14,11 +20,20 @@ import java.io.IOException;
 public class MidiaController {
 
     private final EnviarAvatarUseCase enviarAvatar;
+    private final VerImagemUseCase verImagem;
     private final EnderecoDasImagens imagens;
 
-    public MidiaController(EnviarAvatarUseCase enviarAvatar, EnderecoDasImagens imagens) {
+    public MidiaController(EnviarAvatarUseCase enviarAvatar, VerImagemUseCase verImagem, EnderecoDasImagens imagens) {
         this.enviarAvatar = enviarAvatar;
+        this.verImagem = verImagem;
         this.imagens = imagens;
+    }
+
+    /** SPEC RN49. Público: o navegador abre a imagem direto pela URL. */
+    @GetMapping("/api/media/{pasta}/{arquivo}")
+    public ResponseEntity<byte[]> ver(@PathVariable String pasta, @PathVariable String arquivo) {
+        Imagem imagem = verImagem.executar(pasta + "/" + arquivo);
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType(imagem.tipo())).body(imagem.conteudo());
     }
 
     /** SPEC RN14. Público: acontece antes de a conta existir. */

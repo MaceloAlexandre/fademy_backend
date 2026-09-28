@@ -9,12 +9,8 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -40,14 +36,23 @@ class UploadDeAvatarTest extends IntegracaoTest {
         String chave = JsonPath.read(resposta, "$.key");
         String url = JsonPath.read(resposta, "$.objectUrl");
         assertThat(chave).matches("avatars/[0-9a-f-]{36}\\.jpg").doesNotContain("minha-foto");
+        assertThat(url).isEqualTo(url(chave));
 
-        HttpResponse<byte[]> leituraAnonima = HttpClient.newHttpClient().send(
-                HttpRequest.newBuilder(URI.create(url)).build(), HttpResponse.BodyHandlers.ofByteArray());
-        assertThat(leituraAnonima.statusCode()).isEqualTo(200);
-        assertThat(leituraAnonima.body()).isEqualTo(FOTO);
+        // Leitura sem token pela rota da própria API (RN49), com o tipo da imagem.
+        mvc.perform(get("/api/media/" + chave))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("image/jpeg"))
+                .andExpect(content().bytes(FOTO));
 
         assertThat(armazenamento.existe(chave)).isTrue();
         assertThat(armazenamento.existe("avatars/nao-existe.jpg")).isFalse();
+    }
+
+    @Test
+    void imagemInexistenteDa404() throws Exception {
+        mvc.perform(get("/api/media/avatars/nao-existe.jpg"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().json("{\"error\":\"Image not found\"}", true));
     }
 
     @Test

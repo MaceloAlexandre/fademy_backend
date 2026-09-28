@@ -12,7 +12,7 @@ documento trata só da estrutura. Mudou a estrutura, muda este documento no mesm
 | Build | Maven, pelo wrapper `./mvnw` (não precisa instalar Maven) |
 | Postgres | PostgreSQL 17 + Flyway (migrations) + Spring JDBC (`JdbcClient`, SQL escrito à mão) |
 | Mongo | MongoDB 8 + driver oficial (`MongoClient` do Singleton) |
-| Imagens | API S3 (AWS SDK v2); localmente, SeaweedFS no `docker-compose` (o MinIO deixou de publicar imagens da edição comunitária) |
+| Imagens | MongoDB GridFS (bucket `imagens`), pelo `MongoAdapter` do Singleton; servidas pela própria API em `GET /api/media/<chave>` (#62) |
 | Tempo real | Socket.IO v4 com `socket.io-server-java`, dentro do Tomcat (mesma porta da API; o `netty-socketio` exigiria outra porta e o React conecta na URL da API) |
 | Autenticação | JWT HS256 + bcrypt |
 | Testes | JUnit 5, Mockito, AssertJ, Testcontainers (Postgres e Mongo reais), ArchUnit |
@@ -21,7 +21,7 @@ documento trata só da estrutura. Mudou a estrutura, muda este documento no mesm
 
 ```
              ┌──────────────────────────────────────────────────┐
-             │ infrastructure  (Spring, JDBC, Mongo, S3, HTTP)  │
+             │ infrastructure  (Spring, JDBC, Mongo, HTTP)      │
              │   ┌──────────────────────────────────────────┐   │
              │   │ application  (use cases, services,       │   │
              │   │               interfaces de gateway)     │   │
@@ -239,6 +239,9 @@ public class DatabaseManager {
   `PostgresAdapter` (guarda o `DataSource` do HikariCP) e `MongoAdapter` (guarda o `MongoClient`
   e o `MongoDatabase`). Como no exemplo, o construtor privado do `DatabaseManager` cria os
   adapters, e o Singleton os entrega (#61).
+- O `MongoAdapter` também grava e lê os arquivos (`salvarArquivo`, `existeArquivo`,
+  `lerArquivo`) no GridFS, como o `salvarUsuario` do exemplo; o `MongoArmazenamentoGateway`
+  usa esses métodos (#62).
 
 - `ConfiguracaoBancos.doAmbiente()` lê `POSTGRES_URL`, `POSTGRES_USER`, `POSTGRES_PASSWORD`
   e `MONGO_URI` (variável de ambiente ou propriedade de sistema). Sem elas, usa os valores do
@@ -267,7 +270,7 @@ Um teste garante que o objeto usado pelo Spring é o mesmo que `getInstance` dev
   polling e endpoint JSR-356 para o WebSocket, os dois em `/socket.io/`); `SalasSocketIo`
   autentica a conexão pelo `TokenGateway` e põe cada uma na sala do usuário.
 - Imagens: o domínio e os bancos guardam só a **chave** no armazenamento; a URL é detalhe de
-  apresentação. `EnderecoDasImagens` (infra web) monta `S3_PUBLIC_URL + "/" + chave` na hora de
+  apresentação. `EnderecoDasImagens` (infra web) monta `IMAGENS_URL_PUBLICA + "/" + chave` na hora de
   responder, nos DTOs e no evento em tempo real. Assim o endereço pode mudar (outro IP) sem
   quebrar as imagens gravadas (#53).
 - DTOs de entrada e saída são `record`s em `infrastructure/web`, com os nomes de campo do
@@ -302,14 +305,14 @@ Um teste garante que o objeto usado pelo Spring é o mesmo que `getInstance` dev
 ## 9. Ambiente local
 
 ```bash
-docker compose up -d        # postgres:17, mongo:8, seaweedfs (S3 local) + criação do bucket
+docker compose up -d        # postgres:17 e mongo:8 (as imagens ficam no GridFS do mongo)
 ./mvnw spring-boot:run      # API em http://localhost:8080
 ./mvnw verify               # testes unitários + integração (Testcontainers precisa do Docker)
 ```
 
 Na apresentação (rede local da faculdade): a API sobe no notebook, o frontend é servido com
 `VITE_API_URL=http://<ip-do-notebook>:8080` e `FRONTEND_ORIGIN` aponta para o endereço do
-frontend. Sem internet, o SeaweedFS faz o papel do S3.
+frontend. Sem internet: as imagens ficam no MongoDB local e a própria API as serve.
 
 ## 10. Testes
 
@@ -317,6 +320,6 @@ frontend. Sem internet, o SeaweedFS faz o papel do S3.
 |---|---|---|
 | domain | unitário puro | JUnit + AssertJ |
 | application (services) | unitário com gateways falsos | JUnit + Mockito |
-| infrastructure (gateways) | integração com banco real | Testcontainers (Postgres, Mongo, SeaweedFS) |
+| infrastructure (gateways) | integração com banco real | Testcontainers (Postgres, Mongo) |
 | web | contrato HTTP (status, corpo, mensagens do SPEC) | `@SpringBootTest` + MockMvc |
 | arquitetura | regra de dependência da seção 2 | ArchUnit |
