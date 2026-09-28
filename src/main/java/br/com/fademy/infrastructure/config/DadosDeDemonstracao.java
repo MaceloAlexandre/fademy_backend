@@ -19,6 +19,7 @@ import br.com.fademy.domain.instituicao.Categoria;
 import br.com.fademy.domain.social.Seguir;
 import br.com.fademy.domain.usuario.Usuario;
 import br.com.fademy.domain.usuario.Visualizador;
+import br.com.fademy.infrastructure.armazenamento.AvatarDeIniciais;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -26,12 +27,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import javax.imageio.ImageIO;
 import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.util.List;
 
 /**
@@ -135,7 +131,7 @@ public class DadosDeDemonstracao implements ApplicationRunner {
     /** Uma pessoa entrando como na vida real: convite do admin, foto e cadastro. */
     private Usuario pessoa(Visualizador admin, String papel, String nome, String email, Color cor) {
         String convite = gerarConvite.executar(admin, papel, 1, null).token();
-        String foto = enviarAvatar.executar(avatar(cor), "image/png");
+        String foto = enviarAvatar.executar(AvatarDeIniciais.png(nome, cor), "image/png");
         // O avatarUrl é exigido pelo contrato, mas só a chave é gravada (#53).
         return registrar.executar(new Cadastro(convite, nome, email, SENHA, foto, foto));
     }
@@ -151,19 +147,5 @@ public class DadosDeDemonstracao implements ApplicationRunner {
 
     private static Visualizador visualizador(Usuario u) {
         return new Visualizador(u.id(), u.papel(), u.instituicaoId());
-    }
-
-    private static byte[] avatar(Color cor) {
-        BufferedImage imagem = new BufferedImage(96, 96, BufferedImage.TYPE_INT_RGB);
-        var grafico = imagem.createGraphics();
-        grafico.setColor(cor);
-        grafico.fillRect(0, 0, 96, 96);
-        grafico.dispose();
-        try (ByteArrayOutputStream saida = new ByteArrayOutputStream()) {
-            ImageIO.write(imagem, "png", saida);
-            return saida.toByteArray();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
     }
 }

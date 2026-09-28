@@ -1,6 +1,7 @@
 package br.com.fademy.infrastructure.postgres;
 
 import br.com.fademy.IntegracaoTest;
+import br.com.fademy.application.gateway.ArmazenamentoGateway;
 import br.com.fademy.application.gateway.SenhaGateway;
 import br.com.fademy.application.gateway.UsuarioGateway;
 import br.com.fademy.application.usecase.CarregarDadosIniciaisUseCase;
@@ -33,6 +34,17 @@ class CargaInicialIntegracaoTest extends IntegracaoTest {
 
     @Autowired
     CarregarDadosIniciaisUseCase carregarDadosIniciais;
+
+    @Autowired
+    ArmazenamentoGateway armazenamento;
+
+    @Test
+    void adminNasceComAvatarDeIniciaisNoArmazenamento() {
+        String chave = usuarios.buscarPorEmail("admin@fademy.com").orElseThrow().avatarChave();
+
+        assertThat(chave).startsWith("avatars/").endsWith(".png");
+        assertThat(armazenamento.existe(chave)).isTrue();
+    }
 
     @Test
     void subidaCriaInstituicaoCategoriasEAdmin() {
