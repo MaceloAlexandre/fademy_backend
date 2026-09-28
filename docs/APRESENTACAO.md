@@ -76,11 +76,12 @@ Todas as contas de demonstração têm a senha **`demo1234`**.
 | Pessoa | E-mail | Papel | Observação |
 |---|---|---|---|
 | Admin | `admin@fademy.com` (senha `changeme`) | admin | Criado pela carga inicial |
-| Profa. Helena Duarte | `helena@demo.fademy` | professor | Tem um post com link e uma conversa com a Ana |
-| Coord. Marcos Lima | `marcos@demo.fademy` | coordenador | |
-| Ana Souza | `ana@demo.fademy` | aluno | Segue a Helena e a Helena a segue (podem conversar) |
-| Bruno Costa | `bruno@demo.fademy` | aluno | **Perfil privado**; tem um pedido de seguir pendente da Carla |
-| Carla Nunes | `carla@demo.fademy` | aluno | |
+| Professor Erlon Dantas | `erlon@demo.fademy` | professor | Tem um post com link e uma conversa com o Wacelys |
+| Coord. Renê Gadelha | `rene@demo.fademy` | coordenador | |
+| Professor Fabricio Natam | `fabricio@demo.fademy` | professor | Segue o Erlon e é seguido por ele |
+| Professora Erika | `erika@demo.fademy` | professor | Tem um pedido de seguir pendente para o Artur |
+| Wacelys | `wacelys@demo.fademy` | aluno | Segue o Erlon e o Erlon o segue (podem conversar) |
+| Artur | `artur@demo.fademy` | aluno | **Perfil privado**; o Wacelys o segue; pedido pendente da Erika |
 
 Todos entraram na rede **por convite**, pelos mesmos casos de uso que o aplicativo usa
 (`GerarConviteUseCase` → `EnviarAvatarUseCase` → `RegistrarViaConviteUseCase`). Ver
@@ -94,10 +95,10 @@ Todos entraram na rede **por convite**, pelos mesmos casos de uso que o aplicati
 | 2 | **Dois bancos no mesmo caso de uso.** O cadastro grava o usuário e a vaga no PostgreSQL (uma transação) e a notificação "convite usado" no MongoDB. Mostrar a notificação chegando para o admin. | `RegistrarViaConviteService`; `PostgresUsuarioGateway`, `PostgresConviteGateway`, `MongoNotificacaoGateway` |
 | 3 | **Singleton.** Mostrar o `DatabaseManager` ao lado do exemplo do professor e explicar por que o `getInstance()` sem `synchronized` é seguro aqui. | `infrastructure/database/DatabaseManager.java`, `DatabaseConfig.java`; `docs/referencias/exemplo-singleton-adapter/`; `docs/ARQUITETURA.md` seção 6 |
 | 4 | **Adapter.** Cada gateway é um adapter de um banco atrás de uma interface; o service não sabe qual banco está do outro lado. | `application/gateway/*` × `infrastructure/postgres/*`, `infrastructure/mongo/*`; `docs/DIAGRAMAS.md` seção 5 |
-| 5 | **Herança e polimorfismo.** Entrar como aluna (Ana) e tentar publicar com link: 403. Entrar como a Helena: publica. Nenhum `if` compara papel por texto. | `domain/usuario/`: `Usuario`, `MembroDaEquipe`, `Administrador`; `Post.publicar` |
-| 6 | **Perfil privado.** Como Carla, abrir o perfil do Bruno: sem números nem posts. Como Bruno, ver o pedido nas notificações e aceitar. | `Usuario.mostraConteudoPara`, `Seguir.aceitarPor` |
-| 7 | **Feed e comentários.** Como Ana, ver o feed (posts de quem ela segue), comentar o post da Helena; a Helena recebe a notificação. | `VerFeedService`, `ComentarService` (comentário + contador na mesma transação) |
-| 8 | **Chat em tempo real.** Ana e Helena, uma em cada aparelho, na mesma conversa: a mensagem aparece na hora no outro. | `MensagensService`, `SocketIoTempoRealGateway`, `infrastructure/temporeal/` |
+| 5 | **Herança e polimorfismo.** Entrar como aluno (Wacelys) e tentar publicar com link: 403. Entrar como o Erlon: publica. Nenhum `if` compara papel por texto. | `domain/usuario/`: `Usuario`, `MembroDaEquipe`, `Administrador`; `Post.publicar` |
+| 6 | **Perfil privado.** Como Erika, abrir o perfil do Artur: sem números nem posts. Como Artur, ver o pedido nas notificações e aceitar. | `Usuario.mostraConteudoPara`, `Seguir.aceitarPor` |
+| 7 | **Feed e comentários.** Como Wacelys, ver o feed (posts de quem ele segue), comentar o post do Erlon; o Erlon recebe a notificação. | `VerFeedService`, `ComentarService` (comentário + contador na mesma transação) |
+| 8 | **Chat em tempo real.** Wacelys e Erlon, um em cada aparelho, na mesma conversa: a mensagem aparece na hora no outro. | `MensagensService`, `SocketIoTempoRealGateway`, `infrastructure/temporeal/` |
 | 9 | **Bloqueio nos dois bancos.** Bloquear alguém: somem os follows (Postgres) e os pedidos de seguir entre os dois (MongoDB); a conversa deixa de aceitar mensagens. | `BloquearUsuarioService` |
 | 10 | **Clean Architecture sob teste.** Rodar `./mvnw verify`: cerca de 300 testes, incluindo o `ArquiteturaTest`, que quebra se o domínio ou a aplicação importarem Spring ou banco. | `src/test/java/br/com/fademy/ArquiteturaTest.java` |
 

@@ -36,7 +36,7 @@ import java.util.List;
 public class DadosDeDemonstracao implements ApplicationRunner {
 
     public static final String SENHA = "demo1234";
-    static final String EMAIL_DA_PROFESSORA = "helena@demo.fademy";
+    static final String EMAIL_DO_PROFESSOR = "erlon@demo.fademy";
 
     private final UsuarioGateway usuarios;
     private final CategoriaGateway categorias;
@@ -75,52 +75,59 @@ public class DadosDeDemonstracao implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        if (usuarios.buscarPorEmail(EMAIL_DA_PROFESSORA).isPresent()) {
+        if (usuarios.buscarPorEmail(EMAIL_DO_PROFESSOR).isPresent()) {
             return;
         }
         Visualizador admin = visualizador(usuarios.buscarPorEmail(emailDoAdmin).orElseThrow());
 
-        Usuario helena = pessoa(admin, "professor", "Profa. Helena Duarte", EMAIL_DA_PROFESSORA,
+        Usuario erlon = pessoa(admin, "professor", "Professor Erlon Dantas", EMAIL_DO_PROFESSOR,
                 new Color(0x1B4F81));
-        Usuario marcos = pessoa(admin, "coordenador", "Coord. Marcos Lima", "marcos@demo.fademy",
+        Usuario rene = pessoa(admin, "coordenador", "Coord. Renê Gadelha", "rene@demo.fademy",
                 new Color(0x7B5EA7));
-        Usuario ana = pessoa(admin, "aluno", "Ana Souza", "ana@demo.fademy", new Color(0xE07A5F));
-        Usuario bruno = pessoa(admin, "aluno", "Bruno Costa", "bruno@demo.fademy", new Color(0x3D405B));
-        Usuario carla = pessoa(admin, "aluno", "Carla Nunes", "carla@demo.fademy", new Color(0x81B29A));
-        editarPerfil.executar(visualizador(bruno), new EdicaoDePerfil(true, true, false, null, null));
+        Usuario fabricio = pessoa(admin, "professor", "Professor Fabricio Natam", "fabricio@demo.fademy",
+                new Color(0x2A9D8F));
+        Usuario erika = pessoa(admin, "professor", "Professora Erika", "erika@demo.fademy", new Color(0x81B29A));
+        Usuario wacelys = pessoa(admin, "aluno", "Wacelys", "wacelys@demo.fademy", new Color(0xE07A5F));
+        Usuario artur = pessoa(admin, "aluno", "Artur", "artur@demo.fademy", new Color(0x3D405B));
+        editarPerfil.executar(visualizador(artur), new EdicaoDePerfil(true, true, false, null, null));
 
-        seguirUm(ana, helena);
-        seguirUm(helena, ana);
-        seguirUm(ana, marcos);
-        seguirUm(marcos, helena);
-        seguirUm(helena, marcos);
-        seguirUm(carla, helena);
-        seguirUm(helena, carla);
-        seguirUm(carla, ana);
-        aceitarPedido.executar(visualizador(bruno), seguirUm(ana, bruno).id());
-        seguirUm(carla, bruno);
+        seguirUm(wacelys, erlon);
+        seguirUm(erlon, wacelys);
+        seguirUm(wacelys, rene);
+        seguirUm(rene, erlon);
+        seguirUm(erlon, rene);
+        seguirUm(erika, erlon);
+        seguirUm(erlon, erika);
+        seguirUm(erika, wacelys);
+        seguirUm(fabricio, erlon);
+        seguirUm(erlon, fabricio);
+        aceitarPedido.executar(visualizador(artur), seguirUm(wacelys, artur).id());
+        seguirUm(erika, artur);
 
-        Post aula = publicar.executar(visualizador(helena),
+        Post aula = publicar.executar(visualizador(erlon),
                 "Slides da aula de hoje: padrões Singleton e Adapter. Tragam dúvidas para a próxima aula!",
                 "https://refactoring.guru/pt-br/design-patterns/singleton",
                 List.of(categoria("aulas"), categoria("ciencia-da-computacao")), List.of());
-        publicar.executar(visualizador(marcos),
+        publicar.executar(visualizador(rene),
                 "A semana acadêmica começa segunda-feira. Inscrições abertas na coordenação.",
                 null, List.of(categoria("dia-a-dia")), List.of());
-        publicar.executar(visualizador(ana),
+        publicar.executar(visualizador(fabricio),
+                "Plantão de dúvidas de Banco de Dados na quinta-feira, às 19h.",
+                null, List.of(categoria("aulas")), List.of());
+        publicar.executar(visualizador(wacelys),
                 "Nosso projeto de POO: a Fademy reescrita em Java com Clean Architecture, Postgres e MongoDB.",
                 null, List.of(categoria("projetos"), categoria("ciencia-da-computacao")), List.of());
-        publicar.executar(visualizador(carla),
+        publicar.executar(visualizador(artur),
                 "Quando o professor diz que o getInstance() sem synchronized é seguro... e explica por quê.",
                 null, List.of(categoria("meme")), List.of());
-        comentar.comentar(visualizador(ana), aula.id(),
-                "Obrigada, professora! O exemplo do DatabaseManager ajudou muito.");
-        comentar.comentar(visualizador(carla), aula.id(), "Vai cair na prova?");
+        comentar.comentar(visualizador(wacelys), aula.id(),
+                "Obrigado, professor! O exemplo do DatabaseManager ajudou muito.");
+        comentar.comentar(visualizador(erika), aula.id(), "Ótimo material, vou indicar para a minha turma.");
 
-        String conversa = iniciarConversa.executar(visualizador(ana), helena.id()).conversa().id();
-        mensagens.enviar(visualizador(ana), conversa,
-                "Professora, posso tirar uma dúvida sobre o trabalho?", List.of());
-        mensagens.enviar(visualizador(helena), conversa, "Claro, Ana! Pode mandar.", List.of());
+        String conversa = iniciarConversa.executar(visualizador(wacelys), erlon.id()).conversa().id();
+        mensagens.enviar(visualizador(wacelys), conversa,
+                "Professor, posso tirar uma dúvida sobre o trabalho?", List.of());
+        mensagens.enviar(visualizador(erlon), conversa, "Claro, Wacelys! Pode mandar.", List.of());
     }
 
     private Usuario pessoa(Visualizador admin, String papel, String nome, String email, Color cor) {
