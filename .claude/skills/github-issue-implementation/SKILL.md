@@ -47,7 +47,7 @@ Para qualquer outro repositório, pergunte ao usuário a branch-base antes de qu
 6. Classifique: feature (`enhancement`) ou bugfix (`bug`). Se ambíguo, pergunte.
 7. Confirme que o item está no Project **Fademy** e mova o Status para `In progress`. Registre os IDs do Project, item, campo Status e das opções `In review` e `Done`. Se o vínculo ou as opções forem ambíguos, pare e informe.
 
-Prefira `gh issue view`, `gh project ... --format json` e, só se necessário, `gh api graphql`.
+Prefira `gh issue view` e os scripts da seção [Scripts auxiliares](#scripts-auxiliares); evite `gh project ...` (ver abaixo).
 
 ## Preparar a branch
 
@@ -119,6 +119,28 @@ Se houver CI, aguarde (`gh pr checks <n> -R MaceloAlexandre/<repo> --watch`). Se
 2. Quando o usuário disser que o PR foi mergeado, confirme com `gh pr view <n> -R MaceloAlexandre/<repo> --json state,mergedAt` que está `MERGED`. Só então mova para `Done`, feche a issue com `gh issue close <id> -R MaceloAlexandre/<repo> --comment "Entregue no PR #<n>"` e verifique ambos.
 
 Se commit, push, PR ou mudança de status falhar, não declare conclusão. Não force push nem repita mutações às cegas; relate a etapa pendente e o erro.
+
+## Scripts auxiliares
+
+Em `scripts/` (rodar da raiz do repositório):
+
+| Script | Uso |
+|---|---|
+| `status.sh <issue> "<Todo\|In progress\|In review\|Done>"` | Muda o Status no Project |
+| `abrir-pr.sh <branch> "<título>" <arquivo-corpo>` | Abre o PR e imprime o número |
+| `ci.sh <pr>` | Espera o CI do PR e imprime o resultado |
+| `entregar.sh <issue> <pr>` | In review → merge squash → Done → fecha a issue → atualiza a `main` local. **Só com autorização explícita do usuário para o merge.** |
+
+Por padrão apontam para `MaceloAlexandre/fademy_backend` e o Project número 2; as variáveis
+`FADEMY_DONO`, `FADEMY_REPO` e `FADEMY_PROJETO` mudam isso.
+
+### Limites da API do GitHub
+
+Os comandos `gh project item-list` / `field-list` fazem consultas pesadas e disparam o **limite
+secundário** da API ("API rate limit exceeded" mesmo com cota sobrando), travando o fluxo por
+vários minutos. Por isso os scripts usam uma consulta GraphQL mínima com cache (Project) e a API
+REST (`gh api repos/...`) para issues, PRs, checks e merge. Se o limite disparar, espere alguns
+minutos adiantando o trabalho local (código e testes), em vez de repetir chamadas.
 
 ## Formato de issue
 
