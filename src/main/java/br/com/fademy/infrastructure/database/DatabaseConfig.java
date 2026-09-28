@@ -15,24 +15,30 @@ import javax.sql.DataSource;
 @Configuration
 public class DatabaseConfig {
 
-    @Bean
-    public DatabaseManager databaseManager() {
-        return DatabaseManager.getInstance();
+    // No desligamento, o Spring chama desconectar() dos dois adapters.
+    @Bean(destroyMethod = "desconectar")
+    public PostgresAdapter postgresAdapter() {
+        return DatabaseManager.getInstance().getPostgresAdapter();
     }
 
-    // destroyMethod vazio: as conexões são do Singleton, não do contexto do Spring.
+    @Bean(destroyMethod = "desconectar")
+    public MongoAdapter mongoAdapter() {
+        return DatabaseManager.getInstance().getMongoAdapter();
+    }
+
+    // destroyMethod vazio: quem fecha as conexões é o adapter.
     @Bean(destroyMethod = "")
-    public DataSource dataSource(DatabaseManager databaseManager) {
-        return databaseManager.getPostgres();
+    public DataSource dataSource(PostgresAdapter postgresAdapter) {
+        return postgresAdapter.getDataSource();
     }
 
     @Bean(destroyMethod = "")
-    public MongoClient mongoClient(DatabaseManager databaseManager) {
-        return databaseManager.getMongo();
+    public MongoClient mongoClient(MongoAdapter mongoAdapter) {
+        return mongoAdapter.getCliente();
     }
 
     @Bean
-    public MongoDatabase mongoDatabase(DatabaseManager databaseManager) {
-        return databaseManager.getMongoDatabase();
+    public MongoDatabase mongoDatabase(MongoAdapter mongoAdapter) {
+        return mongoAdapter.getBanco();
     }
 }

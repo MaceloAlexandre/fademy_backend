@@ -1,19 +1,8 @@
 package br.com.fademy.infrastructure.database;
 
-import com.mongodb.ConnectionString;
-import com.mongodb.MongoClientSettings;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
-import javax.sql.DataSource;
-import java.util.concurrent.TimeUnit;
-
 /**
- * Singleton que guarda as conexões com o PostgreSQL e o MongoDB, no formato do exemplo do
- * professor (docs/referencias/exemplo-singleton-adapter). Só o {@link DatabaseConfig} chama
+ * Singleton que cria e entrega os adapters do PostgreSQL e do MongoDB, no formato do exemplo
+ * do professor (docs/referencias/exemplo-singleton-adapter). Só o {@link DatabaseConfig} chama
  * {@link #getInstance()}, uma vez, na subida da aplicação (docs/ARQUITETURA.md, seção 6).
  */
 public class DatabaseManager {
@@ -23,26 +12,18 @@ public class DatabaseManager {
 
     private static DatabaseManager instance;
 
-    private final DataSource postgres;
-    private final MongoClient mongo;
-    private final MongoDatabase mongoDatabase;
+    private final PostgresAdapter postgresAdapter;
+    private final MongoAdapter mongoAdapter;
 
     private DatabaseManager() {
         ConfiguracaoBancos config = ConfiguracaoBancos.doAmbiente();
 
-        HikariConfig hikari = new HikariConfig();
-        hikari.setJdbcUrl(config.postgresUrl());
-        hikari.setUsername(config.postgresUsuario());
-        hikari.setPassword(config.postgresSenha());
-        hikari.setConnectionTimeout(TimeUnit.SECONDS.toMillis(TIMEOUT_SEGUNDOS));
-        postgres = new HikariDataSource(hikari);
+        postgresAdapter = new PostgresAdapter(
+                config.postgresUrl(), config.postgresUsuario(), config.postgresSenha(), TIMEOUT_SEGUNDOS);
+        mongoAdapter = new MongoAdapter(config.mongoUri(), TIMEOUT_SEGUNDOS);
 
-        ConnectionString mongoUri = new ConnectionString(config.mongoUri());
-        mongo = MongoClients.create(MongoClientSettings.builder()
-                .applyConnectionString(mongoUri)
-                .applyToClusterSettings(c -> c.serverSelectionTimeout(TIMEOUT_SEGUNDOS, TimeUnit.SECONDS))
-                .build());
-        mongoDatabase = mongo.getDatabase(mongoUri.getDatabase() != null ? mongoUri.getDatabase() : "fademy");
+        postgresAdapter.conectar();
+        mongoAdapter.conectar();
     }
 
     public static DatabaseManager getInstance() {
@@ -53,16 +34,11 @@ public class DatabaseManager {
         return instance;
     }
 
-    public DataSource getPostgres() {
-        return postgres;
+    public PostgresAdapter getPostgresAdapter() {
+        return postgresAdapter;
     }
 
-    public MongoClient getMongo() {
-        return mongo;
-    }
-
-    /** O banco do MongoDB indicado na MONGO_URI (padrão "fademy"). */
-    public MongoDatabase getMongoDatabase() {
-        return mongoDatabase;
+    public MongoAdapter getMongoAdapter() {
+        return mongoAdapter;
     }
 }
