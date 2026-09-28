@@ -16,10 +16,8 @@ class UsuarioTest {
                 "id", "instituicao", "Ana", "ana@x.com", "hash", "https://avatar", false, true, Instant.now()));
     }
 
-    // Tabela da SPEC RN05.
     @ParameterizedTest
     @CsvSource({
-            // papel,      convida, link,  painel
             "ADMIN,        true,    true,  true",
             "COORDENADOR,  true,    true,  false",
             "PROFESSOR,    true,    true,  false",
@@ -49,7 +47,6 @@ class UsuarioTest {
 
     @ParameterizedTest
     @CsvSource({
-            // privado, visualizador, segue aceito, mostra
             "false,     outro,        false,        true",
             "true,      outro,        false,        false",
             "true,      outro,        true,         true",

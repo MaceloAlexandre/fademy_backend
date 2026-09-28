@@ -6,7 +6,6 @@ public enum StatusConvite {
 
     ACTIVE, REVOKED, EXPIRED;
 
-    /** Como o status aparece no banco. */
     public String texto() {
         return name().toLowerCase(Locale.ROOT);
     }

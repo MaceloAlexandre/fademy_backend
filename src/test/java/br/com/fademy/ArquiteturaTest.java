@@ -9,9 +9,6 @@ import com.tngtech.archunit.lang.ArchRule;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
-/**
- * Regra de dependência da Clean Architecture (docs/ARQUITETURA.md, seção 2).
- */
 @AnalyzeClasses(packages = "br.com.fademy", importOptions = ImportOption.DoNotIncludeTests.class)
 class ArquiteturaTest {
 
@@ -43,7 +40,6 @@ class ArquiteturaTest {
             .should().dependOnClassesThat().resideInAnyPackage(FRAMEWORKS)
             .allowEmptyShould(true);
 
-    // Singleton: só o DatabaseConfig chama getInstance(), na subida (seção 6).
     @ArchTest
     static final ArchRule soDatabaseConfigChamaGetInstance = noClasses()
             .that().doNotHaveFullyQualifiedName(DatabaseConfig.class.getName())

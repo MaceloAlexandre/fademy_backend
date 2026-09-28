@@ -17,7 +17,6 @@ import java.util.UUID;
 @Component
 public class PostgresPostGateway implements PostGateway {
 
-    // Colunas do post mais os ids das categorias, numa linha só.
     static final String COLUNAS = """
             p.*, array(select pc.categoria_id::text from post_categoria pc where pc.post_id = p.id) as categorias
             """;
@@ -123,7 +122,6 @@ public class PostgresPostGateway implements PostGateway {
                 .list();
     }
 
-    /** Cursor da SPEC 5.4: ausente é "desde o início"; formato inválido é erro do cliente. */
     static UUID cursor(String cursor) {
         if (cursor == null || cursor.isEmpty()) {
             return null;

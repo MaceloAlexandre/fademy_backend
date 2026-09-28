@@ -44,13 +44,11 @@ public class PostController {
         this.imagens = imagens;
     }
 
-    /** SPEC RN30. */
     @GetMapping("/api/posts/{id}")
     public PostUnicoResponse ver(Visualizador visualizador, @PathVariable String id) {
         return new PostUnicoResponse(PostResponse.de(verPost.executar(visualizador, id), imagens));
     }
 
-    /** SPEC RN31. {@code me} é o próprio visualizador. */
     @GetMapping("/api/users/{id}/posts")
     public PaginaDePosts doUsuario(Visualizador visualizador, @PathVariable String id,
                                    @RequestParam(required = false) String cursor,
@@ -59,7 +57,6 @@ public class PostController {
         return pagina(listarPostsDoUsuario.executar(visualizador, autorId, cursor, limit));
     }
 
-    /** SPEC RN29. */
     @GetMapping("/api/posts/feed")
     public PaginaDePosts feed(Visualizador visualizador,
                               @RequestParam(required = false) String cursor,
@@ -72,7 +69,6 @@ public class PostController {
                 pagina.temMais(), pagina.proximoCursor());
     }
 
-    /** SPEC RN28. */
     @PostMapping("/api/posts")
     @ResponseStatus(HttpStatus.CREATED)
     public PostCriadoResponse publicar(Visualizador visualizador,
@@ -99,7 +95,6 @@ public class PostController {
     public record PostUnicoResponse(PostResponse post) {
     }
 
-    /** Post recém-criado: autor e categorias como ids (SPEC 5.3). */
     public record PostCriado(@JsonProperty("_id") String id, String authorId, String institutionId, String text,
                              List<String> imageUrls, @JsonInclude(JsonInclude.Include.NON_NULL) String linkUrl,
                              boolean hasLink, List<String> categoryIds, int commentCount, Instant createdAt) {

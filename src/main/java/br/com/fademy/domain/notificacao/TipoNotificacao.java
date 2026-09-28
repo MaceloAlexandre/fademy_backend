@@ -1,8 +1,5 @@
 package br.com.fademy.domain.notificacao;
 
-/**
- * Tipos de notificação e o que cada uma referencia (SPEC RN34).
- */
 public enum TipoNotificacao {
 
     NEW_FOLLOWER("new_follower", "Follow"),
@@ -20,12 +17,10 @@ public enum TipoNotificacao {
         this.modeloReferencia = modeloReferencia;
     }
 
-    /** Como o tipo aparece na API ({@code type}). */
     public String texto() {
         return texto;
     }
 
-    /** O que {@code refId} referencia ({@code refModel} na API). */
     public String modeloReferencia() {
         return modeloReferencia;
     }

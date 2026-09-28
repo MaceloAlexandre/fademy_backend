@@ -7,8 +7,5 @@ public interface TokenGateway {
 
     String gerar(Usuario usuario);
 
-    /**
-     * @throws br.com.fademy.domain.excecao.NaoAutenticadoException se o token é inválido ou expirou
-     */
     Visualizador validar(String token);
 }

@@ -28,7 +28,6 @@ public class AvatarDeIniciaisGateway implements AvatarPadraoGateway {
             armazenamento.enviar(chave, imagem);
             return Optional.of(chave);
         } catch (RuntimeException e) {
-            // Sem armazenamento na subida: segue sem foto, em vez de derrubar a aplicação.
             log.warn("Não foi possível gravar o avatar padrão de {}", nome, e);
             return Optional.empty();
         }

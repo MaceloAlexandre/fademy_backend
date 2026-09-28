@@ -30,7 +30,6 @@ public class ConviteController {
         this.consultarConvite = consultarConvite;
     }
 
-    /** SPEC RN10. */
     @PostMapping("/api/invites")
     @ResponseStatus(HttpStatus.CREATED)
     public ConviteGeradoResponse gerar(Visualizador visualizador,
@@ -40,7 +39,6 @@ public class ConviteController {
         return new ConviteGeradoResponse(convite.token(), "/invite/" + convite.token());
     }
 
-    /** SPEC RN11. Público. */
     @GetMapping("/api/invites/{token}")
     public ConsultaConviteResponse consultar(@PathVariable String token) {
         ConsultaConvite consulta = consultarConvite.executar(token);
@@ -48,7 +46,6 @@ public class ConviteController {
                 consulta.vagasRestantes(), consulta.situacao().valido(), consulta.situacao().motivo());
     }
 
-    /** SPEC RN12. */
     @PostMapping("/api/invites/{token}/revoke")
     public ConviteRevogadoResponse revogar(Visualizador visualizador, @PathVariable String token) {
         revogarConvite.executar(visualizador, token);

@@ -7,9 +7,6 @@ import br.com.fademy.domain.usuario.Usuario;
 
 import java.time.Instant;
 
-/**
- * Um usuário seguindo outro (SPEC RN21–RN24).
- */
 public class Seguir {
 
     private final String id;
@@ -26,25 +23,21 @@ public class Seguir {
         this.criadoEm = criadoEm;
     }
 
-    /** Perfil privado recebe um pedido; perfil público é seguido na hora (SPEC RN21). */
     public static Seguir solicitar(Usuario seguidor, Usuario alvo, Instant agora) {
         return new Seguir(null, seguidor.id(), alvo.id(),
                 alvo.privado() ? StatusSeguir.PENDING : StatusSeguir.ACCEPTED, agora);
     }
 
-    /** O aviso que o seguido recebe: novo seguidor ou pedido para seguir (SPEC RN34). */
     public TipoNotificacao notificacaoParaOSeguido() {
         return status == StatusSeguir.ACCEPTED ? TipoNotificacao.NEW_FOLLOWER : TipoNotificacao.FOLLOW_REQUEST;
     }
 
-    /** Só o seguido responde a um pedido (SPEC RN23, RN24). */
     public void garantirQueEhOSeguido(String usuarioId) {
         if (!seguidoId.equals(usuarioId)) {
             throw new AcessoNegadoException("Forbidden");
         }
     }
 
-    /** O seguido aceita um pedido pendente (SPEC RN23). */
     public void aceitarPor(String usuarioId) {
         garantirQueEhOSeguido(usuarioId);
         if (status != StatusSeguir.PENDING) {

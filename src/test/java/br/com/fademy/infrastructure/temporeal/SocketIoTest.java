@@ -29,10 +29,6 @@ import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Cliente Socket.IO (Java, protocolo v4, o mesmo do socket.io-client do React) contra o servidor
- * de verdade na porta da API.
- */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SocketIoTest extends IntegracaoTest {
 
@@ -106,7 +102,6 @@ class SocketIoTest extends IntegracaoTest {
         socket.on("message:new", args -> recebidos.add(args[0]));
         socket.connect();
         assertThat(conectou.await(5, TimeUnit.SECONDS)).as("conectou").isTrue();
-        // A entrada na sala acontece logo depois do connect; espera ela ser processada.
         Thread.sleep(200);
     }
 

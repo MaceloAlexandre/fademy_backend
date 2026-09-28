@@ -18,9 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Adapta uma sessão WebSocket do Tomcat (JSR-356) para o engine.io.
- */
 class EndpointWebSocket extends Endpoint {
 
     private static final String CABECALHOS = "cabecalhos";
@@ -99,12 +96,10 @@ class EndpointWebSocket extends Endpoint {
             try {
                 session.close();
             } catch (IOException ignorada) {
-                // A sessão já estava fechando.
             }
         }
     }
 
-    /** Cria o endpoint com o servidor engine.io e guarda os cabeçalhos do handshake. */
     static final class Configurador extends ServerEndpointConfig.Configurator {
 
         private final EngineIoServer engineIoServer;

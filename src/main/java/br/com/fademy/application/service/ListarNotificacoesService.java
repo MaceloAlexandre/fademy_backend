@@ -34,7 +34,6 @@ public class ListarNotificacoesService implements ListarNotificacoesUseCase {
         Pagina<Notificacao> pagina = Pagina.de(
                 notificacoes.listar(visualizador.id(), cursor, tamanho + 1), tamanho, Notificacao::id);
 
-        // A notificação mora no MongoDB; ator e follow, no Postgres. Junta na leitura (SPEC RN48).
         Map<String, Usuario> atores = usuarios.buscarPorIds(
                         pagina.itens().stream().map(Notificacao::atorId).collect(Collectors.toSet()))
                 .stream().collect(Collectors.toMap(Usuario::id, Function.identity()));

@@ -35,7 +35,6 @@ public class NotificacaoController {
         this.imagens = imagens;
     }
 
-    /** SPEC RN35. */
     @GetMapping("/api/notifications")
     public NotificacoesResponse listar(Visualizador visualizador,
                                        @RequestParam(required = false) String cursor,
@@ -46,14 +45,12 @@ public class NotificacaoController {
                 resultado.pagina().temMais(), resultado.pagina().proximoCursor(), resultado.naoLidas());
     }
 
-    /** SPEC RN36. */
     @PatchMapping("/api/notifications/{id}/read")
     public LidaResponse marcarComoLida(Visualizador visualizador, @PathVariable String id) {
         lerNotificacao.marcarComoLida(visualizador, id);
         return new LidaResponse(true);
     }
 
-    /** SPEC RN36. */
     @DeleteMapping("/api/notifications/{id}")
     public ExcluidaResponse excluir(Visualizador visualizador, @PathVariable String id) {
         lerNotificacao.excluir(visualizador, id);
@@ -64,10 +61,6 @@ public class NotificacaoController {
                                        long unreadCount) {
     }
 
-    /**
-     * {@code followStatus} só existe em follow_request, e pode ser null. Por isso é Optional
-     * com NON_NULL: referência nula = campo ausente; Optional vazio = campo com null.
-     */
     public record NotificacaoResponse(@JsonProperty("_id") String id, String userId, AtorResponse actorId,
                                       String type, String refId, String refModel, boolean read, Instant createdAt,
                                       @JsonInclude(JsonInclude.Include.NON_NULL) Optional<String> followStatus) {

@@ -6,10 +6,6 @@ import com.zaxxer.hikari.HikariDataSource;
 import javax.sql.DataSource;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Adapter do PostgreSQL: guarda o pool de conexões (HikariCP) usado pelo Flyway e pelos
- * gateways do Postgres.
- */
 public class PostgresAdapter implements DataBaseAdapter {
 
     private final String url;

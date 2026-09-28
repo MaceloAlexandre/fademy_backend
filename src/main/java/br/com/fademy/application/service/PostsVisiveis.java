@@ -6,10 +6,6 @@ import br.com.fademy.domain.conteudo.Post;
 import br.com.fademy.domain.excecao.RecursoNaoEncontradoException;
 import br.com.fademy.domain.usuario.Usuario;
 
-/**
- * Post que o leitor pode ver: da instituição dele e de um autor que não o bloqueou (SPEC RN30).
- * Usado por ver post, comentar e listar comentários.
- */
 class PostsVisiveis {
 
     private final PostGateway posts;

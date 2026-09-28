@@ -40,7 +40,6 @@ public class UsuarioController {
         this.imagens = imagens;
     }
 
-    /** SPEC RN19. */
     @GetMapping("/api/users/search")
     public BuscaResponse buscar(Visualizador visualizador,
                                 @RequestParam(required = false) String q,
@@ -51,7 +50,6 @@ public class UsuarioController {
                 resultado.total(), resultado.pagina(), resultado.limite());
     }
 
-    /** SPEC RN20. */
     @GetMapping("/api/users/suggestions")
     public SugestoesResponse sugerir(Visualizador visualizador, @RequestParam(required = false) String limit) {
         return new SugestoesResponse(
@@ -59,19 +57,16 @@ public class UsuarioController {
                         .toList());
     }
 
-    /** SPEC RN17. */
     @GetMapping("/api/users/me")
     public PerfilResponse meuPerfil(Visualizador visualizador) {
         return PerfilResponse.de(verPerfil.executar(visualizador, visualizador.id()), imagens);
     }
 
-    /** SPEC RN17. */
     @GetMapping("/api/users/{id}")
     public PerfilResponse perfil(Visualizador visualizador, @PathVariable String id) {
         return PerfilResponse.de(verPerfil.executar(visualizador, id), imagens);
     }
 
-    /** SPEC RN18. O corpo vai cru para o caso de uso, que valida os tipos. */
     @PatchMapping("/api/users/me")
     public PerfilEditadoResponse editar(Visualizador visualizador,
                                         @RequestBody(required = false) Map<String, Object> corpo) {

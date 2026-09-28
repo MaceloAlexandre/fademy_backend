@@ -30,11 +30,6 @@ import org.springframework.stereotype.Component;
 import java.awt.Color;
 import java.util.List;
 
-/**
- * Dados para a apresentação (perfil "demo"). Tudo passa pelos casos de uso, na ordem de um uso
- * real: o admin gera convites, cada pessoa envia a foto e se cadastra, segue, publica, comenta e
- * conversa. Se a professora de demonstração já existe, não faz nada.
- */
 @Component
 @Profile("demo")
 @Order(2)
@@ -128,11 +123,9 @@ public class DadosDeDemonstracao implements ApplicationRunner {
         mensagens.enviar(visualizador(helena), conversa, "Claro, Ana! Pode mandar.", List.of());
     }
 
-    /** Uma pessoa entrando como na vida real: convite do admin, foto e cadastro. */
     private Usuario pessoa(Visualizador admin, String papel, String nome, String email, Color cor) {
         String convite = gerarConvite.executar(admin, papel, 1, null).token();
         String foto = enviarAvatar.executar(AvatarDeIniciais.png(nome, cor), "image/png");
-        // O avatarUrl é exigido pelo contrato, mas só a chave é gravada (#53).
         return registrar.executar(new Cadastro(convite, nome, email, SENHA, foto, foto));
     }
 

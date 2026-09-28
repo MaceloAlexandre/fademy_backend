@@ -52,7 +52,6 @@ public class MensagensService implements MensagensUseCase {
         }
         Conversa conversa = daConversa(visualizador, conversaId);
         String destinatario = conversa.outroMembro(visualizador.id());
-        // Depois de um bloqueio, a conversa não aceita mais mensagens (SPEC D10).
         if (bloqueios.existeEntre(visualizador.id(), destinatario)) {
             throw new AcessoNegadoException("Forbidden");
         }

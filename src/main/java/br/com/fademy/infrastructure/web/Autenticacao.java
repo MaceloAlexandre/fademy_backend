@@ -16,10 +16,6 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-/**
- * Exige o token nas rotas protegidas (SPEC RN08) e entrega o {@link Visualizador} como
- * parâmetro dos controllers. As exceções lançadas aqui passam pelo {@link TratadorDeErros}.
- */
 @Component
 public class Autenticacao implements HandlerInterceptor, HandlerMethodArgumentResolver {
 

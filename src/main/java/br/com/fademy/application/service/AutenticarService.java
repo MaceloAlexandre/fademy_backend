@@ -26,7 +26,6 @@ public class AutenticarService implements AutenticarUseCase {
             throw new DadosInvalidosException("email and password are required");
         }
 
-        // Mesma resposta para e-mail inexistente, senha errada e usuário inativo (SPEC RN07).
         Usuario usuario = usuarios.buscarPorEmail(email)
                 .filter(Usuario::ativo)
                 .filter(u -> senhas.confere(senha, u.senhaHash()))

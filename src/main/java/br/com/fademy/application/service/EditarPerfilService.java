@@ -35,12 +35,10 @@ public class EditarPerfilService implements EditarPerfilUseCase {
             eu.definirPrivacidade(privado);
         }
         if (edicao.alteraAvatar()) {
-            // A foto precisa ter sido enviada antes, como no cadastro (SPEC D3).
             if (!armazenamento.existe((String) edicao.avatarChave())) {
                 throw new DadosInvalidosException(
                         "Profile photo not found in storage — please upload a photo first");
             }
-            // Grava a chave validada; a URL enviada pelo cliente não é guardada (#53).
             eu.trocarAvatar((String) edicao.avatarChave());
         }
         usuarios.atualizar(eu);

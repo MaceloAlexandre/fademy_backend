@@ -44,9 +44,9 @@ class NotificacaoWebTest extends IntegracaoTest {
         Usuario ana = cenario.usuario(Papel.ALUNO);
         Usuario carla = cenario.usuario(Papel.ALUNO);
         Usuario duda = cenario.usuario(Papel.ALUNO);
-        seguir(ana, bia);                                   // pedido que fica pendente
-        String pedidoDaCarla = seguir(carla, bia);          // pedido que será aceito
-        String pedidoDaDuda = seguir(duda, bia);            // pedido que será rejeitado
+        seguir(ana, bia);
+        String pedidoDaCarla = seguir(carla, bia);
+        String pedidoDaDuda = seguir(duda, bia);
         responder(bia, pedidoDaCarla, "accept");
         responder(bia, pedidoDaDuda, "reject");
 
@@ -67,7 +67,6 @@ class NotificacaoWebTest extends IntegracaoTest {
                 .andExpect(jsonPath("$.hasMore").value(false))
                 .andExpect(jsonPath("$.nextCursor").value((Object) null));
 
-        // Outros tipos não têm followStatus.
         listar(carla, "").andExpect(jsonPath("$.notifications[0].type").value("follow_accepted"))
                 .andExpect(jsonPath("$.notifications[0].followStatus").doesNotExist());
     }

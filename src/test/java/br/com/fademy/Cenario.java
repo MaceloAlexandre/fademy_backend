@@ -16,16 +16,11 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Monta dados para os testes de integração: instituições, usuários de cada papel e tokens.
- * Cada chamada cria registros novos (e-mails únicos), então os testes não interferem entre si.
- */
 @Component
 public class Cenario {
 
     public static final String SENHA = "senha123";
 
-    /** Chave da foto de todos os usuários criados pelo cenário. */
     public static final String AVATAR = "avatars/teste.png";
 
     private final InstituicaoGateway instituicoes;
@@ -43,12 +38,10 @@ public class Cenario {
         this.posts = posts;
     }
 
-    /** Post do autor, gravado direto (sem passar pela API). */
     public Post post(Usuario autor, String texto, String... categoriaIds) {
         return posts.criar(Post.publicar(autor, texto, null, List.of(categoriaIds), Instant.now()));
     }
 
-    /** A instituição da carga inicial (mesmo nome, para o upsert não alterá-la). */
     public Instituicao catolica() {
         return instituicoes.garantir(new Instituicao(
                 null, "Faculdade Católica da Paraíba", "catolica-pb", null, true, Instant.now()));
@@ -81,7 +74,6 @@ public class Cenario {
                 AVATAR, privado, true, Instant.now())));
     }
 
-    /** Instituição nova, só deste teste. */
     public Instituicao instituicaoNova() {
         return instituicao("teste-" + UUID.randomUUID());
     }
@@ -90,7 +82,6 @@ public class Cenario {
         return tokens.gerar(usuario);
     }
 
-    /** Valor do cabeçalho Authorization para o usuário. */
     public String bearer(Usuario usuario) {
         return "Bearer " + token(usuario);
     }

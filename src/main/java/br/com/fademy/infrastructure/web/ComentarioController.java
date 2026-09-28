@@ -28,7 +28,6 @@ public class ComentarioController {
         this.imagens = imagens;
     }
 
-    /** SPEC RN32. */
     @PostMapping("/api/posts/{postId}/comments")
     @ResponseStatus(HttpStatus.CREATED)
     public ComentarioCriadoResponse comentar(Visualizador visualizador, @PathVariable String postId,
@@ -37,7 +36,6 @@ public class ComentarioController {
         return new ComentarioCriadoResponse(ComentarioResponse.de(comentar.comentar(visualizador, postId, texto), imagens));
     }
 
-    /** SPEC RN33. */
     @GetMapping("/api/posts/{postId}/comments")
     public ComentariosResponse listar(Visualizador visualizador, @PathVariable String postId) {
         return new ComentariosResponse(

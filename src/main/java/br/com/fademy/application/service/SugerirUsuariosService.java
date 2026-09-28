@@ -19,8 +19,6 @@ public class SugerirUsuariosService implements SugerirUsuariosUseCase {
     @Override
     public List<Usuario> executar(Visualizador visualizador, String limite) {
         Usuario eu = usuarios.doVisualizador(visualizador);
-        // Equipe antes dos alunos; a ordenação é estável, então cada grupo mantém o cadastro
-        // mais recente primeiro, que é a ordem em que os candidatos chegam (SPEC RN20).
         return usuarios.candidatosASugestao(eu).stream()
                 .sorted(Comparator.comparing(usuario -> !usuario.ehDaEquipe()))
                 .limit(Limites.ler(limite, 15, 20))

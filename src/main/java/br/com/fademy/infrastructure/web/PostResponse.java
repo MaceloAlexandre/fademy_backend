@@ -10,9 +10,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.Instant;
 import java.util.List;
 
-/**
- * Post com autor e categorias populados (SPEC 5.3).
- */
 public record PostResponse(@JsonProperty("_id") String id, Autor authorId, String institutionId, String text,
                            List<String> imageUrls, @JsonInclude(JsonInclude.Include.NON_NULL) String linkUrl,
                            boolean hasLink, List<CategoriaResumo> categoryIds, int commentCount, Instant createdAt) {

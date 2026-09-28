@@ -26,10 +26,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Coleção "conversas". O campo "par" (os dois ids em ordem) tem índice único: é ele que garante
- * uma conversa por par de usuários.
- */
 @Component
 public class MongoConversaGateway implements ConversaGateway {
 
@@ -42,7 +38,6 @@ public class MongoConversaGateway implements ConversaGateway {
         try {
             colecao.createIndex(Indexes.ascending("par"), new IndexOptions().unique(true));
         } catch (MongoException e) {
-            // Com o MongoDB fora do ar a aplicação sobe mesmo assim (o /health mostra "down").
             log.warn("Não foi possível criar o índice único de conversas agora", e);
         }
     }
@@ -59,7 +54,6 @@ public class MongoConversaGateway implements ConversaGateway {
                     Updates.setOnInsert("atualizadaEm", Date.from(c.atualizadaEm()))),
                     new UpdateOptions().upsert(true)).getUpsertedId() != null;
         } catch (MongoWriteException e) {
-            // Outro pedido criou a mesma conversa no mesmo instante: vale a dele.
             if (e.getError().getCategory() != ErrorCategory.DUPLICATE_KEY) {
                 throw e;
             }

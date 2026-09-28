@@ -29,14 +29,12 @@ public class MidiaController {
         this.imagens = imagens;
     }
 
-    /** SPEC RN49. Público: o navegador abre a imagem direto pela URL. */
     @GetMapping("/api/media/{pasta}/{arquivo}")
     public ResponseEntity<byte[]> ver(@PathVariable String pasta, @PathVariable String arquivo) {
         Imagem imagem = verImagem.executar(pasta + "/" + arquivo);
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(imagem.tipo())).body(imagem.conteudo());
     }
 
-    /** SPEC RN14. Público: acontece antes de a conta existir. */
     @PostMapping("/api/media/upload")
     @ResponseStatus(HttpStatus.CREATED)
     public UploadResponse enviar(@RequestParam(name = "file", required = false) MultipartFile arquivo)

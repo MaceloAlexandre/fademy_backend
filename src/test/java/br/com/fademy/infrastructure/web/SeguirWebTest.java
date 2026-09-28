@@ -108,7 +108,6 @@ class SeguirWebTest extends IntegracaoTest {
                 Filters.eq("tipo", tipo), Filters.eq("atorId", ator.id()), Filters.eq("destinatarioId", destinatario.id())));
     }
 
-    // Os endpoints de bloqueio vêm em outra issue; aqui o bloqueio é gravado direto no banco.
     private void bloquear(Usuario bloqueador, Usuario bloqueado) {
         jdbc.sql("insert into bloqueio (id, bloqueador_id, bloqueado_id, criado_em) values (:id, :a, :b, :agora)")
                 .param("id", UUID.randomUUID())

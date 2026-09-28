@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-// Usa os bancos do Testcontainers, com adapters próprios para não fechar os do Singleton.
 class AdaptersTest extends IntegracaoTest {
 
     @Test

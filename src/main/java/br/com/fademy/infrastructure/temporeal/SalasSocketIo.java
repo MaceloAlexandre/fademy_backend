@@ -10,11 +10,6 @@ import org.json.JSONTokener;
 import org.springframework.stereotype.Component;
 import tools.jackson.databind.json.JsonMapper;
 
-/**
- * Cada conexão autenticada entra na sala com o id do usuário; o servidor só emite eventos
- * (SPEC RN43). A biblioteca não tem middleware de handshake: conexão com token ausente ou
- * inválido é encerrada logo depois de aberta, sem entrar em sala nenhuma.
- */
 @Component
 public class SalasSocketIo {
 
@@ -29,7 +24,6 @@ public class SalasSocketIo {
         namespace.on("connection", args -> entrar((SocketIoSocket) args[0]));
     }
 
-    /** Envia o evento, com os dados em JSON, para todas as conexões do usuário. */
     public void enviar(String usuarioId, String evento, Object dados) {
         namespace.broadcast(usuarioId, evento, new JSONTokener(json.writeValueAsString(dados)).nextValue());
     }

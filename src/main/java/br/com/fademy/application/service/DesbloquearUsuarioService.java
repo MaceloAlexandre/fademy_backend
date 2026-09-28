@@ -18,7 +18,6 @@ public class DesbloquearUsuarioService implements DesbloquearUsuarioUseCase {
         if (visualizador.id().equals(alvoId)) {
             throw new DadosInvalidosException("Cannot unblock yourself");
         }
-        // Os follows apagados no bloqueio não voltam (SPEC RN26).
         bloqueios.desbloquear(visualizador.id(), alvoId);
     }
 }

@@ -38,7 +38,6 @@ public class BloquearUsuarioService implements BloquearUsuarioUseCase {
                 .filter(eu::mesmaInstituicao)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("User not found"));
 
-        // Postgres primeiro, numa transação; o MongoDB depois do commit (SPEC RN46, RN47).
         transacao.executar(() -> {
             seguires.removerEntre(eu.id(), alvo.id());
             bloqueios.bloquear(eu.id(), alvo.id());

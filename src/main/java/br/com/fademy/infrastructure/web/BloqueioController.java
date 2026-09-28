@@ -19,14 +19,12 @@ public class BloqueioController {
         this.desbloquearUsuario = desbloquearUsuario;
     }
 
-    /** SPEC RN25. */
     @PostMapping("/api/users/{id}/block")
     public BloqueadoResponse bloquear(Visualizador visualizador, @PathVariable String id) {
         bloquearUsuario.executar(visualizador, id);
         return new BloqueadoResponse(true);
     }
 
-    /** SPEC RN26. */
     @DeleteMapping("/api/users/{id}/block")
     public DesbloqueadoResponse desbloquear(Visualizador visualizador, @PathVariable String id) {
         desbloquearUsuario.executar(visualizador, id);

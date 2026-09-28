@@ -19,7 +19,6 @@ import java.util.UUID;
 @Component
 public class PostgresUsuarioGateway implements UsuarioGateway {
 
-    // Linha do banco → subclasse de Usuario do papel gravado.
     private static final RowMapper<Usuario> USUARIO = (rs, n) -> Papel.deTexto(rs.getString("papel"))
             .criarUsuario(new DadosUsuario(
                     rs.getString("id"),
@@ -63,7 +62,6 @@ public class PostgresUsuarioGateway implements UsuarioGateway {
                 .optional();
     }
 
-    // Mesma instituição, sem o visualizador e sem bloqueio em nenhum sentido (SPEC RN19, RN20).
     private static final String VISIVEIS = """
             u.instituicao_id = :instituicao and u.id <> :eu
             and not exists (select 1 from bloqueio b
@@ -132,7 +130,6 @@ public class PostgresUsuarioGateway implements UsuarioGateway {
                 .list();
     }
 
-    // O trecho digitado é texto, não padrão: % e _ valem como caracteres comuns.
     private static String escaparLike(String trecho) {
         return trecho.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_");
     }

@@ -4,11 +4,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.testcontainers.mongodb.MongoDBContainer;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 
-/**
- * Base dos testes de integração. Sobe Postgres e Mongo uma vez por execução e aponta o
- * {@code DatabaseManager} para eles antes da subida do Spring. As imagens ficam no GridFS do
- * mesmo Mongo (#62).
- */
 @SpringBootTest
 public abstract class IntegracaoTest {
 
@@ -24,7 +19,6 @@ public abstract class IntegracaoTest {
         System.setProperty("MONGO_URI", MONGO.getReplicaSetUrl("fademy"));
     }
 
-    /** URL que a API devolve para a imagem com esta chave (IMAGENS_URL_PUBLICA padrão + chave). */
     protected static String url(String chave) {
         return "http://localhost:8080/api/media/" + chave;
     }

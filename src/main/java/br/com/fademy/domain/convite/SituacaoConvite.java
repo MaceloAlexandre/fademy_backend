@@ -1,8 +1,5 @@
 package br.com.fademy.domain.convite;
 
-/**
- * Se o convite ainda pode ser usado e, se não, por quê (SPEC RN11).
- */
 public enum SituacaoConvite {
 
     VALIDO(null),
@@ -20,7 +17,6 @@ public enum SituacaoConvite {
         return this == VALIDO;
     }
 
-    /** Motivo como aparece na API ({@code reason}); nulo quando válido. */
     public String motivo() {
         return motivo;
     }

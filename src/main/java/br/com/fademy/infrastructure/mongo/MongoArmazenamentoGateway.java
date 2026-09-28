@@ -7,10 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-/**
- * Imagens no MongoDB (GridFS), pelo {@link MongoAdapter} que o Singleton entrega (#62).
- * A chave da imagem é o nome do arquivo.
- */
 @Component
 public class MongoArmazenamentoGateway implements ArmazenamentoGateway {
 

@@ -9,9 +9,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.UUID;
 
-/**
- * Link de convite com papel-alvo, vagas e validade (SPEC RN10–RN13).
- */
 public class Convite {
 
     private static final Duration VALIDADE_PADRAO = Duration.ofDays(7);
@@ -41,12 +38,6 @@ public class Convite {
         this.criadoEm = criadoEm;
     }
 
-    /**
-     * Novo convite gerado pelo autor, na instituição dele (SPEC RN10). Quem chama já garantiu
-     * que o autor pode gerar convites (RN08).
-     *
-     * @param expiraEm opcional; sem ele, o convite vale 7 dias
-     */
     public static Convite gerar(Usuario autor, String papelAlvo, Integer maxUsos, Instant expiraEm, Instant agora) {
         if (papelAlvo == null || maxUsos == null) {
             throw new DadosInvalidosException("roleTarget and maxUses are required");
@@ -67,10 +58,6 @@ public class Convite {
                 expiraEm != null ? expiraEm : agora.plus(VALIDADE_PADRAO), agora);
     }
 
-    /**
-     * Precedência: revogado, expirado, cheio (SPEC RN11). O status "expired" só é gravado ao usar
-     * a última vaga, então esse caso já cai em "cheio".
-     */
     public SituacaoConvite situacao(Instant agora) {
         if (status == StatusConvite.REVOKED) {
             return SituacaoConvite.REVOGADO;
@@ -84,7 +71,6 @@ public class Convite {
         return SituacaoConvite.VALIDO;
     }
 
-    /** Validações do convite no cadastro, na ordem e com as mensagens da SPEC RN16. */
     public void garantirValido(Instant agora) {
         if (status != StatusConvite.ACTIVE) {
             throw new DadosInvalidosException("Invite is no longer valid");

@@ -19,7 +19,6 @@ public class AdminController {
         this.verPainelAdmin = verPainelAdmin;
     }
 
-    /** SPEC RN44. */
     @GetMapping("/api/admin/overview")
     public PainelResponse painel(Visualizador visualizador) {
         Painel painel = verPainelAdmin.executar(visualizador);

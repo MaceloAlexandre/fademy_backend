@@ -13,10 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
-/**
- * Controller usado só pelo TratadorDeErrosTest. Fica fora de br.com.fademy para não entrar na
- * varredura de componentes dos testes de integração.
- */
 @RestController
 public class ControllerDeErrosDeTeste {
 

@@ -18,14 +18,12 @@ public class PedidoDeSeguirController {
         this.rejeitarPedido = rejeitarPedido;
     }
 
-    /** SPEC RN23. */
     @PatchMapping("/api/follows/{id}/accept")
     public AceitoResponse aceitar(Visualizador visualizador, @PathVariable String id) {
         aceitarPedido.executar(visualizador, id);
         return new AceitoResponse("accepted");
     }
 
-    /** SPEC RN24. */
     @PatchMapping("/api/follows/{id}/reject")
     public RejeitadoResponse rejeitar(Visualizador visualizador, @PathVariable String id) {
         rejeitarPedido.executar(visualizador, id);

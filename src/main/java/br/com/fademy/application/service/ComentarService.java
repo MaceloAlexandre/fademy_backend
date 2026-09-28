@@ -47,7 +47,6 @@ public class ComentarService implements ComentarUseCase {
         Comentario novo = Comentario.escrever(eu, postId, texto, agora);
         Post post = postsVisiveis.buscar(eu, postId);
 
-        // Comentário e contador juntos (SPEC RN46); a notificação depois do commit (RN47).
         Comentario comentario = transacao.executar(() -> {
             Comentario criado = comentarios.criar(novo);
             posts.somarComentario(post.id());

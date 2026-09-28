@@ -5,9 +5,6 @@ import br.com.fademy.domain.usuario.Visualizador;
 
 import java.util.List;
 
-/**
- * Publicar um post (SPEC RN28).
- */
 public interface PublicarPostUseCase {
 
     Post executar(Visualizador visualizador, String texto, String linkUrl, List<String> categoriaIds,

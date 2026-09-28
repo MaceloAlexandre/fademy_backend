@@ -21,9 +21,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Coleção "mensagens". O remetente é só o id do usuário no Postgres.
- */
 @Component
 public class MongoMensagemGateway implements MensagemGateway {
 

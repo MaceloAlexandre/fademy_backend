@@ -70,7 +70,6 @@ class CargaInicialIntegracaoTest extends IntegracaoTest {
         assertThat(jdbc.sql("select senha_hash from usuario where email = 'admin@fademy.com'")
                 .query(String.class).single()).isEqualTo("senha-trocada");
 
-        // devolve a senha original para não afetar outros testes
         jdbc.sql("update usuario set senha_hash = :hash where email = 'admin@fademy.com'")
                 .param("hash", senhas.gerarHash("changeme")).update();
     }

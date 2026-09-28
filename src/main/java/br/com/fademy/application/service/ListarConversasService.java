@@ -29,11 +29,9 @@ public class ListarConversasService implements ListarConversasUseCase {
     @Override
     public List<ConversaDetalhada> conversas(Visualizador visualizador) {
         List<Conversa> minhas = conversas.doUsuario(visualizador.id());
-        // Membros vêm do Postgres, numa consulta só (SPEC RN48).
         Map<String, Usuario> membros = usuarios.buscarPorIds(
                         minhas.stream().flatMap(c -> c.membros().stream()).collect(Collectors.toSet()))
                 .stream().collect(Collectors.toMap(Usuario::id, Function.identity()));
-        // Uma consulta de última mensagem por conversa: a lista de conversas de alguém é curta.
         return minhas.stream().map(c -> new ConversaDetalhada(c,
                 c.membros().stream().map(membros::get).filter(Objects::nonNull).toList(),
                 mensagens.ultimaDe(c.id()).orElse(null))).toList();
