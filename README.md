@@ -27,7 +27,7 @@ mkdir fademy && cd fademy
 git clone https://github.com/MaceloAlexandre/fademy_backend.git
 git clone https://github.com/MaceloAlexandre/fademy_frontend.git
 
-# bancos e armazenamento de imagens
+# PostgreSQL e MongoDB (as imagens ficam no GridFS do MongoDB)
 cd fademy_backend
 docker compose up -d
 

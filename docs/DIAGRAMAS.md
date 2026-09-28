@@ -63,7 +63,7 @@ As setas são dependências de código. Elas só apontam para dentro, e o teste
 
 ```mermaid
 flowchart TB
-    subgraph infrastructure["infrastructure (Spring, JDBC, MongoDB, S3, Socket.IO)"]
+    subgraph infrastructure["infrastructure (Spring, JDBC, MongoDB, Socket.IO)"]
         web["web<br/>controllers, DTOs, TratadorDeErros, Autenticacao"]
         config["config<br/>UseCaseConfig, CargaInicial"]
         database["database<br/>DatabaseManager (Singleton), DatabaseConfig"]
@@ -471,6 +471,7 @@ flowchart LR
         notificacoes
         conversas
         mensagens
+        imagens["imagens (GridFS)"]
     end
     notificacoes -.->|destinatarioId, atorId| usuario
     conversas -.->|membros| usuario
@@ -493,7 +494,6 @@ sequenceDiagram
     participant S as RegistrarViaConviteService
     participant C as Convite
     participant PG as PostgreSQL
-    participant S3 as SeaweedFS (S3)
     participant MG as MongoDB
 
     Convidado->>React: abre /invite/:token
@@ -504,7 +504,7 @@ sequenceDiagram
 
     Convidado->>React: escolhe a foto
     React->>MC: POST /api/media/upload
-    MC->>S3: ArmazenamentoGateway.enviar("avatars/<uuid>.jpg")
+    MC->>MG: ArmazenamentoGateway.enviar("avatars/<uuid>.jpg") (GridFS)
     MC-->>React: 201 { key, objectUrl }
 
     Convidado->>React: envia o cadastro
@@ -512,7 +512,7 @@ sequenceDiagram
     AC->>S: executar(Cadastro)
     S->>PG: ConviteGateway.buscarPorToken
     S->>C: garantirValido(agora)
-    S->>S3: ArmazenamentoGateway.existe(avatarKey)
+    S->>MG: ArmazenamentoGateway.existe(avatarKey) (GridFS)
     Note over S: convite.papelAlvo().criarUsuario(...)<br/>papel e instituição vêm do convite
     rect rgba(120, 160, 255, 0.15)
         Note over S,PG: TransacaoGateway.executar (uma transação)

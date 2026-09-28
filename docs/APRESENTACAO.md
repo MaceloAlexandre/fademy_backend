@@ -1,6 +1,6 @@
 # Roteiro de apresentação — rede local da faculdade
 
-Tudo roda num notebook: bancos, armazenamento de imagens, API e frontend. Os celulares da
+Tudo roda num notebook: bancos (as imagens ficam no MongoDB), API e frontend. Os celulares da
 turma acessam o React pela rede Wi-Fi da sala. Não precisa de internet depois que as imagens
 Docker e as dependências já foram baixadas (faça isso em casa, antes).
 
@@ -9,7 +9,7 @@ Docker e as dependências já foram baixadas (faça isso em casa, antes).
 ```bash
 # Backend
 cd fademy_backend
-docker compose pull                 # postgres, mongo, seaweedfs, aws-cli
+docker compose pull                 # postgres, mongo
 ./mvnw -q -DskipTests package       # baixa as dependências do Maven
 
 # Frontend
@@ -35,20 +35,20 @@ inclusive no próprio notebook, porque o CORS da API libera uma origem só.
 ```bash
 cd fademy_backend
 docker compose up -d
-docker compose ps          # postgres, mongo e seaweedfs "running"; criar-bucket "exited (0)"
+docker compose ps          # postgres e mongo "running"
 ```
 
 ### 2.3 Subir a API com os dados de demonstração
 
 ```bash
 FRONTEND_ORIGIN=http://192.168.0.10:5173 \
-S3_PUBLIC_URL=http://192.168.0.10:8333/fademy \
+IMAGENS_URL_PUBLICA=http://192.168.0.10:8080/api/media \
 SPRING_PROFILES_ACTIVE=demo \
 ./mvnw spring-boot:run
 ```
 
 - `FRONTEND_ORIGIN`: de onde o React chama a API (CORS).
-- `S3_PUBLIC_URL`: endereço das fotos; com `localhost`, o celular não conseguiria abrir as imagens.
+- `IMAGENS_URL_PUBLICA`: endereço das fotos (a rota `/api/media` da própria API); com `localhost`, o celular não conseguiria abrir as imagens.
   O banco guarda só a chave de cada imagem, então os dados criados em casa, com outro IP,
   aparecem certos na faculdade: basta subir a API com o IP do dia.
 - `SPRING_PROFILES_ACTIVE=demo`: cria as pessoas, follows, posts e a conversa da seção 3 na
@@ -67,7 +67,7 @@ VITE_API_URL=http://192.168.0.10:8080 npm run dev -- --host
 **http://192.168.0.10:5173**.
 
 Se o celular não abrir, confira se o firewall do notebook libera as portas 5173 (frontend),
-8080 (API) e 8333 (fotos).
+8080 (API e fotos).
 
 ## 3. Contas de demonstração
 
@@ -107,6 +107,6 @@ Todos entraram na rede **por convite**, pelos mesmos casos de uso que o aplicati
 |---|---|---|
 | `/health` com `"mongo":"down"` ou `"postgres":"down"` | Container parado | `docker compose up -d` e `docker compose ps` |
 | Celular abre a tela, mas login falha | `VITE_API_URL` ou `FRONTEND_ORIGIN` com `localhost` | Subir de novo com o IP (seções 2.3 e 2.4) |
-| Fotos não aparecem no celular | `S3_PUBLIC_URL` com `localhost` ou com o IP antigo | Subir a API de novo com o IP do dia (as fotos já gravadas passam a sair com ele) |
+| Fotos não aparecem no celular | `IMAGENS_URL_PUBLICA` com `localhost` ou com o IP antigo | Subir a API de novo com o IP do dia (as fotos já gravadas passam a sair com ele) |
 | QR code abre `localhost` no celular | O notebook abriu o React por `localhost` | Abrir `http://<IP>:5173` também no notebook |
 | Quero começar do zero | Dados antigos | `docker compose down -v` (apaga os volumes) e subir de novo com `demo` |

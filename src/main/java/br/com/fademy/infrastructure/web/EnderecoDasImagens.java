@@ -6,16 +6,16 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * Monta a URL pública de uma imagem a partir da chave guardada no banco, com o S3_PUBLIC_URL
- * desta execução. Assim, trocar o endereço (outro IP na apresentação) não quebra as fotos
- * que já existiam (#53).
+ * Monta a URL pública de uma imagem a partir da chave guardada no banco, com o
+ * IMAGENS_URL_PUBLICA desta execução (a rota GET /api/media da própria API, #62). Assim, trocar
+ * o endereço (outro IP na apresentação) não quebra as fotos que já existiam (#53).
  */
 @Component
 public class EnderecoDasImagens {
 
     private final String base;
 
-    public EnderecoDasImagens(@Value("${fademy.s3.url-publica}") String base) {
+    public EnderecoDasImagens(@Value("${fademy.imagens.url-publica}") String base) {
         this.base = base;
     }
 
