@@ -31,15 +31,15 @@ class DadosDeDemonstracaoTest extends IntegracaoTest {
 
     @Test
     void criaAsPessoasPeloConviteEElasEntramComASenhaDoRoteiro() {
-        for (String email : new String[]{"helena@demo.fademy", "marcos@demo.fademy", "ana@demo.fademy",
-                "bruno@demo.fademy", "carla@demo.fademy"}) {
+        for (String email : new String[]{"erlon@demo.fademy", "rene@demo.fademy", "fabricio@demo.fademy",
+                "erika@demo.fademy", "wacelys@demo.fademy", "artur@demo.fademy"}) {
             assertThat(usuarios.buscarPorEmail(email)).as(email).isPresent();
             assertThat(autenticar.executar(email, DadosDeDemonstracao.SENHA)).isNotBlank();
         }
-        assertThat(usuarios.buscarPorEmail("helena@demo.fademy").orElseThrow().papel().texto()).isEqualTo("professor");
-        assertThat(usuarios.buscarPorEmail("bruno@demo.fademy").orElseThrow().privado()).isTrue();
+        assertThat(usuarios.buscarPorEmail("erlon@demo.fademy").orElseThrow().papel().texto()).isEqualTo("professor");
+        assertThat(usuarios.buscarPorEmail("artur@demo.fademy").orElseThrow().privado()).isTrue();
         assertThat(contar("select count(*) from convite c join usuario u on u.id = c.convidado_por_id"
-                + " where u.papel = 'admin' and c.status = 'expired' and c.usos = 1")).isGreaterThanOrEqualTo(5);
+                + " where u.papel = 'admin' and c.status = 'expired' and c.usos = 1")).isGreaterThanOrEqualTo(6);
     }
 
     @Test
@@ -47,12 +47,12 @@ class DadosDeDemonstracaoTest extends IntegracaoTest {
         assertThat(contar(demo("select count(*) from seguir s join usuario u on u.id = s.seguidor_id where %s"
                 + " and s.status = 'pending'"))).isEqualTo(1);
         assertThat(contar(demo("select count(*) from seguir s join usuario u on u.id = s.seguidor_id where %s"
-                + " and s.status = 'accepted'"))).isEqualTo(9);
-        assertThat(contar(demo("select count(*) from post p join usuario u on u.id = p.autor_id where %s"))).isEqualTo(4);
+                + " and s.status = 'accepted'"))).isEqualTo(11);
+        assertThat(contar(demo("select count(*) from post p join usuario u on u.id = p.autor_id where %s"))).isEqualTo(5);
         assertThat(contar(demo("select count(*) from comentario c join usuario u on u.id = c.autor_id where %s")))
                 .isEqualTo(2);
-        String ana = usuarios.buscarPorEmail("ana@demo.fademy").orElseThrow().id();
-        assertThat(mongo.getCollection("conversas").countDocuments(new org.bson.Document("membros", ana))).isEqualTo(1);
+        String wacelys = usuarios.buscarPorEmail("wacelys@demo.fademy").orElseThrow().id();
+        assertThat(mongo.getCollection("conversas").countDocuments(new org.bson.Document("membros", wacelys))).isEqualTo(1);
         assertThat(mongo.getCollection("mensagens").countDocuments()).isGreaterThanOrEqualTo(2);
     }
 

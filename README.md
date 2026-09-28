@@ -40,8 +40,8 @@ npm install
 npm run dev
 ```
 
-Contas: `admin@fademy.com` / `changeme`; com o perfil `demo`, também `ana@demo.fademy`,
-`helena@demo.fademy`... com a senha `demo1234` (lista completa em `docs/APRESENTACAO.md`).
+Contas: `admin@fademy.com` / `changeme`; com o perfil `demo`, também `wacelys@demo.fademy`,
+`erlon@demo.fademy`... com a senha `demo1234` (lista completa em `docs/APRESENTACAO.md`).
 Testes: `./mvnw verify` (com o Docker rodando). No IntelliJ, escolha o JDK 25 em *Project
 Structure → SDK* e rode a classe `FademyApplication`.
 
