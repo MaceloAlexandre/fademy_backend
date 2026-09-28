@@ -24,7 +24,7 @@ em `~/.jdks/` com `JAVA_HOME` apontando para ele.
 
 ```bash
 docker compose up -d       # postgres, mongo, seaweedfs (S3)
-./mvnw spring-boot:run     # API em :3000
+./mvnw spring-boot:run     # API em :8080
 ./mvnw verify              # todos os testes (Docker rodando)
 ```
 

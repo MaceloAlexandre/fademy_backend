@@ -36,7 +36,7 @@ class ConfiguracaoBancosTest {
     void semConfiguracaoUsaOsBancosDoDockerCompose() {
         ConfiguracaoBancos config = ConfiguracaoBancos.doAmbiente();
 
-        assertThat(config.postgresUrl()).isEqualTo("jdbc:postgresql://localhost:5432/fademy");
+        assertThat(config.postgresUrl()).isEqualTo("jdbc:postgresql://localhost:5433/fademy");
         assertThat(config.postgresUsuario()).isEqualTo("fademy");
         assertThat(config.postgresSenha()).isEqualTo("fademy");
         assertThat(config.mongoUri()).isEqualTo("mongodb://localhost:27017/fademy");

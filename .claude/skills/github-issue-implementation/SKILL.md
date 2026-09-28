@@ -75,7 +75,7 @@ Implemente só o escopo da issue, seguindo `docs/ARQUITETURA.md`:
 Validações do backend (Docker precisa estar rodando para o Testcontainers):
 
 - `./mvnw verify` — compila, roda unitários, integração e ArchUnit;
-- smoke: `docker compose up -d` + `./mvnw spring-boot:run` + `curl localhost:3000/health` quando a issue mexer em configuração, banco ou subida.
+- smoke: `docker compose up -d` + `./mvnw spring-boot:run` + `curl localhost:8080/health` quando a issue mexer em configuração, banco ou subida.
 
 Se a infraestrutura de testes ainda não existir, não declare critério coberto por teste: avise que a issue do esqueleto é pré-requisito.
 

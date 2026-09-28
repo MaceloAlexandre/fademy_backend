@@ -8,7 +8,7 @@ public record ConfiguracaoBancos(String postgresUrl, String postgresUsuario, Str
 
     public static ConfiguracaoBancos doAmbiente() {
         return new ConfiguracaoBancos(
-                ler("POSTGRES_URL", "jdbc:postgresql://localhost:5432/fademy"),
+                ler("POSTGRES_URL", "jdbc:postgresql://localhost:5433/fademy"),
                 ler("POSTGRES_USER", "fademy"),
                 ler("POSTGRES_PASSWORD", "fademy"),
                 ler("MONGO_URI", "mongodb://localhost:27017/fademy"));

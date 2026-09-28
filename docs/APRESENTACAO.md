@@ -54,20 +54,20 @@ SPRING_PROFILES_ACTIVE=demo \
 - `SPRING_PROFILES_ACTIVE=demo`: cria as pessoas, follows, posts e a conversa da seção 3 na
   primeira subida. Nas próximas subidas não cria nada de novo.
 
-Conferir: `curl http://192.168.0.10:3000/health` → `{"status":"ok","postgres":"up","mongo":"up"}`.
+Conferir: `curl http://192.168.0.10:8080/health` → `{"status":"ok","postgres":"up","mongo":"up"}`.
 
 ### 2.4 Subir o frontend acessível pela rede
 
 ```bash
 cd ../fademy_frontend
-VITE_API_URL=http://192.168.0.10:3000 npm run dev -- --host
+VITE_API_URL=http://192.168.0.10:8080 npm run dev -- --host
 ```
 
 `--host` faz o Vite aceitar conexões de outros aparelhos. No notebook e nos celulares:
 **http://192.168.0.10:5173**.
 
 Se o celular não abrir, confira se o firewall do notebook libera as portas 5173 (frontend),
-3000 (API) e 8333 (fotos).
+8080 (API) e 8333 (fotos).
 
 ## 3. Contas de demonstração
 

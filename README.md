@@ -31,7 +31,7 @@ git clone https://github.com/MaceloAlexandre/fademy_frontend.git
 cd fademy_backend
 docker compose up -d
 
-# API em http://localhost:3000 (com dados de demonstração)
+# API em http://localhost:8080 (com dados de demonstração)
 SPRING_PROFILES_ACTIVE=demo ./mvnw spring-boot:run
 
 # frontend em http://localhost:5173 (outro terminal)
