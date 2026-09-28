@@ -115,7 +115,7 @@ class PerfilServicesTest {
                 new EdicaoDePerfil(true, true, true, "http://nova", "avatars/x.jpg"));
 
         assertThat(editado.privado()).isTrue();
-        assertThat(editado.avatarUrl()).isEqualTo("http://nova");
+        assertThat(editado.avatarChave()).isEqualTo("avatars/x.jpg");
         verify(usuarios).atualizar(ana);
     }
 
@@ -131,6 +131,6 @@ class PerfilServicesTest {
 
     private static Usuario usuario(String id, String instituicao, boolean privado) {
         return Papel.ALUNO.criarUsuario(new DadosUsuario(
-                id, instituicao, id, id + "@x.com", "hash", "http://avatar", privado, true, Instant.now()));
+                id, instituicao, id, id + "@x.com", "hash", "avatars/a.png", privado, true, Instant.now()));
     }
 }

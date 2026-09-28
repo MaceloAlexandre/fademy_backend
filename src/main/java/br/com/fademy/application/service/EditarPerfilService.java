@@ -40,7 +40,8 @@ public class EditarPerfilService implements EditarPerfilUseCase {
                 throw new DadosInvalidosException(
                         "Profile photo not found in storage — please upload a photo first");
             }
-            eu.trocarAvatar((String) edicao.avatarUrl());
+            // Grava a chave validada; a URL enviada pelo cliente não é guardada (#53).
+            eu.trocarAvatar((String) edicao.avatarChave());
         }
         usuarios.atualizar(eu);
         return eu;

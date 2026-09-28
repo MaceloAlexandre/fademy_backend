@@ -65,7 +65,9 @@ public class MensagensService implements MensagensUseCase {
         List<String> midias = new ArrayList<>();
         for (ArquivoEnviado arquivo : imagens) {
             Imagem imagem = new Imagem(arquivo.conteudo(), arquivo.tipo());
-            midias.add(armazenamento.enviar(imagem.novaChave("messages"), imagem));
+            String chave = imagem.novaChave("messages");
+            armazenamento.enviar(chave, imagem);
+            midias.add(chave);
         }
         Mensagem mensagem = mensagens.criar(rascunho.comMidias(midias));
         conversas.registrarAtividade(conversa.id(), agora);

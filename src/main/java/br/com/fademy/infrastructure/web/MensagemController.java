@@ -20,9 +20,11 @@ import java.util.List;
 public class MensagemController {
 
     private final MensagensUseCase mensagens;
+    private final EnderecoDasImagens imagens;
 
-    public MensagemController(MensagensUseCase mensagens) {
+    public MensagemController(MensagensUseCase mensagens, EnderecoDasImagens imagens) {
         this.mensagens = mensagens;
+        this.imagens = imagens;
     }
 
     /** SPEC RN41. */
@@ -33,7 +35,7 @@ public class MensagemController {
                                          @RequestParam(name = "images", required = false) List<MultipartFile> images)
             throws IOException {
         Mensagem mensagem = mensagens.enviar(visualizador, id, text, PostController.arquivos(images));
-        return new MensagemCriadaResponse(MensagemResponse.de(mensagem));
+        return new MensagemCriadaResponse(MensagemResponse.de(mensagem, imagens));
     }
 
     /** SPEC RN42. */
@@ -42,7 +44,8 @@ public class MensagemController {
                                     @RequestParam(required = false) String cursor,
                                     @RequestParam(required = false) String limit) {
         Pagina<Mensagem> pagina = mensagens.listar(visualizador, id, cursor, limit);
-        return new PaginaDeMensagens(pagina.itens().stream().map(MensagemResponse::de).toList(), pagina.temMais(),
+        return new PaginaDeMensagens(pagina.itens().stream().map(m -> MensagemResponse.de(m, imagens)).toList(),
+                pagina.temMais(),
                 pagina.proximoCursor());
     }
 

@@ -52,9 +52,9 @@ class PerfilWebTest extends IntegracaoTest {
         perfil(ana, bia.id())
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
-                        {"id":"%s","name":"Usuário professor","avatarUrl":"http://avatar","role":"professor",
+                        {"id":"%s","name":"Usuário professor","avatarUrl":"%s","role":"professor",
                          "isPrivate":false,"followStatus":"accepted","isBlockedByMe":false,
-                         "followersCount":2,"followingCount":1}""".formatted(bia.id()), true));
+                         "followersCount":2,"followingCount":1}""".formatted(bia.id(), url(Cenario.AVATAR)), true));
     }
 
     @Test
@@ -66,8 +66,9 @@ class PerfilWebTest extends IntegracaoTest {
         perfil(ana, bia.id())
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
-                        {"id":"%s","name":"Usuário aluno","avatarUrl":"http://avatar","role":"aluno",
-                         "isPrivate":true,"followStatus":"pending","isBlockedByMe":false}""".formatted(bia.id()), true));
+                        {"id":"%s","name":"Usuário aluno","avatarUrl":"%s","role":"aluno",
+                         "isPrivate":true,"followStatus":"pending","isBlockedByMe":false}"""
+                        .formatted(bia.id(), url(Cenario.AVATAR)), true));
     }
 
     @Test
@@ -109,8 +110,8 @@ class PerfilWebTest extends IntegracaoTest {
         editar(ana, "{\"isPrivate\":true}")
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
-                        {"id":"%s","name":"Usuário aluno","avatarUrl":"http://avatar","role":"aluno","isPrivate":true}"""
-                        .formatted(ana.id()), true));
+                        {"id":"%s","name":"Usuário aluno","avatarUrl":"%s","role":"aluno","isPrivate":true}"""
+                        .formatted(ana.id(), url(Cenario.AVATAR)), true));
         assertThat(usuarios.buscarPorId(ana.id()).orElseThrow().privado()).isTrue();
     }
 
@@ -120,10 +121,11 @@ class PerfilWebTest extends IntegracaoTest {
         String chave = "avatars/" + UUID.randomUUID() + ".png";
         armazenamento.enviar(chave, new Imagem(new byte[]{1}, "image/png"));
 
-        editar(ana, "{\"avatarUrl\":\"http://nova\",\"avatarKey\":\"" + chave + "\"}")
+        // A URL enviada pelo cliente não é gravada: vale a chave validada (#53).
+        editar(ana, "{\"avatarUrl\":\"http://ip-antigo/qualquer\",\"avatarKey\":\"" + chave + "\"}")
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.avatarUrl").value("http://nova"));
-        assertThat(usuarios.buscarPorId(ana.id()).orElseThrow().avatarUrl()).isEqualTo("http://nova");
+                .andExpect(jsonPath("$.avatarUrl").value(url(chave)));
+        assertThat(usuarios.buscarPorId(ana.id()).orElseThrow().avatarChave()).isEqualTo(chave);
     }
 
     @Test

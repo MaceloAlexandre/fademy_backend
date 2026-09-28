@@ -1,7 +1,6 @@
 package br.com.fademy.infrastructure.web;
 
 import br.com.fademy.application.usecase.EnviarAvatarUseCase;
-import br.com.fademy.application.usecase.EnviarAvatarUseCase.ImagemEnviada;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,9 +14,11 @@ import java.io.IOException;
 public class MidiaController {
 
     private final EnviarAvatarUseCase enviarAvatar;
+    private final EnderecoDasImagens imagens;
 
-    public MidiaController(EnviarAvatarUseCase enviarAvatar) {
+    public MidiaController(EnviarAvatarUseCase enviarAvatar, EnderecoDasImagens imagens) {
         this.enviarAvatar = enviarAvatar;
+        this.imagens = imagens;
     }
 
     /** SPEC RN14. Público: acontece antes de a conta existir. */
@@ -25,10 +26,10 @@ public class MidiaController {
     @ResponseStatus(HttpStatus.CREATED)
     public UploadResponse enviar(@RequestParam(name = "file", required = false) MultipartFile arquivo)
             throws IOException {
-        ImagemEnviada enviada = arquivo == null
+        String chave = arquivo == null
                 ? enviarAvatar.executar(null, null)
                 : enviarAvatar.executar(arquivo.getBytes(), arquivo.getContentType());
-        return new UploadResponse(enviada.chave(), enviada.url());
+        return new UploadResponse(chave, imagens.url(chave));
     }
 
     public record UploadResponse(String key, String objectUrl) {

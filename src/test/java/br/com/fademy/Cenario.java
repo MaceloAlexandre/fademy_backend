@@ -25,6 +25,9 @@ public class Cenario {
 
     public static final String SENHA = "senha123";
 
+    /** Chave da foto de todos os usuários criados pelo cenário. */
+    public static final String AVATAR = "avatars/teste.png";
+
     private final InstituicaoGateway instituicoes;
     private final UsuarioGateway usuarios;
     private final SenhaGateway senhas;
@@ -75,7 +78,7 @@ public class Cenario {
         String email = papel.texto() + "-" + UUID.randomUUID() + "@teste.com";
         return usuarios.criar(papel.criarUsuario(new DadosUsuario(
                 null, instituicao.id(), nome, email, senhas.gerarHash(SENHA),
-                "http://avatar", privado, true, Instant.now())));
+                AVATAR, privado, true, Instant.now())));
     }
 
     /** Instituição nova, só deste teste. */

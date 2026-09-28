@@ -24,10 +24,13 @@ public class ConversaController {
 
     private final IniciarConversaUseCase iniciarConversa;
     private final ListarConversasUseCase listarConversas;
+    private final EnderecoDasImagens imagens;
 
-    public ConversaController(IniciarConversaUseCase iniciarConversa, ListarConversasUseCase listarConversas) {
+    public ConversaController(IniciarConversaUseCase iniciarConversa, ListarConversasUseCase listarConversas,
+                              EnderecoDasImagens imagens) {
         this.iniciarConversa = iniciarConversa;
         this.listarConversas = listarConversas;
+        this.imagens = imagens;
     }
 
     /** SPEC RN38: 201 quando cria, 200 quando a conversa já existia. */
@@ -45,20 +48,21 @@ public class ConversaController {
     @GetMapping("/api/conversations")
     public ConversasResponse listar(Visualizador visualizador) {
         return new ConversasResponse(
-                listarConversas.conversas(visualizador).stream().map(ConversaController::de).toList());
+                listarConversas.conversas(visualizador).stream().map(this::de).toList());
     }
 
     /** SPEC RN40. */
     @GetMapping("/api/conversations/eligible-contacts")
     public ContatosResponse contatos(Visualizador visualizador) {
-        return new ContatosResponse(listarConversas.contatos(visualizador).stream().map(ContatoResponse::de).toList());
+        return new ContatosResponse(
+                listarConversas.contatos(visualizador).stream().map(u -> ContatoResponse.de(u, imagens)).toList());
     }
 
-    private static ConversaResponse<Autor> de(ConversaDetalhada d) {
+    private ConversaResponse<Autor> de(ConversaDetalhada d) {
         Conversa c = d.conversa();
-        return new ConversaResponse<>(c.id(), d.membros().stream().map(Autor::de).toList(), false, c.criadaPorId(),
+        return new ConversaResponse<>(c.id(), d.membros().stream().map(u -> Autor.de(u, imagens)).toList(), false, c.criadaPorId(),
                 c.criadaEm(), c.atualizadaEm(),
-                d.ultimaMensagem() != null ? MensagemResponse.de(d.ultimaMensagem()) : null);
+                d.ultimaMensagem() != null ? MensagemResponse.de(d.ultimaMensagem(), imagens) : null);
     }
 
     public record IniciarRequest(String userId) {
@@ -78,8 +82,8 @@ public class ConversaController {
 
     public record ContatoResponse(@JsonProperty("_id") String id, String name, String avatarUrl, String role) {
 
-        static ContatoResponse de(Usuario u) {
-            return new ContatoResponse(u.id(), u.nome(), u.avatarUrl(), u.papel().texto());
+        static ContatoResponse de(Usuario u, EnderecoDasImagens imagens) {
+            return new ContatoResponse(u.id(), u.nome(), imagens.url(u.avatarChave()), u.papel().texto());
         }
     }
 

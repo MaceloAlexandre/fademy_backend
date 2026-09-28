@@ -9,6 +9,10 @@ public interface RegistrarViaConviteUseCase {
 
     Usuario executar(Cadastro cadastro);
 
+    /**
+     * @param avatarUrl   exigido pelo contrato, mas não gravado: a foto vem da chave validada
+     * @param avatarChave chave devolvida pelo upload da foto
+     */
     record Cadastro(String token, String nome, String email, String senha, String avatarUrl, String avatarChave) {
     }
 }

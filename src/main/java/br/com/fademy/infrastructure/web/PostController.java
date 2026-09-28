@@ -33,19 +33,21 @@ public class PostController {
     private final VerFeedUseCase verFeed;
     private final VerPostUseCase verPost;
     private final ListarPostsDoUsuarioUseCase listarPostsDoUsuario;
+    private final EnderecoDasImagens imagens;
 
     public PostController(PublicarPostUseCase publicarPost, VerFeedUseCase verFeed, VerPostUseCase verPost,
-                          ListarPostsDoUsuarioUseCase listarPostsDoUsuario) {
+                          ListarPostsDoUsuarioUseCase listarPostsDoUsuario, EnderecoDasImagens imagens) {
         this.publicarPost = publicarPost;
         this.verFeed = verFeed;
         this.verPost = verPost;
         this.listarPostsDoUsuario = listarPostsDoUsuario;
+        this.imagens = imagens;
     }
 
     /** SPEC RN30. */
     @GetMapping("/api/posts/{id}")
     public PostUnicoResponse ver(Visualizador visualizador, @PathVariable String id) {
-        return new PostUnicoResponse(PostResponse.de(verPost.executar(visualizador, id)));
+        return new PostUnicoResponse(PostResponse.de(verPost.executar(visualizador, id), imagens));
     }
 
     /** SPEC RN31. {@code me} é o próprio visualizador. */
@@ -65,9 +67,9 @@ public class PostController {
         return pagina(verFeed.executar(visualizador, cursor, limit));
     }
 
-    static PaginaDePosts pagina(Pagina<PostDetalhado> pagina) {
-        return new PaginaDePosts(pagina.itens().stream().map(PostResponse::de).toList(), pagina.temMais(),
-                pagina.proximoCursor());
+    private PaginaDePosts pagina(Pagina<PostDetalhado> pagina) {
+        return new PaginaDePosts(pagina.itens().stream().map(d -> PostResponse.de(d, imagens)).toList(),
+                pagina.temMais(), pagina.proximoCursor());
     }
 
     /** SPEC RN28. */
@@ -80,7 +82,7 @@ public class PostController {
                                        @RequestParam(name = "images", required = false) List<MultipartFile> images)
             throws IOException {
         Post post = publicarPost.executar(visualizador, text, linkUrl, categoryIds, arquivos(images));
-        return new PostCriadoResponse(PostCriado.de(post));
+        return new PostCriadoResponse(PostCriado.de(post, imagens));
     }
 
     static List<ArquivoEnviado> arquivos(List<MultipartFile> enviados) throws IOException {
@@ -102,9 +104,9 @@ public class PostController {
                              List<String> imageUrls, @JsonInclude(JsonInclude.Include.NON_NULL) String linkUrl,
                              boolean hasLink, List<String> categoryIds, int commentCount, Instant createdAt) {
 
-        static PostCriado de(Post p) {
-            return new PostCriado(p.id(), p.autorId(), p.instituicaoId(), p.texto(), p.imagens(), p.linkUrl(),
-                    p.temLink(), p.categoriaIds(), p.comentarios(), p.criadoEm());
+        static PostCriado de(Post p, EnderecoDasImagens imagens) {
+            return new PostCriado(p.id(), p.autorId(), p.instituicaoId(), p.texto(), imagens.urls(p.imagens()),
+                    p.linkUrl(), p.temLink(), p.categoriaIds(), p.comentarios(), p.criadoEm());
         }
     }
 }

@@ -13,21 +13,16 @@ public class S3ArmazenamentoGateway implements ArmazenamentoGateway {
 
     private final S3Client s3;
     private final String bucket;
-    private final String urlPublica;
 
-    public S3ArmazenamentoGateway(S3Client s3,
-                                  @Value("${fademy.s3.bucket}") String bucket,
-                                  @Value("${fademy.s3.url-publica}") String urlPublica) {
+    public S3ArmazenamentoGateway(S3Client s3, @Value("${fademy.s3.bucket}") String bucket) {
         this.s3 = s3;
         this.bucket = bucket;
-        this.urlPublica = urlPublica;
     }
 
     @Override
-    public String enviar(String chave, Imagem imagem) {
+    public void enviar(String chave, Imagem imagem) {
         s3.putObject(r -> r.bucket(bucket).key(chave).contentType(imagem.tipo()),
                 RequestBody.fromBytes(imagem.conteudo()));
-        return urlPublica + "/" + chave;
     }
 
     @Override

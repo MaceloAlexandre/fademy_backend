@@ -53,7 +53,7 @@ class ComentarioWebTest extends IntegracaoTest {
                 .andExpect(jsonPath("$.comment.postId").value(post.id()))
                 .andExpect(jsonPath("$.comment.authorId._id").value(aluna.id()))
                 .andExpect(jsonPath("$.comment.authorId.name").value("Usuário aluno"))
-                .andExpect(jsonPath("$.comment.authorId.avatarUrl").value("http://avatar"))
+                .andExpect(jsonPath("$.comment.authorId.avatarUrl").value(url(Cenario.AVATAR)))
                 .andExpect(jsonPath("$.comment.institutionId").value(aluna.instituicaoId()))
                 .andExpect(jsonPath("$.comment.text").value("ótima aula"))
                 .andExpect(jsonPath("$.comment.createdAt").isString());

@@ -256,6 +256,10 @@ Um teste garante que o objeto usado pelo Spring é o mesmo que `getInstance` dev
 - Tempo real: `SocketIoConfig` sobe o servidor Socket.IO no Tomcat (servlet assíncrono para o
   polling e endpoint JSR-356 para o WebSocket, os dois em `/socket.io/`); `SalasSocketIo`
   autentica a conexão pelo `TokenGateway` e põe cada uma na sala do usuário.
+- Imagens: o domínio e os bancos guardam só a **chave** no armazenamento; a URL é detalhe de
+  apresentação. `EnderecoDasImagens` (infra web) monta `S3_PUBLIC_URL + "/" + chave` na hora de
+  responder, nos DTOs e no evento em tempo real. Assim o endereço pode mudar (outro IP) sem
+  quebrar as imagens gravadas (#53).
 - DTOs de entrada e saída são `record`s em `infrastructure/web`, com os nomes de campo do
   contrato (`_id`, `authorId`, ...) — ver SPEC seção 5.
 - Exceções de domínio viram status HTTP num `@RestControllerAdvice`:

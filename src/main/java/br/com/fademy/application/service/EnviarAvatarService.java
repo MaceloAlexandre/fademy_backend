@@ -14,7 +14,7 @@ public class EnviarAvatarService implements EnviarAvatarUseCase {
     }
 
     @Override
-    public ImagemEnviada executar(byte[] conteudo, String tipo) {
+    public String executar(byte[] conteudo, String tipo) {
         if (conteudo == null) {
             throw new DadosInvalidosException("file is required");
         }
@@ -23,6 +23,7 @@ public class EnviarAvatarService implements EnviarAvatarUseCase {
         }
         Imagem imagem = new Imagem(conteudo, tipo);
         String chave = imagem.novaChave("avatars");
-        return new ImagemEnviada(chave, armazenamento.enviar(chave, imagem));
+        armazenamento.enviar(chave, imagem);
+        return chave;
     }
 }

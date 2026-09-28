@@ -13,7 +13,7 @@ public abstract class Usuario {
     private final String nome;
     private final String email;
     private final String senhaHash;
-    private String avatarUrl;
+    private String avatarChave;
     private boolean privado;
     private final boolean ativo;
     private final Instant criadoEm;
@@ -24,7 +24,7 @@ public abstract class Usuario {
         this.nome = dados.nome();
         this.email = dados.email();
         this.senhaHash = dados.senhaHash();
-        this.avatarUrl = dados.avatarUrl();
+        this.avatarChave = dados.avatarChave();
         this.privado = dados.privado();
         this.ativo = dados.ativo();
         this.criadoEm = dados.criadoEm();
@@ -68,8 +68,9 @@ public abstract class Usuario {
         this.privado = privado;
     }
 
-    public void trocarAvatar(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
+    /** @param avatarChave chave da foto no armazenamento */
+    public void trocarAvatar(String avatarChave) {
+        this.avatarChave = avatarChave;
     }
 
     /** Usuários de instituições diferentes não se enxergam (SPEC RN01). */
@@ -97,8 +98,9 @@ public abstract class Usuario {
         return senhaHash;
     }
 
-    public String avatarUrl() {
-        return avatarUrl;
+    /** Chave da foto no armazenamento, ou null. */
+    public String avatarChave() {
+        return avatarChave;
     }
 
     public boolean privado() {

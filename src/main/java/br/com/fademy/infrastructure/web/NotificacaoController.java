@@ -26,10 +26,13 @@ public class NotificacaoController {
 
     private final ListarNotificacoesUseCase listarNotificacoes;
     private final LerNotificacaoUseCase lerNotificacao;
+    private final EnderecoDasImagens imagens;
 
-    public NotificacaoController(ListarNotificacoesUseCase listarNotificacoes, LerNotificacaoUseCase lerNotificacao) {
+    public NotificacaoController(ListarNotificacoesUseCase listarNotificacoes, LerNotificacaoUseCase lerNotificacao,
+                                 EnderecoDasImagens imagens) {
         this.listarNotificacoes = listarNotificacoes;
         this.lerNotificacao = lerNotificacao;
+        this.imagens = imagens;
     }
 
     /** SPEC RN35. */
@@ -39,7 +42,7 @@ public class NotificacaoController {
                                        @RequestParam(required = false) String limit) {
         Resultado resultado = listarNotificacoes.executar(visualizador, cursor, limit);
         return new NotificacoesResponse(
-                resultado.pagina().itens().stream().map(NotificacaoResponse::de).toList(),
+                resultado.pagina().itens().stream().map(d -> NotificacaoResponse.de(d, imagens)).toList(),
                 resultado.pagina().temMais(), resultado.pagina().proximoCursor(), resultado.naoLidas());
     }
 
@@ -69,20 +72,20 @@ public class NotificacaoController {
                                       String type, String refId, String refModel, boolean read, Instant createdAt,
                                       @JsonInclude(JsonInclude.Include.NON_NULL) Optional<String> followStatus) {
 
-        static NotificacaoResponse de(NotificacaoDetalhada d) {
+        static NotificacaoResponse de(NotificacaoDetalhada d, EnderecoDasImagens imagens) {
             Notificacao n = d.notificacao();
             Optional<String> followStatus = n.tipo() == TipoNotificacao.FOLLOW_REQUEST
                     ? Optional.ofNullable(d.statusDoPedido()).map(s -> s.texto())
                     : null;
-            return new NotificacaoResponse(n.id(), n.destinatarioId(), AtorResponse.de(d.ator()), n.tipo().texto(),
+            return new NotificacaoResponse(n.id(), n.destinatarioId(), AtorResponse.de(d.ator(), imagens), n.tipo().texto(),
                     n.refId(), n.tipo().modeloReferencia(), n.lida(), n.criadaEm(), followStatus);
         }
     }
 
     public record AtorResponse(@JsonProperty("_id") String id, String name, String avatarUrl) {
 
-        static AtorResponse de(Usuario u) {
-            return u == null ? null : new AtorResponse(u.id(), u.nome(), u.avatarUrl());
+        static AtorResponse de(Usuario u, EnderecoDasImagens imagens) {
+            return u == null ? null : new AtorResponse(u.id(), u.nome(), imagens.url(u.avatarChave()));
         }
     }
 

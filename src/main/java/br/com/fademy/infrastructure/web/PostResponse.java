@@ -17,17 +17,18 @@ public record PostResponse(@JsonProperty("_id") String id, Autor authorId, Strin
                            List<String> imageUrls, @JsonInclude(JsonInclude.Include.NON_NULL) String linkUrl,
                            boolean hasLink, List<CategoriaResumo> categoryIds, int commentCount, Instant createdAt) {
 
-    static PostResponse de(PostDetalhado d) {
+    static PostResponse de(PostDetalhado d, EnderecoDasImagens imagens) {
         Post p = d.post();
-        return new PostResponse(p.id(), Autor.de(d.autor()), p.instituicaoId(), p.texto(), p.imagens(), p.linkUrl(),
+        return new PostResponse(p.id(), Autor.de(d.autor(), imagens), p.instituicaoId(), p.texto(),
+                imagens.urls(p.imagens()), p.linkUrl(),
                 p.temLink(), d.categorias().stream().map(CategoriaResumo::de).toList(), p.comentarios(),
                 p.criadoEm());
     }
 
     public record Autor(@JsonProperty("_id") String id, String name, String avatarUrl) {
 
-        static Autor de(Usuario u) {
-            return u == null ? null : new Autor(u.id(), u.nome(), u.avatarUrl());
+        static Autor de(Usuario u, EnderecoDasImagens imagens) {
+            return u == null ? null : new Autor(u.id(), u.nome(), imagens.url(u.avatarChave()));
         }
     }
 

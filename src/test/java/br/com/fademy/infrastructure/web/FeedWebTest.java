@@ -57,7 +57,7 @@ class FeedWebTest extends IntegracaoTest {
                 .andExpect(jsonPath("$.posts[*].text", contains("segundo", "primeiro")))
                 .andExpect(jsonPath("$.posts[1].authorId._id").value(sigo.id()))
                 .andExpect(jsonPath("$.posts[1].authorId.name").value("Professora Sigo"))
-                .andExpect(jsonPath("$.posts[1].authorId.avatarUrl").value("http://avatar"))
+                .andExpect(jsonPath("$.posts[1].authorId.avatarUrl").value(url(Cenario.AVATAR)))
                 .andExpect(jsonPath("$.posts[1].categoryIds[0]._id").value(aulas.id()))
                 .andExpect(jsonPath("$.posts[1].categoryIds[0].slug").value("aulas"))
                 .andExpect(jsonPath("$.posts[1].categoryIds[0].type").value("content"))

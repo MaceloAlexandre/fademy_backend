@@ -8,7 +8,8 @@ import java.util.List;
 /**
  * Mensagem de uma conversa: texto, imagens ou os dois (SPEC RN41).
  *
- * @param texto nulo quando a mensagem só tem imagens
+ * @param texto  nulo quando a mensagem só tem imagens
+ * @param midias chaves das imagens no armazenamento
  */
 public record Mensagem(String id, String conversaId, String remetenteId, String texto, List<String> midias,
                        Instant criadaEm) {
@@ -23,7 +24,7 @@ public record Mensagem(String id, String conversaId, String remetenteId, String 
         return new Mensagem(null, conversaId, remetenteId, temTexto ? texto.trim() : null, List.of(), agora);
     }
 
-    public Mensagem comMidias(List<String> urls) {
-        return new Mensagem(id, conversaId, remetenteId, texto, List.copyOf(urls), criadaEm);
+    public Mensagem comMidias(List<String> chaves) {
+        return new Mensagem(id, conversaId, remetenteId, texto, List.copyOf(chaves), criadaEm);
     }
 }

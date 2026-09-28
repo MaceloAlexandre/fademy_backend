@@ -7,7 +7,6 @@ import br.com.fademy.application.usecase.ComentarUseCase;
 import br.com.fademy.application.usecase.EditarPerfilUseCase;
 import br.com.fademy.application.usecase.EditarPerfilUseCase.EdicaoDePerfil;
 import br.com.fademy.application.usecase.EnviarAvatarUseCase;
-import br.com.fademy.application.usecase.EnviarAvatarUseCase.ImagemEnviada;
 import br.com.fademy.application.usecase.GerarConviteUseCase;
 import br.com.fademy.application.usecase.IniciarConversaUseCase;
 import br.com.fademy.application.usecase.MensagensUseCase;
@@ -136,8 +135,9 @@ public class DadosDeDemonstracao implements ApplicationRunner {
     /** Uma pessoa entrando como na vida real: convite do admin, foto e cadastro. */
     private Usuario pessoa(Visualizador admin, String papel, String nome, String email, Color cor) {
         String convite = gerarConvite.executar(admin, papel, 1, null).token();
-        ImagemEnviada foto = enviarAvatar.executar(avatar(cor), "image/png");
-        return registrar.executar(new Cadastro(convite, nome, email, SENHA, foto.url(), foto.chave()));
+        String foto = enviarAvatar.executar(avatar(cor), "image/png");
+        // O avatarUrl é exigido pelo contrato, mas só a chave é gravada (#53).
+        return registrar.executar(new Cadastro(convite, nome, email, SENHA, foto, foto));
     }
 
     private Seguir seguirUm(Usuario quem, Usuario alvo) {
