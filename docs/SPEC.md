@@ -161,7 +161,8 @@ Validações, nesta ordem:
 6. `avatarKey` não existe no armazenamento → 400 `Profile photo not found in storage — please upload a photo first`;
 7. e-mail já usado (RN09) → 409 `Este e-mail já está em uso`.
 
-Instituição e papel vêm do convite, nunca do body. A senha é guardada com bcrypt
+Instituição e papel vêm do convite, nunca do body. A foto gravada é a `avatarKey` validada no
+item 6; o `avatarUrl` é exigido, mas não é gravado (#53). A senha é guardada com bcrypt
 (`BCRYPT_ROUNDS`, padrão 10). A criação do usuário e o consumo da vaga (RN13) acontecem na
 mesma transação. Depois, o autor do convite recebe a notificação `invite_received` (ator =
 novo usuário). Resposta 201 `{ id, name, email, role, institutionId, avatarUrl }`, **sem
@@ -181,7 +182,8 @@ token**: o frontend redireciona para o login.
 **RN18 — Editar o próprio perfil.** `PATCH /api/users/me { isPrivate?, avatarUrl?, avatarKey? }`.
 - `isPrivate` presente e não booleano → 400 `isPrivate must be a boolean`.
 - `avatarUrl` e `avatarKey` vêm juntos e como texto; senão → 400 `avatarUrl and avatarKey must be strings`.
-  A chave precisa existir no armazenamento (ver D3), senão 400 como na RN16.
+  A chave precisa existir no armazenamento (ver D3), senão 400 como na RN16. Grava-se a chave;
+  o `avatarUrl` enviado não é guardado (#53).
 - Nenhum campo válido → 400 `No valid fields to update`.
 - 200 `{ id, name, avatarUrl, role, isPrivate }`.
 - Tornar o perfil público não aceita automaticamente pedidos pendentes.
@@ -374,6 +376,10 @@ quando os dois bancos respondem; senão 503 `{ status: "degraded", postgres, mon
   RN18) e de cadastro (RN16) usam `id`, como no Node.
 - Um id de path em formato inválido é tratado como inexistente (404 da rota).
 - **Datas:** ISO-8601 em UTC com sufixo `Z`.
+- **Imagens:** o banco guarda só a chave no armazenamento (`avatars/…`, `posts/…`,
+  `messages/…`). Toda URL de imagem na resposta (`avatarUrl`, `imageUrls`, `mediaUrls`,
+  `objectUrl`) é montada na hora como `S3_PUBLIC_URL` + `/` + chave, com o endereço da execução
+  atual; trocar o endereço não quebra as imagens que já existiam (#53).
 - **Erros:** `{ "error": "<mensagem>" }`. Erro inesperado → 500 `Internal server error`,
   sem detalhe interno no corpo. Erros de protocolo HTTP (JSON malformado, rota inexistente,
   método não suportado) mantêm o status padrão (400, 404, 405) com o mesmo formato de corpo (#3).
@@ -505,5 +511,6 @@ Cada issue, ao ser entregue, registra aqui as regras que cobre.
 | RN39 (última mensagem), RN41, RN42, RN43 (`message:new`), RN34 (`message_received`), D10 | #43 | entregue |
 | RN44 (e o painel da RN05) | #47 | entregue |
 | RN01 (isolamento por instituição) | em cada recurso: #14, #21–#26, #33–#36, #41 | entregue |
+| Seção 5.1: imagens por chave; RN16 e RN18 gravam a chave | #53 | entregue |
 
 Com a #47, todas as regras RN01–RN48 estão implementadas.

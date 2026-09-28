@@ -131,7 +131,7 @@ class ConversaWebTest extends IntegracaoTest {
                 .andExpect(jsonPath("$.conversations[*].memberIds[*]._id",
                         contains(carla.id(), ana.id(), ana.id(), bia.id())))
                 .andExpect(jsonPath("$.conversations[0].memberIds[0].name").value("Usuário professor"))
-                .andExpect(jsonPath("$.conversations[0].memberIds[0].avatarUrl").value("http://avatar"))
+                .andExpect(jsonPath("$.conversations[0].memberIds[0].avatarUrl").value(url(Cenario.AVATAR)))
                 .andExpect(jsonPath("$.conversations[0].lastMessage").value((Object) null));
         mvc.perform(get("/api/conversations").header(HttpHeaders.AUTHORIZATION, cenario.bearer(bia)))
                 .andExpect(jsonPath("$.conversations[*]._id").isArray())
@@ -152,8 +152,8 @@ class ConversaWebTest extends IntegracaoTest {
         mvc.perform(get("/api/conversations/eligible-contacts").header(HttpHeaders.AUTHORIZATION, cenario.bearer(ana)))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
-                        {"users":[{"_id":"%s","name":"Mútua","avatarUrl":"http://avatar","role":"professor"}]}"""
-                        .formatted(mutua.id()), true));
+                        {"users":[{"_id":"%s","name":"Mútua","avatarUrl":"%s","role":"professor"}]}"""
+                        .formatted(mutua.id(), url(Cenario.AVATAR)), true));
     }
 
     private void erro(ResultActions resposta, int status, String mensagem) throws Exception {

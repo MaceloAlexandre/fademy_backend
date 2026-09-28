@@ -57,8 +57,9 @@ public class Post {
                 temLink ? linkUrl.trim() : null, categorias, 0, agora);
     }
 
-    public void anexarImagem(String url) {
-        imagens.add(url);
+    /** @param chave chave da imagem no armazenamento */
+    public void anexarImagem(String chave) {
+        imagens.add(chave);
     }
 
     public boolean daInstituicao(String instituicaoId) {
@@ -90,6 +91,7 @@ public class Post {
         return texto;
     }
 
+    /** Chaves das imagens no armazenamento. */
     public List<String> imagens() {
         return List.copyOf(imagens);
     }

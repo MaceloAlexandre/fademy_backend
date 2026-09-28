@@ -103,10 +103,10 @@ class NotificacaoWebTest extends IntegracaoTest {
         Usuario ana = cenario.usuario(Papel.ALUNO);
         seguir(ana, bia);
 
-        ana.trocarAvatar("http://foto-nova");
+        ana.trocarAvatar("avatars/foto-nova.png");
         usuarios.atualizar(ana);
 
-        listar(bia, "").andExpect(jsonPath("$.notifications[0].actorId.avatarUrl").value("http://foto-nova"));
+        listar(bia, "").andExpect(jsonPath("$.notifications[0].actorId.avatarUrl").value(url("avatars/foto-nova.png")));
     }
 
     @Test

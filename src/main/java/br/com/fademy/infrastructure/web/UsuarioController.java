@@ -28,13 +28,16 @@ public class UsuarioController {
     private final EditarPerfilUseCase editarPerfil;
     private final BuscarUsuariosUseCase buscarUsuarios;
     private final SugerirUsuariosUseCase sugerirUsuarios;
+    private final EnderecoDasImagens imagens;
 
     public UsuarioController(VerPerfilUseCase verPerfil, EditarPerfilUseCase editarPerfil,
-                             BuscarUsuariosUseCase buscarUsuarios, SugerirUsuariosUseCase sugerirUsuarios) {
+                             BuscarUsuariosUseCase buscarUsuarios, SugerirUsuariosUseCase sugerirUsuarios,
+                             EnderecoDasImagens imagens) {
         this.verPerfil = verPerfil;
         this.editarPerfil = editarPerfil;
         this.buscarUsuarios = buscarUsuarios;
         this.sugerirUsuarios = sugerirUsuarios;
+        this.imagens = imagens;
     }
 
     /** SPEC RN19. */
@@ -44,7 +47,7 @@ public class UsuarioController {
                                 @RequestParam(required = false) String page,
                                 @RequestParam(required = false) String limit) {
         Resultado resultado = buscarUsuarios.executar(visualizador, q, page, limit);
-        return new BuscaResponse(resultado.usuarios().stream().map(UsuarioResumoResponse::de).toList(),
+        return new BuscaResponse(resultado.usuarios().stream().map(u -> UsuarioResumoResponse.de(u, imagens)).toList(),
                 resultado.total(), resultado.pagina(), resultado.limite());
     }
 
@@ -52,19 +55,20 @@ public class UsuarioController {
     @GetMapping("/api/users/suggestions")
     public SugestoesResponse sugerir(Visualizador visualizador, @RequestParam(required = false) String limit) {
         return new SugestoesResponse(
-                sugerirUsuarios.executar(visualizador, limit).stream().map(UsuarioResumoResponse::de).toList());
+                sugerirUsuarios.executar(visualizador, limit).stream().map(u -> UsuarioResumoResponse.de(u, imagens))
+                        .toList());
     }
 
     /** SPEC RN17. */
     @GetMapping("/api/users/me")
     public PerfilResponse meuPerfil(Visualizador visualizador) {
-        return PerfilResponse.de(verPerfil.executar(visualizador, visualizador.id()));
+        return PerfilResponse.de(verPerfil.executar(visualizador, visualizador.id()), imagens);
     }
 
     /** SPEC RN17. */
     @GetMapping("/api/users/{id}")
     public PerfilResponse perfil(Visualizador visualizador, @PathVariable String id) {
-        return PerfilResponse.de(verPerfil.executar(visualizador, id));
+        return PerfilResponse.de(verPerfil.executar(visualizador, id), imagens);
     }
 
     /** SPEC RN18. O corpo vai cru para o caso de uso, que valida os tipos. */
@@ -75,7 +79,8 @@ public class UsuarioController {
         Usuario eu = editarPerfil.executar(visualizador, new EdicaoDePerfil(
                 c.containsKey("isPrivate"), c.get("isPrivate"),
                 c.containsKey("avatarUrl") || c.containsKey("avatarKey"), c.get("avatarUrl"), c.get("avatarKey")));
-        return new PerfilEditadoResponse(eu.id(), eu.nome(), eu.avatarUrl(), eu.papel().texto(), eu.privado());
+        return new PerfilEditadoResponse(eu.id(), eu.nome(), imagens.url(eu.avatarChave()), eu.papel().texto(),
+                eu.privado());
     }
 
     public record PerfilResponse(String id, String name, String avatarUrl, String role, boolean isPrivate,
@@ -83,9 +88,9 @@ public class UsuarioController {
                                  @JsonInclude(JsonInclude.Include.NON_NULL) Long followersCount,
                                  @JsonInclude(JsonInclude.Include.NON_NULL) Long followingCount) {
 
-        static PerfilResponse de(Perfil p) {
+        static PerfilResponse de(Perfil p, EnderecoDasImagens imagens) {
             Usuario u = p.usuario();
-            return new PerfilResponse(u.id(), u.nome(), u.avatarUrl(), u.papel().texto(), u.privado(),
+            return new PerfilResponse(u.id(), u.nome(), imagens.url(u.avatarChave()), u.papel().texto(), u.privado(),
                     p.statusDoVisualizador() != null ? p.statusDoVisualizador().texto() : null,
                     p.bloqueadoPeloVisualizador(), p.seguidores(), p.seguindo());
         }
@@ -94,8 +99,9 @@ public class UsuarioController {
     public record UsuarioResumoResponse(@JsonProperty("_id") String id, String name, String avatarUrl, String role,
                                         boolean isPrivate) {
 
-        static UsuarioResumoResponse de(Usuario u) {
-            return new UsuarioResumoResponse(u.id(), u.nome(), u.avatarUrl(), u.papel().texto(), u.privado());
+        static UsuarioResumoResponse de(Usuario u, EnderecoDasImagens imagens) {
+            return new UsuarioResumoResponse(u.id(), u.nome(), imagens.url(u.avatarChave()), u.papel().texto(),
+                    u.privado());
         }
     }
 

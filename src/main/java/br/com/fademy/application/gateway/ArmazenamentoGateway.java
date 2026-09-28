@@ -7,8 +7,8 @@ import br.com.fademy.domain.midia.Imagem;
  */
 public interface ArmazenamentoGateway {
 
-    /** Grava a imagem na chave e devolve a URL pública de leitura. */
-    String enviar(String chave, Imagem imagem);
+    /** Grava a imagem na chave. O banco guarda só a chave; a URL é montada na resposta. */
+    void enviar(String chave, Imagem imagem);
 
     boolean existe(String chave);
 }

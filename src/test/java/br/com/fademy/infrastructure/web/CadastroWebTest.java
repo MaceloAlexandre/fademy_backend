@@ -83,7 +83,7 @@ class CadastroWebTest extends IntegracaoTest {
                 .andExpect(jsonPath("$.email").value(email))
                 .andExpect(jsonPath("$.role").value("aluno"))
                 .andExpect(jsonPath("$.institutionId").value(professor.instituicaoId()))
-                .andExpect(jsonPath("$.avatarUrl").value("http://avatar/ana.jpg"))
+                .andExpect(jsonPath("$.avatarUrl").value(url(avatarKey)))
                 .andExpect(jsonPath("$.token").doesNotExist());
 
         mvc.perform(post("/api/auth/login").contentType(MediaType.APPLICATION_JSON)

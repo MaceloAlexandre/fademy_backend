@@ -21,9 +21,11 @@ import java.util.List;
 public class ComentarioController {
 
     private final ComentarUseCase comentar;
+    private final EnderecoDasImagens imagens;
 
-    public ComentarioController(ComentarUseCase comentar) {
+    public ComentarioController(ComentarUseCase comentar, EnderecoDasImagens imagens) {
         this.comentar = comentar;
+        this.imagens = imagens;
     }
 
     /** SPEC RN32. */
@@ -32,14 +34,14 @@ public class ComentarioController {
     public ComentarioCriadoResponse comentar(Visualizador visualizador, @PathVariable String postId,
                                              @RequestBody(required = false) ComentarioRequest corpo) {
         String texto = corpo != null ? corpo.text() : null;
-        return new ComentarioCriadoResponse(ComentarioResponse.de(comentar.comentar(visualizador, postId, texto)));
+        return new ComentarioCriadoResponse(ComentarioResponse.de(comentar.comentar(visualizador, postId, texto), imagens));
     }
 
     /** SPEC RN33. */
     @GetMapping("/api/posts/{postId}/comments")
     public ComentariosResponse listar(Visualizador visualizador, @PathVariable String postId) {
         return new ComentariosResponse(
-                comentar.listar(visualizador, postId).stream().map(ComentarioResponse::de).toList());
+                comentar.listar(visualizador, postId).stream().map(d -> ComentarioResponse.de(d, imagens)).toList());
     }
 
     public record ComentarioRequest(String text) {
@@ -54,9 +56,9 @@ public class ComentarioController {
     public record ComentarioResponse(@JsonProperty("_id") String id, String postId, Autor authorId,
                                      String institutionId, String text, Instant createdAt) {
 
-        static ComentarioResponse de(ComentarioDetalhado d) {
+        static ComentarioResponse de(ComentarioDetalhado d, EnderecoDasImagens imagens) {
             Comentario c = d.comentario();
-            return new ComentarioResponse(c.id(), c.postId(), Autor.de(d.autor()), c.instituicaoId(), c.texto(),
+            return new ComentarioResponse(c.id(), c.postId(), Autor.de(d.autor(), imagens), c.instituicaoId(), c.texto(),
                     c.criadoEm());
         }
     }

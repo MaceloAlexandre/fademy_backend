@@ -15,10 +15,13 @@ public class AuthController {
 
     private final AutenticarUseCase autenticar;
     private final RegistrarViaConviteUseCase registrarViaConvite;
+    private final EnderecoDasImagens imagens;
 
-    public AuthController(AutenticarUseCase autenticar, RegistrarViaConviteUseCase registrarViaConvite) {
+    public AuthController(AutenticarUseCase autenticar, RegistrarViaConviteUseCase registrarViaConvite,
+                          EnderecoDasImagens imagens) {
         this.autenticar = autenticar;
         this.registrarViaConvite = registrarViaConvite;
+        this.imagens = imagens;
     }
 
     /** SPEC RN07. */
@@ -36,7 +39,7 @@ public class AuthController {
         Usuario usuario = registrarViaConvite.executar(
                 new Cadastro(c.token(), c.name(), c.email(), c.password(), c.avatarUrl(), c.avatarKey()));
         return new UsuarioCadastradoResponse(usuario.id(), usuario.nome(), usuario.email(), usuario.papel().texto(),
-                usuario.instituicaoId(), usuario.avatarUrl());
+                usuario.instituicaoId(), imagens.url(usuario.avatarChave()));
     }
 
     public record LoginRequest(String email, String password) {

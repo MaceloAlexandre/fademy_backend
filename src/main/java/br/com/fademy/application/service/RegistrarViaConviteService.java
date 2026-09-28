@@ -56,7 +56,7 @@ public class RegistrarViaConviteService implements RegistrarViaConviteUseCase {
 
         // Instituição e papel vêm do convite, nunca do corpo da requisição.
         Usuario novo = convite.papelAlvo().criarUsuario(new DadosUsuario(
-                null, convite.instituicaoId(), c.nome(), c.email(), senhas.gerarHash(c.senha()), c.avatarUrl(),
+                null, convite.instituicaoId(), c.nome(), c.email(), senhas.gerarHash(c.senha()), c.avatarChave(),
                 false, true, agora));
 
         // Usuário e vaga juntos (RN46); a notificação vem depois do commit (RN47).

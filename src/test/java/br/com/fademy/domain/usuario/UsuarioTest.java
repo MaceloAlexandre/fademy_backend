@@ -68,9 +68,9 @@ class UsuarioTest {
         Usuario usuario = usuario(Papel.ALUNO);
 
         usuario.definirPrivacidade(true);
-        usuario.trocarAvatar("http://nova");
+        usuario.trocarAvatar("avatars/nova.png");
 
         assertThat(usuario.privado()).isTrue();
-        assertThat(usuario.avatarUrl()).isEqualTo("http://nova");
+        assertThat(usuario.avatarChave()).isEqualTo("avatars/nova.png");
     }
 }

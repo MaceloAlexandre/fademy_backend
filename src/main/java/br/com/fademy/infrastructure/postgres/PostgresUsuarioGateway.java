@@ -27,7 +27,7 @@ public class PostgresUsuarioGateway implements UsuarioGateway {
                     rs.getString("nome"),
                     rs.getString("email"),
                     rs.getString("senha_hash"),
-                    rs.getString("avatar_url"),
+                    rs.getString("avatar_chave"),
                     rs.getBoolean("privado"),
                     rs.getBoolean("ativo"),
                     rs.getTimestamp("criado_em").toInstant()));
@@ -139,9 +139,9 @@ public class PostgresUsuarioGateway implements UsuarioGateway {
 
     @Override
     public void atualizar(Usuario usuario) {
-        jdbc.sql("update usuario set privado = :privado, avatar_url = :avatarUrl where id = :id")
+        jdbc.sql("update usuario set privado = :privado, avatar_chave = :avatarChave where id = :id")
                 .param("privado", usuario.privado())
-                .param("avatarUrl", usuario.avatarUrl())
+                .param("avatarChave", usuario.avatarChave())
                 .param("id", UUID.fromString(usuario.id()))
                 .update();
     }
@@ -151,9 +151,9 @@ public class PostgresUsuarioGateway implements UsuarioGateway {
         UUID id = Ids.novo();
         try {
             jdbc.sql("""
-                            insert into usuario (id, instituicao_id, nome, email, senha_hash, avatar_url,
+                            insert into usuario (id, instituicao_id, nome, email, senha_hash, avatar_chave,
                                                  papel, privado, ativo, criado_em)
-                            values (:id, :instituicaoId, :nome, :email, :senhaHash, :avatarUrl,
+                            values (:id, :instituicaoId, :nome, :email, :senhaHash, :avatarChave,
                                     :papel, :privado, :ativo, :criadoEm)
                             """)
                     .param("id", id)
@@ -161,7 +161,7 @@ public class PostgresUsuarioGateway implements UsuarioGateway {
                     .param("nome", usuario.nome())
                     .param("email", usuario.email())
                     .param("senhaHash", usuario.senhaHash())
-                    .param("avatarUrl", usuario.avatarUrl())
+                    .param("avatarChave", usuario.avatarChave())
                     .param("papel", usuario.papel().texto())
                     .param("privado", usuario.privado())
                     .param("ativo", usuario.ativo())
@@ -172,6 +172,6 @@ public class PostgresUsuarioGateway implements UsuarioGateway {
         }
         return usuario.papel().criarUsuario(new DadosUsuario(
                 id.toString(), usuario.instituicaoId(), usuario.nome(), usuario.email(), usuario.senhaHash(),
-                usuario.avatarUrl(), usuario.privado(), usuario.ativo(), usuario.criadoEm()));
+                usuario.avatarChave(), usuario.privado(), usuario.ativo(), usuario.criadoEm()));
     }
 }

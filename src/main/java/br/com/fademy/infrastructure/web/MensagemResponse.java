@@ -14,7 +14,8 @@ public record MensagemResponse(@JsonProperty("_id") String id, String conversati
                                @JsonInclude(JsonInclude.Include.NON_NULL) String text, List<String> mediaUrls,
                                Instant createdAt) {
 
-    public static MensagemResponse de(Mensagem m) {
-        return new MensagemResponse(m.id(), m.conversaId(), m.remetenteId(), m.texto(), m.midias(), m.criadaEm());
+    public static MensagemResponse de(Mensagem m, EnderecoDasImagens imagens) {
+        return new MensagemResponse(m.id(), m.conversaId(), m.remetenteId(), m.texto(), imagens.urls(m.midias()),
+                m.criadaEm());
     }
 }

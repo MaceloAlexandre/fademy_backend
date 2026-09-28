@@ -60,7 +60,7 @@ class BuscaESugestoesWebTest extends IntegracaoTest {
                 .andExpect(jsonPath("$.users[0]._id").isString())
                 .andExpect(jsonPath("$.users[0].role").value("professor"))
                 .andExpect(jsonPath("$.users[0].isPrivate").value(true))
-                .andExpect(jsonPath("$.users[0].avatarUrl").value("http://avatar"));
+                .andExpect(jsonPath("$.users[0].avatarUrl").value(url(Cenario.AVATAR)));
     }
 
     @Test

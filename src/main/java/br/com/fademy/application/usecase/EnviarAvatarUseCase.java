@@ -5,8 +5,6 @@ package br.com.fademy.application.usecase;
  */
 public interface EnviarAvatarUseCase {
 
-    ImagemEnviada executar(byte[] conteudo, String tipo);
-
-    record ImagemEnviada(String chave, String url) {
-    }
+    /** Devolve a chave da foto no armazenamento. */
+    String executar(byte[] conteudo, String tipo);
 }

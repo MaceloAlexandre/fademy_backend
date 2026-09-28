@@ -128,6 +128,6 @@ class RegistrarViaConviteServiceTest {
 
     private static Usuario comId(Usuario u) {
         return u.papel().criarUsuario(new DadosUsuario("id-novo", u.instituicaoId(), u.nome(), u.email(),
-                u.senhaHash(), u.avatarUrl(), u.privado(), u.ativo(), u.criadoEm()));
+                u.senhaHash(), u.avatarChave(), u.privado(), u.ativo(), u.criadoEm()));
     }
 }

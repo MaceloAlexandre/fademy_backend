@@ -49,6 +49,8 @@ SPRING_PROFILES_ACTIVE=demo \
 
 - `FRONTEND_ORIGIN`: de onde o React chama a API (CORS).
 - `S3_PUBLIC_URL`: endereço das fotos; com `localhost`, o celular não conseguiria abrir as imagens.
+  O banco guarda só a chave de cada imagem, então os dados criados em casa, com outro IP,
+  aparecem certos na faculdade: basta subir a API com o IP do dia.
 - `SPRING_PROFILES_ACTIVE=demo`: cria as pessoas, follows, posts e a conversa da seção 3 na
   primeira subida. Nas próximas subidas não cria nada de novo.
 
@@ -105,6 +107,6 @@ Todos entraram na rede **por convite**, pelos mesmos casos de uso que o aplicati
 |---|---|---|
 | `/health` com `"mongo":"down"` ou `"postgres":"down"` | Container parado | `docker compose up -d` e `docker compose ps` |
 | Celular abre a tela, mas login falha | `VITE_API_URL` ou `FRONTEND_ORIGIN` com `localhost` | Subir de novo com o IP (seções 2.3 e 2.4) |
-| Fotos não aparecem no celular | `S3_PUBLIC_URL` com `localhost` | Subir a API de novo com o IP |
+| Fotos não aparecem no celular | `S3_PUBLIC_URL` com `localhost` ou com o IP antigo | Subir a API de novo com o IP do dia (as fotos já gravadas passam a sair com ele) |
 | QR code abre `localhost` no celular | O notebook abriu o React por `localhost` | Abrir `http://<IP>:5173` também no notebook |
 | Quero começar do zero | Dados antigos | `docker compose down -v` (apaga os volumes) e subir de novo com `demo` |

@@ -43,6 +43,11 @@ public abstract class IntegracaoTest {
         criarBucket(s3);
     }
 
+    /** URL que a API devolve para a imagem com esta chave (S3_PUBLIC_URL do teste + chave). */
+    protected static String url(String chave) {
+        return System.getProperty("S3_PUBLIC_URL") + "/" + chave;
+    }
+
     // No docker-compose quem cria o bucket é o serviço "criar-bucket"; aqui, o próprio teste.
     private static void criarBucket(String endpoint) {
         try (S3Client s3 = S3Client.builder()

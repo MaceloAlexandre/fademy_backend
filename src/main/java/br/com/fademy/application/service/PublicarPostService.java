@@ -52,7 +52,9 @@ public class PublicarPostService implements PublicarPostUseCase {
 
         for (ArquivoEnviado arquivo : imagens) {
             Imagem imagem = new Imagem(arquivo.conteudo(), arquivo.tipo());
-            post.anexarImagem(armazenamento.enviar(imagem.novaChave("posts"), imagem));
+            String chave = imagem.novaChave("posts");
+            armazenamento.enviar(chave, imagem);
+            post.anexarImagem(chave);
         }
         return transacao.executar(() -> posts.criar(post));
     }
