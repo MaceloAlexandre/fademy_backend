@@ -5,16 +5,9 @@ import br.com.fademy.domain.excecao.DadosInvalidosException;
 import java.time.Instant;
 import java.util.List;
 
-/**
- * Mensagem de uma conversa: texto, imagens ou os dois (SPEC RN41).
- *
- * @param texto  nulo quando a mensagem só tem imagens
- * @param midias chaves das imagens no armazenamento
- */
 public record Mensagem(String id, String conversaId, String remetenteId, String texto, List<String> midias,
                        Instant criadaEm) {
 
-    /** Mensagem nova, ainda sem as URLs das imagens; precisa de texto ou de pelo menos uma imagem. */
     public static Mensagem escrever(String conversaId, String remetenteId, String texto, int quantidadeDeImagens,
                                     Instant agora) {
         boolean temTexto = texto != null && !texto.isBlank();

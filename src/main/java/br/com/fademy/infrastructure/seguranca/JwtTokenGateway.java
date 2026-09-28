@@ -16,9 +16,6 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.time.Instant;
 
-/**
- * JWT HS256 com sub, role e institutionId (SPEC RN07). O verificador só aceita HS256.
- */
 @Component
 public class JwtTokenGateway implements TokenGateway {
 
@@ -54,7 +51,6 @@ public class JwtTokenGateway implements TokenGateway {
                     Papel.deTexto(jwt.getClaim("role").asString()),
                     jwt.getClaim("institutionId").asString());
         } catch (RuntimeException e) {
-            // Assinatura, algoritmo, expiração ou claim inválidos: tudo é token inválido.
             throw new NaoAutenticadoException("Invalid or expired token");
         }
     }

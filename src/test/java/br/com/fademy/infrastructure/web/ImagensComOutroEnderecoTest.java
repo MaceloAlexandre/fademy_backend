@@ -21,10 +21,6 @@ import static org.hamcrest.Matchers.startsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-/**
- * A API reiniciada com outro IMAGENS_URL_PUBLICA (outro IP na apresentação) devolve as imagens que
- * já existiam com o endereço novo (#53).
- */
 @AutoConfigureMockMvc
 @TestPropertySource(properties = "fademy.imagens.url-publica=http://outro-ip:8080/api/media")
 class ImagensComOutroEnderecoTest extends IntegracaoTest {

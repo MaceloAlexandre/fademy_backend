@@ -24,7 +24,6 @@ class SugerirUsuariosServiceTest {
     void equipePrimeiroMantendoAOrdemDeCadastro() {
         Usuario eu = usuario("eu", Papel.ALUNO);
         when(usuarios.doVisualizador(visualizador)).thenReturn(eu);
-        // Chegam do mais recente para o mais antigo.
         when(usuarios.candidatosASugestao(eu)).thenReturn(List.of(
                 usuario("aluno1", Papel.ALUNO), usuario("prof1", Papel.PROFESSOR), usuario("aluno2", Papel.ALUNO),
                 usuario("coord", Papel.COORDENADOR), usuario("admin", Papel.ADMIN)));

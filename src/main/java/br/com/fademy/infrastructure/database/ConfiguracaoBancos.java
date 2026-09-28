@@ -1,9 +1,5 @@
 package br.com.fademy.infrastructure.database;
 
-/**
- * Endereços e credenciais dos bancos. Sem configuração, usa os bancos do docker-compose
- * em localhost, como o exemplo do professor.
- */
 public record ConfiguracaoBancos(String postgresUrl, String postgresUsuario, String postgresSenha, String mongoUri) {
 
     public static ConfiguracaoBancos doAmbiente() {
@@ -14,7 +10,6 @@ public record ConfiguracaoBancos(String postgresUrl, String postgresUsuario, Str
                 ler("MONGO_URI", "mongodb://localhost:27017/fademy"));
     }
 
-    // Propriedade de sistema primeiro (usada pelos testes), depois variável de ambiente.
     private static String ler(String chave, String padrao) {
         String valor = System.getProperty(chave);
         if (valor == null) {

@@ -75,8 +75,6 @@ public class PostgresConviteGateway implements ConviteGateway {
 
     @Override
     public boolean consumirVaga(String conviteId) {
-        // A condição no WHERE torna o consumo atômico: com dois cadastros simultâneos, o segundo
-        // UPDATE espera o primeiro terminar, reavalia a condição e não encontra mais vaga.
         int atualizados = jdbc.sql("""
                         update convite
                         set usos = usos + 1,

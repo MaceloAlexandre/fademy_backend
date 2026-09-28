@@ -8,9 +8,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Publicação com texto, imagens, link opcional e categorias (SPEC RN28).
- */
 public class Post {
 
     private final String id;
@@ -36,10 +33,6 @@ public class Post {
         this.criadoEm = criadoEm;
     }
 
-    /**
-     * Novo post do autor, na instituição dele, ainda sem imagens. Link só para quem pode
-     * publicar link (SPEC RN05, RN28).
-     */
     public static Post publicar(Usuario autor, String texto, String linkUrl, List<String> categoriaIds, Instant agora) {
         if (texto == null || texto.isBlank()) {
             throw new DadosInvalidosException("text is required");
@@ -57,7 +50,6 @@ public class Post {
                 temLink ? linkUrl.trim() : null, categorias, 0, agora);
     }
 
-    /** @param chave chave da imagem no armazenamento */
     public void anexarImagem(String chave) {
         imagens.add(chave);
     }
@@ -66,7 +58,6 @@ public class Post {
         return this.instituicaoId.equals(instituicaoId);
     }
 
-    /** O autor é avisado dos comentários dos outros, não dos próprios (SPEC RN32). */
     public boolean notificaAutorSobreComentarioDe(Usuario comentarista) {
         return !autorId.equals(comentarista.id());
     }
@@ -91,7 +82,6 @@ public class Post {
         return texto;
     }
 
-    /** Chaves das imagens no armazenamento. */
     public List<String> imagens() {
         return List.copyOf(imagens);
     }

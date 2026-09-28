@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class SaudeGatewaysTest extends IntegracaoTest {
 
-    // Porta onde nada escuta: simula banco fora do ar.
     private static final int PORTA_FECHADA = 1;
 
     @Autowired

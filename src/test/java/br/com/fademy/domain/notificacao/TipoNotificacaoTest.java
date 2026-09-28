@@ -7,7 +7,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class TipoNotificacaoTest {
 
-    // Tabela da SPEC RN34.
     @ParameterizedTest
     @CsvSource({
             "NEW_FOLLOWER,     new_follower,     Follow",

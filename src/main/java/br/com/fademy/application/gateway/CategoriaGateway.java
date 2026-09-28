@@ -7,13 +7,11 @@ import java.util.List;
 
 public interface CategoriaGateway {
 
-    /** Cria cada categoria ou, se o slug já existe, atualiza nome e tipo. */
     void garantir(List<Categoria> categorias);
 
     List<Categoria> listar();
 
     List<Categoria> buscarPorIds(Collection<String> ids);
 
-    /** Todos os ids existem. */
     boolean existem(Collection<String> ids);
 }

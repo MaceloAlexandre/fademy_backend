@@ -17,10 +17,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Adapter do MongoDB: guarda o cliente e o banco usados pelos gateways do Mongo, e grava os
- * arquivos (imagens) no GridFS, bucket "imagens" (#62).
- */
 public class MongoAdapter implements DataBaseAdapter {
 
     private final String uri;
@@ -55,12 +51,10 @@ public class MongoAdapter implements DataBaseAdapter {
         return cliente;
     }
 
-    /** O banco indicado na MONGO_URI (padrão "fademy"). */
     public MongoDatabase getBanco() {
         return banco;
     }
 
-    /** Grava o arquivo no GridFS com o nome dado e o tipo nos metadados. */
     public void salvarArquivo(String nome, byte[] conteudo, String tipo) {
         arquivos.uploadFromStream(nome, new ByteArrayInputStream(conteudo),
                 new GridFSUploadOptions().metadata(new Document("tipo", tipo)));

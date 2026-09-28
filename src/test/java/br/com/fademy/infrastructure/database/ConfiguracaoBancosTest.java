@@ -14,7 +14,6 @@ class ConfiguracaoBancosTest {
     private static final String[] CHAVES = {"POSTGRES_URL", "POSTGRES_USER", "POSTGRES_PASSWORD", "MONGO_URI"};
     private final Map<String, String> salvas = new HashMap<>();
 
-    // Os testes de integração preenchem estas propriedades; guarda e restaura para não interferir.
     @BeforeEach
     void limpar() {
         for (String chave : CHAVES) {

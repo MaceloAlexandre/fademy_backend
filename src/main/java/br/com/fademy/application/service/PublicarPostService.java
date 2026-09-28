@@ -42,7 +42,6 @@ public class PublicarPostService implements PublicarPostUseCase {
         }
         Post post = Post.publicar(usuarios.doVisualizador(visualizador), texto, linkUrl, categoriaIds, Instant.now());
 
-        // Tudo validado antes de enviar a primeira imagem: nada fica órfão no armazenamento (SPEC RN15).
         if (imagens.stream().anyMatch(arquivo -> !Imagem.aceita(arquivo.tipo()))) {
             throw new DadosInvalidosException("Invalid file type");
         }

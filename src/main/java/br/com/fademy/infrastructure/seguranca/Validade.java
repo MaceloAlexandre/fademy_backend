@@ -4,10 +4,6 @@ import java.time.Duration;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Lê a validade do token no formato do JWT_EXPIRES_IN do Node: "7d", "12h", "30m", "45s"
- * ou só o número de segundos.
- */
 final class Validade {
 
     private static final Pattern FORMATO = Pattern.compile("(\\d+)([dhms]?)");

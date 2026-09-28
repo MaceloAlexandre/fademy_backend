@@ -13,7 +13,6 @@ public enum TipoCategoria {
         this.texto = texto;
     }
 
-    /** Como o tipo aparece na API e no banco. */
     public String texto() {
         return texto;
     }

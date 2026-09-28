@@ -2,10 +2,6 @@ package br.com.fademy.domain.usuario;
 
 import java.time.Instant;
 
-/**
- * Usuário da Fademy. Cada papel é uma subclasse e responde o que pode fazer (SPEC RN05).
- * Por padrão, nenhuma permissão especial: as subclasses liberam o que o papel permite.
- */
 public abstract class Usuario {
 
     private final String id;
@@ -32,7 +28,6 @@ public abstract class Usuario {
 
     public abstract Papel papel();
 
-    /** Coordenação, professores, funcionários e administradores. */
     public boolean ehDaEquipe() {
         return false;
     }
@@ -41,7 +36,6 @@ public abstract class Usuario {
         return false;
     }
 
-    /** Só administrador gera convite para outro administrador. */
     public boolean podeGerarConvitePara(Papel alvo) {
         return podeGerarConvite() && alvo != Papel.ADMIN;
     }
@@ -54,12 +48,6 @@ public abstract class Usuario {
         return false;
     }
 
-    /**
-     * Perfil privado só mostra números e posts ao dono e a quem o segue com follow aceito
-     * (SPEC RN17, RN31).
-     *
-     * @param seguidoPeloVisualizador o visualizador segue este usuário com follow aceito
-     */
     public boolean mostraConteudoPara(String visualizadorId, boolean seguidoPeloVisualizador) {
         return !privado || id.equals(visualizadorId) || seguidoPeloVisualizador;
     }
@@ -68,12 +56,10 @@ public abstract class Usuario {
         this.privado = privado;
     }
 
-    /** @param avatarChave chave da foto no armazenamento */
     public void trocarAvatar(String avatarChave) {
         this.avatarChave = avatarChave;
     }
 
-    /** Usuários de instituições diferentes não se enxergam (SPEC RN01). */
     public boolean mesmaInstituicao(Usuario outro) {
         return instituicaoId.equals(outro.instituicaoId);
     }
@@ -98,7 +84,6 @@ public abstract class Usuario {
         return senhaHash;
     }
 
-    /** Chave da foto no armazenamento, ou null. */
     public String avatarChave() {
         return avatarChave;
     }

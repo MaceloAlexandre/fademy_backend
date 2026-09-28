@@ -18,11 +18,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-/**
- * Traduz exceções em respostas {@code { "error": "..." }} (docs/ARQUITETURA.md, seção 7).
- * Erros de protocolo HTTP (JSON malformado, rota ou método inexistente) mantêm o status que o
- * Spring já dá; só o corpo é trocado.
- */
 @RestControllerAdvice
 public class TratadorDeErros extends ResponseEntityExceptionHandler {
 
@@ -59,7 +54,6 @@ public class TratadorDeErros extends ResponseEntityExceptionHandler {
         return erro(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error");
     }
 
-    // Arquivo acima de MAX_UPLOAD_BYTES: 400 como no Node (SPEC RN14), não o 413 padrão.
     @Override
     protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e,
                                                                          HttpHeaders headers, HttpStatusCode status,

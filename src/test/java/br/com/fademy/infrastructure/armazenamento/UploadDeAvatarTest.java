@@ -38,7 +38,6 @@ class UploadDeAvatarTest extends IntegracaoTest {
         assertThat(chave).matches("avatars/[0-9a-f-]{36}\\.jpg").doesNotContain("minha-foto");
         assertThat(url).isEqualTo(url(chave));
 
-        // Leitura sem token pela rota da própria API (RN49), com o tipo da imagem.
         mvc.perform(get("/api/media/" + chave))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("image/jpeg"))

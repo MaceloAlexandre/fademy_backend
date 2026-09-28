@@ -1,9 +1,5 @@
 package br.com.fademy.application.service;
 
-/**
- * Tamanho de página pedido pelo cliente: valor ausente, inválido ou menor que 1 vira o padrão,
- * e nada passa do máximo (SPEC 5.4, RN19, RN20).
- */
 final class Limites {
 
     private Limites() {

@@ -17,7 +17,6 @@ public class CategoriaController {
         this.listarCategorias = listarCategorias;
     }
 
-    /** SPEC RN02. */
     @GetMapping("/api/categories")
     public CategoriasResponse listar() {
         return new CategoriasResponse(listarCategorias.executar().stream().map(CategoriaResponse::de).toList());

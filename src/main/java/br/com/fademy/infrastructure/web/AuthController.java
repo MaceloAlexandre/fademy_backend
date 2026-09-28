@@ -24,14 +24,12 @@ public class AuthController {
         this.imagens = imagens;
     }
 
-    /** SPEC RN07. */
     @PostMapping("/api/auth/login")
     public TokenResponse login(@RequestBody(required = false) LoginRequest corpo) {
         LoginRequest login = corpo != null ? corpo : new LoginRequest(null, null);
         return new TokenResponse(autenticar.executar(login.email(), login.password()));
     }
 
-    /** SPEC RN16. Devolve o usuário sem token: o frontend manda para o login. */
     @PostMapping("/api/auth/register")
     @ResponseStatus(HttpStatus.CREATED)
     public UsuarioCadastradoResponse cadastrar(@RequestBody(required = false) CadastroRequest corpo) {

@@ -33,7 +33,6 @@ public class ConversaController {
         this.imagens = imagens;
     }
 
-    /** SPEC RN38: 201 quando cria, 200 quando a conversa já existia. */
     @PostMapping("/api/conversations")
     public ResponseEntity<ConversaCriadaResponse> iniciar(Visualizador visualizador,
                                                           @RequestBody(required = false) IniciarRequest corpo) {
@@ -44,14 +43,12 @@ public class ConversaController {
                         c.id(), c.membros(), false, c.criadaPorId(), c.criadaEm(), c.atualizadaEm(), null)));
     }
 
-    /** SPEC RN39. */
     @GetMapping("/api/conversations")
     public ConversasResponse listar(Visualizador visualizador) {
         return new ConversasResponse(
                 listarConversas.conversas(visualizador).stream().map(this::de).toList());
     }
 
-    /** SPEC RN40. */
     @GetMapping("/api/conversations/eligible-contacts")
     public ContatosResponse contatos(Visualizador visualizador) {
         return new ContatosResponse(
@@ -68,7 +65,6 @@ public class ConversaController {
     public record IniciarRequest(String userId) {
     }
 
-    /** Membros como ids (ao criar) ou populados (na lista), SPEC 5.3. */
     public record ConversaResponse<M>(@JsonProperty("_id") String id, List<M> memberIds, boolean isGroup,
                                       String createdById, Instant createdAt, Instant updatedAt,
                                       MensagemResponse lastMessage) {

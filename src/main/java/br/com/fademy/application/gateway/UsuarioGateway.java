@@ -12,7 +12,6 @@ public interface UsuarioGateway {
 
     Optional<Usuario> buscarPorId(String id);
 
-    /** O usuário de quem faz a requisição; se ele não existe mais, o token não vale. */
     default Usuario doVisualizador(Visualizador visualizador) {
         return buscarPorId(visualizador.id())
                 .orElseThrow(() -> new NaoAutenticadoException("Invalid or expired token"));
@@ -20,35 +19,19 @@ public interface UsuarioGateway {
 
     List<Usuario> buscarPorIds(Collection<String> ids);
 
-    /** Busca pelo e-mail, sem diferenciar maiúsculas. */
     Optional<Usuario> buscarPorEmail(String email);
 
-    /**
-     * Grava um usuário novo e o devolve com id.
-     *
-     * @throws br.com.fademy.domain.excecao.ConflitoException se o e-mail já existe (SPEC RN09)
-     */
     Usuario criar(Usuario usuario);
 
-    /**
-     * Usuários da instituição do visualizador cujo nome contém o trecho (sem diferenciar
-     * maiúsculas nem acentos), sem o visualizador e sem quem tem bloqueio com ele, por nome.
-     */
     List<Usuario> buscarPorNome(Usuario visualizador, String trecho, int deslocamento, int limite);
 
     long contarPorNome(Usuario visualizador, String trecho);
 
-    /**
-     * Usuários da instituição do visualizador que ele ainda não segue (nem pediu), sem ele e sem
-     * bloqueios, do cadastro mais recente para o mais antigo.
-     */
     List<Usuario> candidatosASugestao(Usuario visualizador);
 
-    /** Quem segue o usuário e é seguido por ele, os dois com follow aceito (SPEC RN40). */
     List<Usuario> seguidoresMutuos(Usuario usuario);
 
     long contarDaInstituicao(String instituicaoId);
 
-    /** Grava privacidade e avatar do usuário. */
     void atualizar(Usuario usuario);
 }

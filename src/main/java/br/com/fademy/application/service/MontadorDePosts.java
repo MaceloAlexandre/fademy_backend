@@ -13,10 +13,6 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-/**
- * Carrega autores e categorias de uma lista de posts com uma consulta de cada (sem N+1).
- * Usado pelo feed, pelo detalhe do post e pelos posts de um usuário.
- */
 class MontadorDePosts {
 
     private final UsuarioGateway usuarios;

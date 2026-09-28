@@ -6,9 +6,6 @@ import br.com.fademy.infrastructure.web.EnderecoDasImagens;
 import br.com.fademy.infrastructure.web.MensagemResponse;
 import org.springframework.stereotype.Component;
 
-/**
- * Evento message:new com a mensagem no mesmo formato da API REST (SPEC RN43).
- */
 @Component
 public class SocketIoTempoRealGateway implements TempoRealGateway {
 

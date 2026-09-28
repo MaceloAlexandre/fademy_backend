@@ -6,7 +6,6 @@ public enum StatusSeguir {
 
     PENDING, ACCEPTED;
 
-    /** Como o status aparece na API e no banco. */
     public String texto() {
         return name().toLowerCase(Locale.ROOT);
     }

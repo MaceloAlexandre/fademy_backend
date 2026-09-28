@@ -11,10 +11,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * A V7 converte um banco antigo, com URLs completas, para chaves. Roda as migrations até a V6
- * num schema separado, grava dados no formato antigo e aplica a V7.
- */
 class MigracaoImagensPorChaveTest extends IntegracaoTest {
 
     private static final String SCHEMA = "migracao_v7";

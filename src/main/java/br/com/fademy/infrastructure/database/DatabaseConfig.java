@@ -7,15 +7,9 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
 
-/**
- * Único ponto que chama {@link DatabaseManager#getInstance()}. Isso acontece na subida, numa
- * única thread, antes de o servidor aceitar requisições; por isso o getInstance sem
- * synchronized é seguro (docs/ARQUITETURA.md, seção 6).
- */
 @Configuration
 public class DatabaseConfig {
 
-    // No desligamento, o Spring chama desconectar() dos dois adapters.
     @Bean(destroyMethod = "desconectar")
     public PostgresAdapter postgresAdapter() {
         return DatabaseManager.getInstance().getPostgresAdapter();
@@ -26,7 +20,6 @@ public class DatabaseConfig {
         return DatabaseManager.getInstance().getMongoAdapter();
     }
 
-    // destroyMethod vazio: quem fecha as conexões é o adapter.
     @Bean(destroyMethod = "")
     public DataSource dataSource(PostgresAdapter postgresAdapter) {
         return postgresAdapter.getDataSource();

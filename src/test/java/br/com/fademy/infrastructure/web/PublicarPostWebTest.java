@@ -68,7 +68,6 @@ class PublicarPostWebTest extends IntegracaoTest {
 
         String url = JsonPath.read(resposta, "$.post.imageUrls[0]");
         assertThat(url).startsWith(url("posts/"));
-        // A imagem gravada no GridFS sai pela rota da própria API (RN49).
         mvc.perform(get(url.substring(url.indexOf("/api/media/"))))
                 .andExpect(status().isOk())
                 .andExpect(content().bytes(FOTO));

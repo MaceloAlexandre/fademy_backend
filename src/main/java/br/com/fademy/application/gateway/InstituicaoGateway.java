@@ -6,7 +6,6 @@ import java.util.Optional;
 
 public interface InstituicaoGateway {
 
-    /** Cria a instituição ou, se o slug já existe, atualiza o nome e a reativa. Devolve com id. */
     Instituicao garantir(Instituicao instituicao);
 
     Optional<Instituicao> buscarPorId(String id);

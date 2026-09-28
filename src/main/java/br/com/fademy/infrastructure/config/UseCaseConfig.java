@@ -87,10 +87,6 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
 
-/**
- * Liga cada service aos seus gateways. Os services não têm anotação do Spring
- * (docs/ARQUITETURA.md, seção 4).
- */
 @Configuration
 public class UseCaseConfig {
 

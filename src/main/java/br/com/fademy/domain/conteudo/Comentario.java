@@ -5,9 +5,6 @@ import br.com.fademy.domain.usuario.Usuario;
 
 import java.time.Instant;
 
-/**
- * Comentário num post (SPEC RN32).
- */
 public record Comentario(String id, String postId, String autorId, String instituicaoId, String texto,
                          Instant criadoEm) {
 

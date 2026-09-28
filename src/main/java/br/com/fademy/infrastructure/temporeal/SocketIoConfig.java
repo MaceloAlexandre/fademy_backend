@@ -19,11 +19,6 @@ import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 
-/**
- * Servidor Socket.IO (v4) dentro do próprio Tomcat, na mesma porta da API, como o frontend
- * espera (SPEC RN43): polling por um servlet assíncrono e WebSocket por um endpoint JSR-356,
- * os dois em /socket.io/.
- */
 @Configuration
 public class SocketIoConfig {
 
@@ -54,9 +49,6 @@ public class SocketIoConfig {
         return registro;
     }
 
-    // O Tomcat publica o ServerContainer num listener de contexto, que roda depois dos
-    // inicializadores do Spring; por isso o endpoint é registrado num listener também. Nos testes
-    // com MockMvc não há ServerContainer e o WebSocket fica de fora (o polling continua valendo).
     @Bean
     public ServletContextInitializer socketIoWebSocket(EngineIoServer engineIoServer) {
         return contexto -> contexto.addListener(new ServletContextListener() {

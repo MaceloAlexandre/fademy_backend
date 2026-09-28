@@ -25,7 +25,6 @@ public class VerPerfilService implements VerPerfilUseCase {
     @Override
     public Perfil executar(Visualizador visualizador, String usuarioId) {
         Usuario eu = usuarios.doVisualizador(visualizador);
-        // Quem me bloqueou fica invisível para mim (SPEC RN17, RN27).
         Usuario alvo = usuarios.buscarPorId(usuarioId)
                 .filter(eu::mesmaInstituicao)
                 .filter(u -> !bloqueios.bloqueou(u.id(), eu.id()))

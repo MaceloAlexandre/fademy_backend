@@ -15,10 +15,6 @@ import org.springframework.web.client.RestClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * O limite de tamanho é aplicado pelo servidor HTTP ao ler o multipart; o MockMvc não passa
- * por essa leitura, então este teste sobe o servidor de verdade.
- */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class LimiteDeUploadTest extends IntegracaoTest {
 

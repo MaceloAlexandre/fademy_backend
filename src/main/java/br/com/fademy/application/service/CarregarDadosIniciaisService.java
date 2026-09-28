@@ -39,7 +39,6 @@ public class CarregarDadosIniciaisService implements CarregarDadosIniciaisUseCas
 
         categorias.garantir(Categoria.fixas());
 
-        // Admin que já existe não tem a senha trocada; só ganha a foto padrão se não tiver foto (RN03).
         Optional<Usuario> existente = usuarios.buscarPorEmail(admin.email());
         if (existente.isEmpty()) {
             usuarios.criar(Papel.ADMIN.criarUsuario(new DadosUsuario(

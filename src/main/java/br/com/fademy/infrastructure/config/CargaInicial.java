@@ -8,9 +8,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-/**
- * Roda a carga inicial (SPEC RN03) na subida da aplicação.
- */
 @Component
 @Order(1)
 public class CargaInicial implements ApplicationRunner {

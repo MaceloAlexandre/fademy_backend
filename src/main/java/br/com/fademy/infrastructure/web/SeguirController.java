@@ -22,7 +22,6 @@ public class SeguirController {
         this.deixarDeSeguir = deixarDeSeguir;
     }
 
-    /** SPEC RN21. */
     @PostMapping("/api/users/{id}/follow")
     @ResponseStatus(HttpStatus.CREATED)
     public SeguirResponse seguir(Visualizador visualizador, @PathVariable String id) {
@@ -30,7 +29,6 @@ public class SeguirController {
         return new SeguirResponse(seguir.status().texto(), seguir.id());
     }
 
-    /** SPEC RN22. */
     @DeleteMapping("/api/users/{id}/follow")
     public DeixouDeSeguirResponse deixarDeSeguir(Visualizador visualizador, @PathVariable String id) {
         deixarDeSeguir.executar(visualizador, id);

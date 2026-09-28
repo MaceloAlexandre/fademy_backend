@@ -14,14 +14,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Desenha um avatar PNG com as iniciais do nome em branco sobre uma cor.
- */
 public final class AvatarDeIniciais {
 
     public static final int TAMANHO = 96;
 
-    // Cores da paleta usadas quando o chamador não escolhe uma (mesma cor para o mesmo nome).
     private static final List<Color> PALETA = List.of(
             new Color(0x1B4F81), new Color(0x7B5EA7), new Color(0xE07A5F),
             new Color(0x3D405B), new Color(0x81B29A), new Color(0xC08B2C));
@@ -29,7 +25,6 @@ public final class AvatarDeIniciais {
     private AvatarDeIniciais() {
     }
 
-    /** "Profa. Helena Duarte" → "HD": ignora títulos abreviados (palavras com ponto). */
     public static String iniciais(String nome) {
         List<String> palavras = Arrays.stream(nome.trim().split("\\s+"))
                 .filter(p -> !p.isEmpty() && !p.endsWith("."))

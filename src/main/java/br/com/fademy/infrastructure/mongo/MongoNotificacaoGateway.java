@@ -22,10 +22,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Coleção "notificacoes". Guarda só os ids do Postgres (destinatário, ator, referência);
- * os dados do usuário são lidos na hora de listar (SPEC RN48).
- */
 @Component
 public class MongoNotificacaoGateway implements NotificacaoGateway {
 
@@ -49,7 +45,6 @@ public class MongoNotificacaoGateway implements NotificacaoGateway {
                     .append("lida", n.lida())
                     .append("criadaEm", Date.from(n.criadaEm())));
         } catch (MongoException e) {
-            // SPEC RN37: a notificação nunca derruba a ação principal.
             log.error("Falha ao gravar notificação {} para {}", n.tipo().texto(), n.destinatarioId(), e);
         }
     }

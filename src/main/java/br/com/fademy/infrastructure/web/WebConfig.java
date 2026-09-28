@@ -9,14 +9,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
-/**
- * CORS para o frontend (SPEC 5.1) e autenticação nas rotas protegidas (SPEC 5.2).
- */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    // Rotas públicas da SPEC 5.2. GET /api/invites/{token} é a única rota com um segmento
-    // depois de /api/invites; /api/media/{pasta}/{arquivo} serve as imagens (RN49).
     private static final String[] ROTAS_PUBLICAS = {
             "/api/auth/login", "/api/auth/register", "/api/media/upload", "/api/invites/*", "/api/media/*/*"
     };

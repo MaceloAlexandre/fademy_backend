@@ -121,7 +121,6 @@ class PerfilWebTest extends IntegracaoTest {
         String chave = "avatars/" + UUID.randomUUID() + ".png";
         armazenamento.enviar(chave, new Imagem(new byte[]{1}, "image/png"));
 
-        // A URL enviada pelo cliente não é gravada: vale a chave validada (#53).
         editar(ana, "{\"avatarUrl\":\"http://ip-antigo/qualquer\",\"avatarKey\":\"" + chave + "\"}")
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.avatarUrl").value(url(chave)));

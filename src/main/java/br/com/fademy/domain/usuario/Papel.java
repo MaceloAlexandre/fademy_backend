@@ -2,9 +2,6 @@ package br.com.fademy.domain.usuario;
 
 import br.com.fademy.domain.excecao.DadosInvalidosException;
 
-/**
- * Papéis de usuário (SPEC RN04). O papel vem do convite e não muda depois.
- */
 public enum Papel {
 
     ADMIN("admin", 10),
@@ -21,12 +18,10 @@ public enum Papel {
         this.vagasMaximasPorConvite = vagasMaximasPorConvite;
     }
 
-    /** Como o papel aparece na API e no banco. */
     public String texto() {
         return texto;
     }
 
-    /** Vagas máximas de um convite com este papel-alvo (SPEC RN06). */
     public int vagasMaximasPorConvite() {
         return vagasMaximasPorConvite;
     }
@@ -40,7 +35,6 @@ public enum Papel {
         throw new DadosInvalidosException("Invalid roleTarget");
     }
 
-    /** Fábrica: monta a subclasse de {@link Usuario} que corresponde a este papel. */
     public Usuario criarUsuario(DadosUsuario dados) {
         return switch (this) {
             case ADMIN -> new Administrador(dados);

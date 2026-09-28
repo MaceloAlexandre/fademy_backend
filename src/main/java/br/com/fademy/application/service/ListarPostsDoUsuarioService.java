@@ -40,7 +40,6 @@ public class ListarPostsDoUsuarioService implements ListarPostsDoUsuarioUseCase 
         if (bloqueios.bloqueou(autorId, eu.id())) {
             throw new AcessoNegadoException("Forbidden");
         }
-        // Autor inexistente ou de outra instituição simplesmente não tem posts para mostrar.
         Optional<Usuario> autor = usuarios.buscarPorId(autorId).filter(eu::mesmaInstituicao);
         if (autor.isPresent()) {
             boolean seguidoPorMim = seguires.buscar(eu.id(), autorId)

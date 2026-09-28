@@ -27,7 +27,6 @@ public class MensagemController {
         this.imagens = imagens;
     }
 
-    /** SPEC RN41. */
     @PostMapping("/api/conversations/{id}/messages")
     @ResponseStatus(HttpStatus.CREATED)
     public MensagemCriadaResponse enviar(Visualizador visualizador, @PathVariable String id,
@@ -38,7 +37,6 @@ public class MensagemController {
         return new MensagemCriadaResponse(MensagemResponse.de(mensagem, imagens));
     }
 
-    /** SPEC RN42. */
     @GetMapping("/api/conversations/{id}/messages")
     public PaginaDeMensagens listar(Visualizador visualizador, @PathVariable String id,
                                     @RequestParam(required = false) String cursor,

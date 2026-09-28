@@ -98,7 +98,6 @@ class ConviteTest {
 
     @ParameterizedTest
     @CsvSource({
-            // status,  usos, max, expira em (s), situação
             "REVOKED,   0,    10,   60,  REVOGADO",
             "ACTIVE,    0,    10,  -60,  EXPIRADO",
             "ACTIVE,    10,   10,   60,  CHEIO",
