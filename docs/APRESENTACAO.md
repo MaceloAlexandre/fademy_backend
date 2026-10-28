@@ -94,6 +94,8 @@ Todas as contas de demonstração têm a senha **`demo1234`**.
 | Professora Erika | `erika@demo.fademy` | professor | Tem um pedido de seguir pendente para o Artur |
 | Wacelys | `wacelys@demo.fademy` | aluno | Segue o Erlon e o Erlon o segue (podem conversar) |
 | Artur | `artur@demo.fademy` | aluno | **Perfil privado**; o Wacelys o segue; pedido pendente da Erika |
+| Gustavo | `gustavo@demo.fademy` | professor | Conversa com o Lucas Moreira (dupla do chat pelo terminal, #69) |
+| Lucas Moreira | `lucas@demo.fademy` | aluno | Conversa com o Gustavo |
 
 Todos entraram na rede **por convite**, pelos mesmos casos de uso que o aplicativo usa
 (`GerarConviteUseCase` → `EnviarAvatarUseCase` → `RegistrarViaConviteUseCase`). Ver

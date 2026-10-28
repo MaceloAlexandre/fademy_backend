@@ -37,6 +37,7 @@ public class DadosDeDemonstracao implements ApplicationRunner {
 
     public static final String SENHA = "demo1234";
     static final String EMAIL_DO_PROFESSOR = "erlon@demo.fademy";
+    static final String EMAIL_DO_GUSTAVO = "gustavo@demo.fademy";
 
     private final UsuarioGateway usuarios;
     private final CategoriaGateway categorias;
@@ -75,11 +76,16 @@ public class DadosDeDemonstracao implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        if (usuarios.buscarPorEmail(EMAIL_DO_PROFESSOR).isPresent()) {
-            return;
-        }
         Visualizador admin = visualizador(usuarios.buscarPorEmail(emailDoAdmin).orElseThrow());
+        if (usuarios.buscarPorEmail(EMAIL_DO_PROFESSOR).isEmpty()) {
+            criarTurma(admin);
+        }
+        if (usuarios.buscarPorEmail(EMAIL_DO_GUSTAVO).isEmpty()) {
+            criarDuplaDoChatPeloTerminal(admin);
+        }
+    }
 
+    private void criarTurma(Visualizador admin) {
         Usuario erlon = pessoa(admin, "professor", "Professor Erlon Dantas", EMAIL_DO_PROFESSOR,
                 new Color(0x1B4F81));
         Usuario rene = pessoa(admin, "coordenador", "Coord. Renê Gadelha", "rene@demo.fademy",
@@ -128,6 +134,16 @@ public class DadosDeDemonstracao implements ApplicationRunner {
         mensagens.enviar(visualizador(wacelys), conversa,
                 "Professor, posso tirar uma dúvida sobre o trabalho?", List.of());
         mensagens.enviar(visualizador(erlon), conversa, "Claro, Wacelys! Pode mandar.", List.of());
+    }
+
+    private void criarDuplaDoChatPeloTerminal(Visualizador admin) {
+        Usuario gustavo = pessoa(admin, "professor", "Gustavo", EMAIL_DO_GUSTAVO, new Color(0xF2A541));
+        Usuario lucas = pessoa(admin, "aluno", "Lucas Moreira", "lucas@demo.fademy", new Color(0x4C6EF5));
+        seguirUm(gustavo, lucas);
+        seguirUm(lucas, gustavo);
+
+        String conversa = iniciarConversa.executar(visualizador(lucas), gustavo.id()).conversa().id();
+        mensagens.enviar(visualizador(lucas), conversa, "Oi, Gustavo! Bora testar o chat pelo terminal?", List.of());
     }
 
     private Usuario pessoa(Visualizador admin, String papel, String nome, String email, Color cor) {
