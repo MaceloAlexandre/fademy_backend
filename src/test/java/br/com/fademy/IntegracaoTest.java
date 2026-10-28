@@ -17,6 +17,7 @@ public abstract class IntegracaoTest {
         System.setProperty("POSTGRES_USER", POSTGRES.getUsername());
         System.setProperty("POSTGRES_PASSWORD", POSTGRES.getPassword());
         System.setProperty("MONGO_URI", MONGO.getReplicaSetUrl("fademy"));
+        System.setProperty("TCP_PORT", "0");
     }
 
     protected static String url(String chave) {

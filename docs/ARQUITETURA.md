@@ -69,7 +69,10 @@ src/main/java/br/com/fademy/
     ├── armazenamento/  S3ArmazenamentoGateway
     ├── seguranca/      JwtTokenGateway, BcryptSenhaGateway, filtro de autenticação
     ├── web/            controllers, DTOs (record), tratamento de erro
-    ├── temporeal/      servidor Socket.IO (polling + WebSocket JSR-356), salas por usuário
+    ├── temporeal/      servidor Socket.IO (polling + WebSocket JSR-356), salas por usuário;
+    │                   TempoRealEmTodosOsCanais entrega a mensagem nova no Socket.IO e no TCP
+    ├── socket/         chat pelo terminal: ServidorTcp, ClienteHandler, ClientesConectados,
+    │                   TcpTempoRealGateway (socket TCP "na mão", como no exemplo da aula)
     └── config/         UseCaseConfig (monta services com seus gateways), CargaInicial
 ```
 
@@ -269,6 +272,14 @@ Um teste garante que o objeto usado pelo Spring é o mesmo que `getInstance` dev
 - Tempo real: `SocketIoConfig` sobe o servidor Socket.IO no Tomcat (servlet assíncrono para o
   polling e endpoint JSR-356 para o WebSocket, os dois em `/socket.io/`); `SalasSocketIo`
   autentica a conexão pelo `TokenGateway` e põe cada uma na sala do usuário.
+- Chat pelo terminal (SPEC RN50): `ServidorTcp` abre um `ServerSocket` junto com a aplicação
+  (`SmartLifecycle`) e cria uma `Thread` com um `ClienteHandler` para cada conexão, como o
+  `Servidor` do exemplo de sockets da disciplina. O `ClienteHandler` lê as linhas e o
+  `ServidorTcp` traduz cada comando em use case (`AutenticarUseCase`, `ListarConversasUseCase`,
+  `MensagensUseCase`), sem regra de negócio, como um controller. `ClientesConectados` é a lista
+  de clientes logados (`CopyOnWriteArrayList`); o `TcpTempoRealGateway` usa essa lista para
+  entregar a mensagem nova. Como o `MensagensService` recebe um só `TempoRealGateway`, o
+  `TempoRealEmTodosOsCanais` (`@Primary`) repassa para o Socket.IO e para o TCP.
 - Imagens: o domínio e os bancos guardam só a **chave** no armazenamento; a URL é detalhe de
   apresentação. `EnderecoDasImagens` (infra web) monta `IMAGENS_URL_PUBLICA + "/" + chave` na hora de
   responder, nos DTOs e no evento em tempo real. Assim o endereço pode mudar (outro IP) sem

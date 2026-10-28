@@ -67,7 +67,19 @@ VITE_API_URL=http://192.168.0.10:8080 npm run dev -- --host
 **http://192.168.0.10:5173**.
 
 Se o celular não abrir, confira se o firewall do notebook libera as portas 5173 (frontend),
-8080 (API e fotos).
+8080 (API e fotos) e 5000 (chat pelo terminal).
+
+### 2.5 Chat pelo terminal (socket TCP)
+
+A API já sobe o servidor TCP na porta 5000. Em qualquer computador com JDK, no mesmo Wi-Fi
+(não precisa compilar: o Java roda o arquivo direto):
+
+```bash
+java cliente-tcp/Cliente.java 192.168.0.10     # no próprio notebook: sem o IP (usa localhost)
+```
+
+Depois de entrar com e-mail e senha: `CONVERSAS`, `ENVIAR 1 Oi!` e `SAIR`. Como o protocolo
+é texto puro, `nc 192.168.0.10 5000` também funciona.
 
 ## 3. Contas de demonstração
 
@@ -99,6 +111,7 @@ Todos entraram na rede **por convite**, pelos mesmos casos de uso que o aplicati
 | 6 | **Perfil privado.** Como Erika, abrir o perfil do Artur: sem números nem posts. Como Artur, ver o pedido nas notificações e aceitar. | `Usuario.mostraConteudoPara`, `Seguir.aceitarPor` |
 | 7 | **Feed e comentários.** Como Wacelys, ver o feed (posts de quem ele segue), comentar o post do Erlon; o Erlon recebe a notificação. | `VerFeedService`, `ComentarService` (comentário + contador na mesma transação) |
 | 8 | **Chat em tempo real.** Wacelys e Erlon, um em cada aparelho, na mesma conversa: a mensagem aparece na hora no outro. | `MensagensService`, `SocketIoTempoRealGateway`, `infrastructure/temporeal/` |
+| 8b | **Chat pelo terminal (socket TCP).** Wacelys no terminal (`java cliente-tcp/Cliente.java`), Erlon no site: `CONVERSAS`, `ENVIAR 1 Oi`; a mensagem chega no site na hora, e a resposta do Erlon aparece no terminal como `[Professor Erlon Dantas] ...`. | `infrastructure/socket/`: `ServidorTcp`, `ClienteHandler`, `ClientesConectados`; `cliente-tcp/Cliente.java` |
 | 9 | **Bloqueio nos dois bancos.** Bloquear alguém: somem os follows (Postgres) e os pedidos de seguir entre os dois (MongoDB); a conversa deixa de aceitar mensagens. | `BloquearUsuarioService` |
 | 10 | **Clean Architecture sob teste.** Rodar `./mvnw verify`: cerca de 300 testes, incluindo o `ArquiteturaTest`, que quebra se o domínio ou a aplicação importarem Spring ou banco. | `src/test/java/br/com/fademy/ArquiteturaTest.java` |
 

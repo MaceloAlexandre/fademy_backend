@@ -364,6 +364,28 @@ middleware de handshake do Node, que respondia `connect_error`; #42). Cada conex
 cujo nome é o id do usuário. O servidor só emite; a escrita é sempre pela API REST. Evento:
 `message:new`, com a mensagem no formato da seção 5.3, enviado à sala do destinatário.
 
+**RN50 — Chat pelo terminal (socket TCP).** Servidor TCP na porta `fademy.tcp.porta`
+(`TCP_PORT`, padrão 5000), feito com `ServerSocket` e uma thread por cliente, como no exemplo de
+sockets da disciplina (#69). Protocolo de texto, uma linha por mensagem, em UTF-8:
+1. ao conectar, o servidor pede `Informe seu e-mail:` e `Informe sua senha:`; o login é o da
+   RN07. Credenciais erradas → `E-mail ou senha inválidos.` e a conexão é encerrada;
+2. login certo → `Bem-vindo, <nome>!` e
+   `Comandos: CONVERSAS | ENVIAR <número> <texto> | SAIR` (comandos sem diferença entre
+   maiúsculas e minúsculas);
+3. `CONVERSAS` → uma linha `<número>) <nome do outro membro>` por conversa, na ordem da RN39, ou
+   `Nenhuma conversa.`; os números valem até o próximo `CONVERSAS`;
+4. `ENVIAR <número> <texto>` envia pela RN41 (com notificação e `message:new`) e responde
+   `Mensagem enviada.`. Número inexistente → `Conversa inválida.`; sem texto →
+   `Use: ENVIAR <número> <texto>`; recusa da RN41 → `Não foi possível enviar: <mensagem da RN41>`;
+5. outro comando → `Comando inválido.`, e o cliente continua conectado;
+6. quando o usuário recebe uma mensagem nova (enviada pelo site ou pelo terminal), cada conexão
+   TCP dele recebe `[<nome do remetente>] <texto>` (`(imagem)` se a mensagem não tem texto);
+7. `SAIR` → `Até logo!` e a conexão é encerrada; fechar o cliente também tira o usuário da
+   lista de conectados.
+
+O cliente de terminal fica em `cliente-tcp/Cliente.java`
+(`java cliente-tcp/Cliente.java [servidor] [porta]`).
+
 ### 4.16 Administração e saúde
 
 **RN44 — Painel administrativo.** `GET /api/admin/overview` (só `admin`). 200
@@ -525,5 +547,6 @@ Cada issue, ao ser entregue, registra aqui as regras que cobre.
 | RN03 (avatar de iniciais do admin) | #54 | entregue |
 | Seção 5: porta padrão 8080 | #59 | entregue |
 | Seção 3, RN14, RN15 (imagens no MongoDB/GridFS), RN49 | #62 | entregue |
+| RN50 (chat pelo terminal com socket TCP) | #69 | entregue |
 
 Com a #47, todas as regras RN01–RN48 estão implementadas.
