@@ -48,6 +48,9 @@ import br.com.fademy.application.service.VerPainelAdminService;
 import br.com.fademy.application.service.VerPerfilService;
 import br.com.fademy.application.service.VerPostService;
 import br.com.fademy.application.service.VerificarSaudeService;
+import br.com.fademy.application.service.decorator.MensagensComAuditoria;
+import br.com.fademy.application.service.decorator.MensagensComFiltroDePalavras;
+import br.com.fademy.application.service.decorator.MensagensComLimiteDeTamanho;
 import br.com.fademy.application.usecase.AceitarPedidoUseCase;
 import br.com.fademy.application.usecase.AutenticarUseCase;
 import br.com.fademy.application.usecase.BloquearUsuarioUseCase;
@@ -258,7 +261,12 @@ public class UseCaseConfig {
     public MensagensUseCase mensagens(ConversaGateway conversas, MensagemGateway mensagens, BloqueioGateway bloqueios,
                                       ArmazenamentoGateway armazenamento, NotificacaoGateway notificacoes,
                                       TempoRealGateway tempoReal) {
-        return new MensagensService(conversas, mensagens, bloqueios, armazenamento, notificacoes, tempoReal);
+        MensagensUseCase servico = new MensagensService(conversas, mensagens, bloqueios, armazenamento, notificacoes,
+                tempoReal);
+        return new MensagensComAuditoria(
+                new MensagensComLimiteDeTamanho(
+                        new MensagensComFiltroDePalavras(servico)),
+                linha -> System.out.println(linha));
     }
 
     @Bean

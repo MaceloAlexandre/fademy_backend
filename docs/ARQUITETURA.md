@@ -59,6 +59,7 @@ src/main/java/br/com/fademy/
 ├── application/
 │   ├── usecase/        interfaces:  RegistrarViaConviteUseCase, SeguirUsuarioUseCase, ...
 │   ├── service/        implementações: RegistrarViaConviteService implements RegistrarViaConviteUseCase
+│   │   └── decorator/  camadas sobre o MensagensUseCase: filtro, limite e auditoria
 │   └── gateway/        interfaces:  UsuarioGateway, ConviteGateway, NotificacaoGateway,
 │                       ArmazenamentoGateway, SenhaGateway, TokenGateway, TempoRealGateway,
 │                       TransacaoGateway, ...
@@ -266,6 +267,16 @@ as duas poderiam ver `instance == null` e criar dois pools de conexão. Isso nã
 porque a primeira chamada é feita na subida, numa única thread, antes de o servidor aceitar
 requisições; daí em diante `instance` já existe e toda chamada só devolve o mesmo objeto.
 Um teste garante que o objeto usado pelo Spring é o mesmo que `getInstance` devolve.
+
+## 6.1 Decorator no envio de mensagens
+
+O `MensagensUseCase` é a interface (Component) e o `MensagensService` é o objeto embrulhado
+(ConcreteComponent). `MensagensDecorator` guarda a próxima camada e repassa as chamadas
+(Decorator); `MensagensComFiltroDePalavras`, `MensagensComLimiteDeTamanho` e
+`MensagensComAuditoria` acrescentam um comportamento cada (ConcreteDecorators). A ordem das
+camadas fica num lugar só, o `UseCaseConfig`: auditoria → limite → filtro → service. Assim a
+auditoria também registra o envio que o limite recusou. O `TempoRealEmTodosOsCanais` é outro
+padrão: Composite, porque repassa para vários objetos em vez de embrulhar um só.
 
 ## 7. Web
 

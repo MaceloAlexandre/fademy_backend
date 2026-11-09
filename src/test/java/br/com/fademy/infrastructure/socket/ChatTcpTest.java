@@ -176,6 +176,22 @@ class ChatTcpTest extends IntegracaoTest {
         assertThat(mensagens.enviar(visualizador(ana), conversa, "ainda aí?", List.of()).id()).isNotNull();
     }
 
+    @Test
+    void terminalRecebeOTextoCensuradoEOAvisoDeTextoLongo() throws IOException {
+        Usuario ana = cenario.usuario(Papel.ALUNO, cenario.catolica(), "Ana Lima", false);
+        Usuario bia = cenario.usuario(Papel.ALUNO);
+        conversaEntre(ana, bia);
+        Terminal terminalDaAna = logado(ana);
+        Terminal terminalDaBia = logado(bia);
+
+        terminalDaAna.enviar("ENVIAR 1 que porcaria");
+        assertThat(terminalDaAna.ler()).isEqualTo("Mensagem enviada.");
+        assertThat(terminalDaBia.ler()).isEqualTo("[Ana Lima] que ********");
+
+        terminalDaAna.enviar("ENVIAR 1 " + "a".repeat(501));
+        assertThat(terminalDaAna.ler()).isEqualTo("Não foi possível enviar: text is too long");
+    }
+
     private String conversaEntre(Usuario um, Usuario outro) {
         seguir.executar(visualizador(um), outro.id());
         seguir.executar(visualizador(outro), um.id());

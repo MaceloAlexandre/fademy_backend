@@ -8,7 +8,10 @@ import com.jayway.jsonpath.JsonPath;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.system.CapturedOutput;
+import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -28,6 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
+@ExtendWith(OutputCaptureExtension.class)
 class MensagemWebTest extends IntegracaoTest {
 
     private static final byte[] FOTO = {(byte) 0xFF, (byte) 0xD8, 1};
@@ -64,6 +68,32 @@ class MensagemWebTest extends IntegracaoTest {
         assertThat(mongo.getCollection("notificacoes").countDocuments(Filters.and(
                 Filters.eq("tipo", "message_received"), Filters.eq("destinatarioId", bia.id()),
                 Filters.eq("atorId", ana.id()), Filters.eq("refId", conversa)))).isEqualTo(2);
+    }
+
+    @Test
+    void palavraProibidaEGravadaComAsteriscos() throws Exception {
+        Usuario ana = cenario.usuario(Papel.ALUNO);
+        String conversa = conversa(ana, cenario.usuario(Papel.ALUNO));
+
+        mvc.perform(enviar(ana, conversa).param("text", "que porcaria"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.message.text").value("que ********"));
+    }
+
+    @Test
+    void textoLongoDemaisResponde400SemNotificarEFicaNaAuditoria(CapturedOutput saida) throws Exception {
+        Usuario ana = cenario.usuario(Papel.ALUNO);
+        Usuario bia = cenario.usuario(Papel.ALUNO);
+        String conversa = conversa(ana, bia);
+
+        mvc.perform(enviar(ana, conversa).param("text", "a".repeat(501)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("text is too long"));
+
+        assertThat(mongo.getCollection("notificacoes").countDocuments(Filters.and(
+                Filters.eq("tipo", "message_received"), Filters.eq("destinatarioId", bia.id())))).isZero();
+        assertThat(saida.getOut()).contains(
+                "[auditoria] remetente=" + ana.id() + " conversa=" + conversa + " resultado=recusado");
     }
 
     @Test
