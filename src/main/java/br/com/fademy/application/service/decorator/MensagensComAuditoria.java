@@ -28,7 +28,11 @@ public class MensagensComAuditoria extends MensagensDecorator {
         } finally {
             long milissegundos = (System.nanoTime() - inicio) / 1_000_000;
             saida.accept("[auditoria] remetente=%s conversa=%s resultado=%s tempo=%dms"
-                    .formatted(visualizador.id(), conversaId, resultado, milissegundos));
+                    .formatted(visualizador.id(), semQuebraDeLinha(conversaId), resultado, milissegundos));
         }
+    }
+
+    private static String semQuebraDeLinha(String valor) {
+        return valor.replaceAll("[\\r\\n]", "_");
     }
 }

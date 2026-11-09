@@ -38,6 +38,15 @@ class MensagensComAuditoriaTest {
     }
 
     @Test
+    void quebraDeLinhaNoIdDaConversaNaoCriaLinhaFalsaNaAuditoria() {
+        auditoria.enviar(ana, "c1\r\n[auditoria] falsa", "x", List.of());
+
+        assertThat(linhas).singleElement().asString()
+                .doesNotContain("\n").doesNotContain("\r")
+                .contains("conversa=c1__[auditoria] falsa");
+    }
+
+    @Test
     void registraEnvioRecusadoEDeixaOErroSeguir() {
         when(proximo.enviar(ana, "c1", "x", List.of())).thenThrow(new DadosInvalidosException("text is too long"));
 

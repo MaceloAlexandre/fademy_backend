@@ -268,7 +268,7 @@ porque a primeira chamada é feita na subida, numa única thread, antes de o ser
 requisições; daí em diante `instance` já existe e toda chamada só devolve o mesmo objeto.
 Um teste garante que o objeto usado pelo Spring é o mesmo que `getInstance` devolve.
 
-## 6.1 Decorator no envio de mensagens
+### 6.1 Decorator no envio de mensagens
 
 O `MensagensUseCase` é a interface (Component) e o `MensagensService` é o objeto embrulhado
 (ConcreteComponent). `MensagensDecorator` guarda a próxima camada e repassa as chamadas

@@ -90,10 +90,20 @@ class MensagemWebTest extends IntegracaoTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error").value("text is too long"));
 
+        assertThat(mongo.getCollection("mensagens").countDocuments(Filters.eq("conversaId", conversa))).isZero();
         assertThat(mongo.getCollection("notificacoes").countDocuments(Filters.and(
                 Filters.eq("tipo", "message_received"), Filters.eq("destinatarioId", bia.id())))).isZero();
         assertThat(saida.getOut()).contains(
                 "[auditoria] remetente=" + ana.id() + " conversa=" + conversa + " resultado=recusado");
+    }
+
+    @Test
+    void textoComExatamente500CaracteresEAceito() throws Exception {
+        Usuario ana = cenario.usuario(Papel.ALUNO);
+        String conversa = conversa(ana, cenario.usuario(Papel.ALUNO));
+
+        mvc.perform(enviar(ana, conversa).param("text", "a".repeat(500)))
+                .andExpect(status().isCreated());
     }
 
     @Test

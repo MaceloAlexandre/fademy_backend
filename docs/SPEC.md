@@ -357,11 +357,12 @@ asteriscos de mesmo tamanho antes de gravar e entregar. Palavra que só contém 
 (`drogaria`) não muda (#71).
 
 **RN52 — Limite de tamanho da mensagem.** Texto com mais de 500 caracteres → 400
-`text is too long`. Nada é gravado e ninguém é notificado (#71).
+`text is too long`. Nada é gravado e ninguém é notificado. Esta checagem vem antes das validações
+da RN41: texto longo demais responde 400 mesmo em conversa inexistente ou de outras pessoas (#71).
 
 **RN53 — Auditoria do envio.** Todo envio de mensagem, aceito ou recusado, escreve no console da
 API uma linha `[auditoria] remetente=<id> conversa=<id> resultado=<ok|recusado> tempo=<n>ms`,
-sem o texto da mensagem (#71).
+sem o texto da mensagem e sem quebras de linha nos valores (#71).
 
 **RN42 — Listar mensagens.** `GET /api/conversations/:id/messages?cursor=&limit=20`. Mesmos
 404 e 403 da RN41 (itens 1 e 2). Da mais nova para a mais antiga, paginação pela seção 5.4.

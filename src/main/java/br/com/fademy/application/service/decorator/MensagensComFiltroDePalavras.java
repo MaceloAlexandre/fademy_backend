@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class MensagensComFiltroDePalavras extends MensagensDecorator {
 
     private static final Pattern PROIBIDAS = Pattern.compile("\\b(porcaria|droga|idiota|otário)\\b",
-            Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
+            Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CHARACTER_CLASS);
 
     public MensagensComFiltroDePalavras(MensagensUseCase proximo) {
         super(proximo);

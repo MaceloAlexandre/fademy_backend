@@ -31,6 +31,13 @@ class MensagensComFiltroDePalavrasTest {
     }
 
     @Test
+    void censuraTodasAsPalavrasDaLista() {
+        filtro.enviar(ana, "c1", "droga de idiota OTÁRIO porcaria droga", List.of());
+
+        verify(proximo).enviar(ana, "c1", "***** de ****** ****** ******** *****", List.of());
+    }
+
+    @Test
     void naoMexeNaPalavraQueSoContemAProibida() {
         filtro.enviar(ana, "c1", "fui na drogaria", List.of());
 
