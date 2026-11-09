@@ -349,7 +349,20 @@ do visualizador. 200 `{ users: [ { _id, name, avatarUrl, role } ] }`.
 
 O remetente é sempre o visualizador. Grava a mensagem, atualiza `updatedAt` da conversa,
 notifica o outro membro com `message_received` e emite `message:new` para ele (RN43).
-201 `{ message }`.
+201 `{ message }`. Antes de chegar aqui, o envio passa pelas regras RN51, RN52 e RN53.
+
+**RN51 — Filtro de palavras.** No envio de mensagem, cada ocorrência de `porcaria`, `droga`,
+`idiota` ou `otário` (palavra inteira, sem diferença entre maiúsculas e minúsculas) é trocada por
+asteriscos de mesmo tamanho antes de gravar e entregar. Palavra que só contém a proibida
+(`drogaria`) não muda (#71).
+
+**RN52 — Limite de tamanho da mensagem.** Texto com mais de 500 caracteres → 400
+`text is too long`. Nada é gravado e ninguém é notificado. Esta checagem vem antes das validações
+da RN41: texto longo demais responde 400 mesmo em conversa inexistente ou de outras pessoas (#71).
+
+**RN53 — Auditoria do envio.** Todo envio de mensagem, aceito ou recusado, escreve no console da
+API uma linha `[auditoria] remetente=<id> conversa=<id> resultado=<ok|recusado> tempo=<n>ms`,
+sem o texto da mensagem e sem quebras de linha nos valores (#71).
 
 **RN42 — Listar mensagens.** `GET /api/conversations/:id/messages?cursor=&limit=20`. Mesmos
 404 e 403 da RN41 (itens 1 e 2). Da mais nova para a mais antiga, paginação pela seção 5.4.
@@ -548,5 +561,6 @@ Cada issue, ao ser entregue, registra aqui as regras que cobre.
 | Seção 5: porta padrão 8080 | #59 | entregue |
 | Seção 3, RN14, RN15 (imagens no MongoDB/GridFS), RN49 | #62 | entregue |
 | RN50 (chat pelo terminal com socket TCP) | #69 | entregue |
+| RN51, RN52, RN53 (Decorator no envio de mensagens) | #71 | entregue |
 
 Com a #47, todas as regras RN01–RN48 estão implementadas.
